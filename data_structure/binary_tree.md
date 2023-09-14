@@ -4,9 +4,18 @@
 
 ### 二叉树遍历
 
-**前序遍历**：**先访问根节点**，再前序遍历左子树，再前序遍历右子树
-**中序遍历**：先中序遍历左子树，**再访问根节点**，再中序遍历右子树
-**后序遍历**：先后序遍历左子树，再后序遍历右子树，**再访问根节点**
+
+**前序遍历**：[144. 二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/)
+
+先访问根节点，再前序遍历左子树，再前序遍历右子树
+
+**中序遍历**：[94. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
+
+先中序遍历左子树，再访问根节点，再中序遍历右子树
+
+**后序遍历**：[145. 二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/)
+
+先后序遍历左子树，再后序遍历右子树，再访问根节点
 
 注意点
 
@@ -15,43 +24,51 @@
 
 #### 前序递归
 
-```go
-func preorderTraversal(root *TreeNode)  {
-    if root==nil{
-        return
+```csharp
+public void PreorderTraversalRecursion(TreeNode root)
+{
+    if (root.val == null)
+    {
+        return;
     }
-    // 先访问根再访问左右
-    fmt.Println(root.Val)
-    preorderTraversal(root.Left)
-    preorderTraversal(root.Right)
+    Console.WriteLine(root.val);
+    if (root.left != null)
+    {
+        PreorderTraversalRecursion(root.left);
+    }
+    if (root.right != null)
+    {
+        PreorderTraversalRecursion(root.right);
+    }
 }
 ```
 
 #### 前序非递归
 
-```go
-// V3：通过非递归遍历
-func preorderTraversal(root *TreeNode) []int {
-    // 非递归
-    if root == nil{
-        return nil
+```csharp
+public static IList<int?> PreorderTraversal(TreeNode root)
+{
+    var res = new List<int?>();
+    if (root.val == null)
+    {
+        return res;
     }
-    result:=make([]int,0)
-    stack:=make([]*TreeNode,0)
-
-    for root!=nil || len(stack)!=0{
-        for root !=nil{
-            // 前序遍历，所以先保存结果
-            result=append(result,root.Val)
-            stack=append(stack,root)
-            root=root.Left
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    stack.Push(root);
+    while (stack.Count > 0)
+    {
+        var temp = stack.Pop();
+        res.Add(temp.val);
+        if (temp.right != null)
+        {
+            stack.Push(temp.right);
         }
-        // pop
-        node:=stack[len(stack)-1]
-        stack=stack[:len(stack)-1]
-        root=node.Right
+        if (temp.left != null)
+        {
+            stack.Push(temp.left);
+        }
     }
-    return result
+    return res;
 }
 ```
 
@@ -356,7 +373,7 @@ func swap(nums []int, i, j int) {
 
 #### maximum-depth-of-binary-tree
 
-[maximum-depth-of-binary-tree](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+[maximum-depth-of-binary-tree](https://leetcode.cn/problems/maximum-depth-of-binary-tree/)
 
 > 给定一个二叉树，找出其最大深度。
 
@@ -382,7 +399,7 @@ func maxDepth(root *TreeNode) int {
 
 #### balanced-binary-tree
 
-[balanced-binary-tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
+[balanced-binary-tree](https://leetcode.cn/problems/balanced-binary-tree/)
 
 > 给定一个二叉树，判断它是否是高度平衡的二叉树。
 
@@ -422,7 +439,7 @@ func maxDepth(root *TreeNode) int {
 
 #### binary-tree-maximum-path-sum
 
-[binary-tree-maximum-path-sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+[binary-tree-maximum-path-sum](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
 
 > 给定一个**非空**二叉树，返回其最大路径和。
 
@@ -472,7 +489,7 @@ func max(a,b int) int {
 
 #### lowest-common-ancestor-of-a-binary-tree
 
-[lowest-common-ancestor-of-a-binary-tree](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+[lowest-common-ancestor-of-a-binary-tree](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
 
 > 给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
 
@@ -512,7 +529,7 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 
 #### binary-tree-level-order-traversal
 
-[binary-tree-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+[binary-tree-level-order-traversal](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
 
 > 给你一个二叉树，请你返回其按  **层序遍历**  得到的节点值。 （即逐层地，从左到右访问所有节点）
 
@@ -551,7 +568,7 @@ func levelOrder(root *TreeNode) [][]int {
 
 #### binary-tree-level-order-traversal-ii
 
-[binary-tree-level-order-traversal-ii](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
+[binary-tree-level-order-traversal-ii](https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/)
 
 > 给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
 
@@ -601,7 +618,7 @@ func levelOrder(root *TreeNode) [][]int {
 
 #### binary-tree-zigzag-level-order-traversal
 
-[binary-tree-zigzag-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
+[binary-tree-zigzag-level-order-traversal](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/)
 
 > 给定一个二叉树，返回其节点值的锯齿形层次遍历。Z 字形遍历
 
@@ -649,7 +666,7 @@ func reverse(nums []int) {
 
 #### validate-binary-search-tree
 
-[validate-binary-search-tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+[validate-binary-search-tree](https://leetcode.cn/problems/validate-binary-search-tree/)
 
 > 给定一个二叉树，判断其是否是一个有效的二叉搜索树。
 
@@ -741,7 +758,7 @@ func helper(root *TreeNode) ResultType {
 
 #### insert-into-a-binary-search-tree
 
-[insert-into-a-binary-search-tree](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
+[insert-into-a-binary-search-tree](https://leetcode.cn/problems/insert-into-a-binary-search-tree/)
 
 > 给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。
 
@@ -771,12 +788,12 @@ func insertIntoBST(root *TreeNode, val int) *TreeNode {
 
 ## 练习
 
-- [ ] [maximum-depth-of-binary-tree](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
-- [ ] [balanced-binary-tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
-- [ ] [binary-tree-maximum-path-sum](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
-- [ ] [lowest-common-ancestor-of-a-binary-tree](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
-- [ ] [binary-tree-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
-- [ ] [binary-tree-level-order-traversal-ii](https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/)
-- [ ] [binary-tree-zigzag-level-order-traversal](https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/)
-- [ ] [validate-binary-search-tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
-- [ ] [insert-into-a-binary-search-tree](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
+- [ ] [maximum-depth-of-binary-tree](https://leetcode.cn/problems/maximum-depth-of-binary-tree/)
+- [ ] [balanced-binary-tree](https://leetcode.cn/problems/balanced-binary-tree/)
+- [ ] [binary-tree-maximum-path-sum](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
+- [ ] [lowest-common-ancestor-of-a-binary-tree](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
+- [ ] [binary-tree-level-order-traversal](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
+- [ ] [binary-tree-level-order-traversal-ii](https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/)
+- [ ] [binary-tree-zigzag-level-order-traversal](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/)
+- [ ] [validate-binary-search-tree](https://leetcode.cn/problems/validate-binary-search-tree/)
+- [ ] [insert-into-a-binary-search-tree](https://leetcode.cn/problems/insert-into-a-binary-search-tree/)
