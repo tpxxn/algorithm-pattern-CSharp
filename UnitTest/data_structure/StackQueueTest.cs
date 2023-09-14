@@ -1,14 +1,15 @@
 namespace UnitTest;
 
-public class Tests
+public class StackQueueTest
 {
     [SetUp]
     public void Setup()
     {
     }
 
+
     [Test]
-    public void Test1()
+    public void StackQueueTest1()
     {
         Assert.Pass();
     }

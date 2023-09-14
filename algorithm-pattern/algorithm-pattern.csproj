@@ -8,4 +8,18 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="advanced_algorithm\Backtrack\" />
+      <Folder Include="advanced_algorithm\BinarySearchTree\" />
+      <Folder Include="advanced_algorithm\Recursion\" />
+      <Folder Include="advanced_algorithm\SlideWindow\" />
+      <Folder Include="basic_algorithm\BinarySearch\" />
+      <Folder Include="basic_algorithm\DP\" />
+      <Folder Include="basic_algorithm\Sort\" />
+      <Folder Include="data_structure\BinaryOp\" />
+      <Folder Include="data_structure\BinaryTree\" />
+      <Folder Include="data_structure\LinkedList\" />
+      <Folder Include="data_structure\StackQueue\" />
+    </ItemGroup>
+
 </Project>
