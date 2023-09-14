@@ -9,7 +9,6 @@
 - 补充部分[leetcode中国站](https://leetcode.cn/)的题目链接
 - 书籍链接：[GitBook](https://algorithm-pattern.gitbook.io/algorithm-pattern-csharp/)
 
-
 ## 核心内容
 
 ## 数据结构篇
