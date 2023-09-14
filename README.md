@@ -7,7 +7,7 @@
 - 代码改写为`C#`语言版本
 - 调整内容，新增了几种算法
 - 补充部分[leetcode中国站](https://leetcode.cn/)的题目链接
-- 书籍链接：[GitBook](https://tpxxn.github.io/algorithm-pattern-CSharp//)
+- 书籍链接：[GitBook](https://algorithm-pattern.gitbook.io/algorithm-pattern-csharp/)
 
 
 ## 核心内容
