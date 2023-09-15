@@ -19,7 +19,7 @@ public partial class BinaryTree
         return paths;
     }
 
-    static void BinaryTreePaths_DFS(TreeNode? p, StringBuilder path, List<string> paths)
+    static void BinaryTreePaths_DFS(TreeNode? p, StringBuilder path, ICollection<string> paths)
     {
         if (p?.val == null)
         {

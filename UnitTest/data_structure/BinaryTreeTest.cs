@@ -56,7 +56,21 @@ public class BinaryTreeTest_DFS_BFS
     }
 
     [Test]
-    public void BinaryTreeTest_BinaryTreePaths_BFS()
+    public void BinaryTreeTest_DFS()
+    {
+        IList<int?> list = BinaryTree.DFS_Traversal(rootTreeNode);
+        Assert.That(list, Is.EqualTo(new List<int?> { 1, 2, 5, 3 }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_DFS_Divide()
+    {
+        IList<int?> list = BinaryTree.DFS_Traversal_Divide(rootTreeNode);
+        Assert.That(list, Is.EqualTo(new List<int?> { 1, 2, 5, 3 }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_BFS()
     {
         IList<int?> list = BinaryTree.BFS(rootTreeNode);
         Assert.That(list, Is.EqualTo(new List<int?> { 1, 2, 3, 5 }));
@@ -65,7 +79,7 @@ public class BinaryTreeTest_DFS_BFS
     #region 257. 二叉树的所有路径
 
     [Test]
-    public void BinaryTreeTest_BinaryTreePaths_DFS()
+    public void BinaryTreeTest_BinaryTreePaths_BinaryTreePaths()
     {
         IList<string> list = BinaryTree.BinaryTreePaths(rootTreeNode);
         object[] expected = { new List<string> { "1->2->5", "1->3" }, new List<string> { "1->3", "1->2->5" } };
@@ -73,7 +87,7 @@ public class BinaryTreeTest_DFS_BFS
     }
 
     [Test]
-    public void BinaryTreeTest_BinaryTreePaths_DFS2()
+    public void BinaryTreeTest_BinaryTreePaths_BinaryTreePaths2()
     {
         root = new int?[] { 1 };
         rootTreeNode = BinaryTreeBuilder.Builder(root);

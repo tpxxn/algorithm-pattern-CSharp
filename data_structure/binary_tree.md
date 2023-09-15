@@ -137,52 +137,56 @@ public static IList<int?> PostorderTraversal(TreeNode root)
 
 #### DFS 深度优先搜索-从上到下
 
-```go
-type TreeNode struct {
-    Val   int
-    Left  *TreeNode
-    Right *TreeNode
-}
-
-func preorderTraversal(root *TreeNode) []int {
-    result := make([]int, 0)
-    dfs(root, &result)
-    return result
-}
-
+```csharp
 // V1：深度遍历，结果指针作为参数传入到函数内部
-func dfs(root *TreeNode, result *[]int) {
-    if root == nil {
-        return
+public static IList<int?> DFS_Traversal(TreeNode root)
+{
+    List<int?> result = new List<int?>();
+    DFS(root, ref result);
+    return result;
+}
+static void DFS(TreeNode p, ref List<int?> result)
+{
+    if (p.val == null)
+    {
+        return;
     }
-    *result = append(*result, root.Val)
-    dfs(root.Left, result)
-    dfs(root.Right, result)
+    result = result.Append(p.val).ToList();
+    if (p.left != null)
+    {
+        DFS(p.left, ref result);
+    }
+    if (p.right != null)
+    {
+        DFS(p.right, ref result);
+    }
 }
 ```
 
 #### DFS 深度优先搜索-从下向上（分治法）
 
-```go
+```csharp
 // V2：通过分治法遍历
-func preorderTraversal(root *TreeNode) []int {
-    result := divideAndConquer(root)
-    return result
+public static IList<int?> DFS_Traversal_Divide(TreeNode root)
+{
+    IList<int?> result = DivideAndConquer(root);
+    return result;
 }
-func divideAndConquer(root *TreeNode) []int {
-    result := make([]int, 0)
-    // 返回条件(null & leaf)
-    if root == nil {
-        return result
+static IList<int?> DivideAndConquer(TreeNode? p)
+{
+    List<int?> result = new List<int?>();
+    if (p?.val == null)
+    {
+        return result;
     }
     // 分治(Divide)
-    left := divideAndConquer(root.Left)
-    right := divideAndConquer(root.Right)
+    IList<int?> left = DivideAndConquer(p.left);
+    IList<int?> right = DivideAndConquer(p.right);
     // 合并结果(Conquer)
-    result = append(result, root.Val)
-    result = append(result, left...)
-    result = append(result, right...)
-    return result
+    result = result.Append(p.val).ToList();
+    result.AddRange(left);
+    result.AddRange(right);
+    return result;
 }
 ```
 
@@ -236,7 +240,7 @@ public static IList<string> BinaryTreePaths_DFS(TreeNode root)
     return paths;
 }
 
-static void DFS(TreeNode? p, StringBuilder path, List<string> paths)
+static void DFS(TreeNode? p, StringBuilder path, ICollection<string> paths)
 {
     if (p?.val == null)
     {

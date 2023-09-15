@@ -121,6 +121,63 @@ public partial class BinaryTree
     }
 
     /// <summary>
+    /// BFS(深度优先搜索)
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>深度优先搜索结果</returns>
+    public static IList<int?> DFS_Traversal(TreeNode root)
+    {
+        List<int?> result = new List<int?>();
+        DFS(root, ref result);
+        return result;
+    }
+
+    static void DFS(TreeNode p, ref List<int?> result)
+    {
+        if (p.val == null)
+        {
+            return;
+        }
+        result = result.Append(p.val).ToList();
+        if (p.left != null)
+        {
+            DFS(p.left, ref result);
+        }
+        if (p.right != null)
+        {
+            DFS(p.right, ref result);
+        }
+    }
+
+    /// <summary>
+    /// BFS(深度优先搜索)-分治法
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>深度优先搜索结果</returns>
+    public static IList<int?> DFS_Traversal_Divide(TreeNode root)
+    {
+        IList<int?> result = DivideAndConquer(root);
+        return result;
+    }
+
+    static IList<int?> DivideAndConquer(TreeNode? p)
+    {
+        List<int?> result = new List<int?>();
+        if (p?.val == null)
+        {
+            return result;
+        }
+        // 分治(Divide)
+        IList<int?> left = DivideAndConquer(p.left);
+        IList<int?> right = DivideAndConquer(p.right);
+        // 合并结果(Conquer)
+        result = result.Append(p.val).ToList();
+        result.AddRange(left);
+        result.AddRange(right);
+        return result;
+    }
+
+    /// <summary>
     /// BFS(广度优先搜索)
     /// </summary>
     /// <param name="root">根节点</param>
