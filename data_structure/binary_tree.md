@@ -186,7 +186,7 @@ static IList<int?> DivideAndConquer(TreeNode? p)
     IList<int?> left = DivideAndConquer(p.left);
     IList<int?> right = DivideAndConquer(p.right);
     // 合并结果(Conquer)
-    result = result.Append(p.val).ToList();
+    result.Add(p.val);
     result.AddRange(left);
     result.AddRange(right);
     return result;
