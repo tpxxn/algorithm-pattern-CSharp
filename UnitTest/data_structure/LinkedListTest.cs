@@ -1,4 +1,4 @@
-namespace UnitTest;
+namespace UnitTest.data_structure;
 
 public class LinkedListTest
 {

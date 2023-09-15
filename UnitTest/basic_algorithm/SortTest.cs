@@ -1,4 +1,4 @@
-namespace UnitTest;
+namespace UnitTest.basic_algorithm;
 
 public class SortTest
 {

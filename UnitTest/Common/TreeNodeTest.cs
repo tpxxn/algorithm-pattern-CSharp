@@ -1,6 +1,6 @@
 using algorithm_pattern;
 
-namespace UnitTest;
+namespace UnitTest.Common;
 
 public class Tests
 {

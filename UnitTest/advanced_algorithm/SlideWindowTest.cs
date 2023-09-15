@@ -1,4 +1,4 @@
-namespace UnitTest;
+namespace UnitTest.advanced_algorithm;
 
 public class SlideWindowTest
 {
