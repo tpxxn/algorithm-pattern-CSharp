@@ -4,7 +4,6 @@ namespace algorithm_pattern;
 
 public partial class BinaryTree
 {
-    
     /// <summary>
     /// <para>257. 二叉树的所有路径</para>
     /// <para>https://leetcode-cn.com/problems/binary-tree-paths/</para>
@@ -36,5 +35,35 @@ public partial class BinaryTree
             BinaryTreePaths_DFS(p.left, new StringBuilder(path.ToString()), paths);
             BinaryTreePaths_DFS(p.right, new StringBuilder(path.ToString()), paths);
         }
+    }
+
+
+    /// <summary>
+    /// <para>98. 验证二叉搜索树</para>
+    /// <para>https://leetcode.cn/problems/validate-binary-search-tree/description/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>是否为有效的二叉搜索树</returns>
+    public static bool IsValidBST(TreeNode root)
+    {
+        return IsValidBST_DivideAndConquer(root, long.MinValue, long.MaxValue);
+    }
+
+    static bool IsValidBST_DivideAndConquer(TreeNode? p, long? min, long? max)
+    {
+        if (p?.val == null)
+        {
+            return true;
+        }
+        // 返回条件
+        if (p.val <= min || max <= p.val)
+        {
+            return false;
+        }
+        // 分治(Divide)
+        var left = IsValidBST_DivideAndConquer(p.left, min, p.val);
+        var right = IsValidBST_DivideAndConquer(p.right, p.val, max);
+        // 合并结果(Conquer)
+        return left && right;
     }
 }

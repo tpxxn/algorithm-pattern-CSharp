@@ -97,3 +97,37 @@ public class BinaryTreeTest_DFS_BFS
 
     #endregion
 }
+
+public class BinaryTreeTest_Practice
+{
+    #region 257. 二叉树的所有路径
+
+    [Test]
+    public void BinaryTreeTest_IsValidBST()
+    {
+        int?[] root = { 2, 1, 3 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        bool list = BinaryTree.IsValidBST(rootTreeNode);
+        Assert.That(list, Is.EqualTo(true));
+    }
+
+    [Test]
+    public void BinaryTreeTest_IsValidBST2()
+    {
+        int?[] root = { 5, 1, 4, null, null, 3, 6 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        bool list = BinaryTree.IsValidBST(rootTreeNode);
+        Assert.That(list, Is.EqualTo(false));
+    }
+
+    [Test]
+    public void BinaryTreeTest_IsValidBST3()
+    {
+        int?[] root = { 2147483647 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        bool list = BinaryTree.IsValidBST(rootTreeNode);
+        Assert.That(list, Is.EqualTo(true));
+    }
+
+    #endregion
+}
