@@ -18,8 +18,8 @@ public class BinaryTreeTest
     [Test]
     public void BinaryTreeTest_PreorderTraversalRecursion()
     {
-        BinaryTreeKnowledge.PreorderTraversalRecursion(rootTreeNode);
-        Assert.Pass();
+        IList<int?> list = BinaryTreeKnowledge.PreorderTraversalRecursion(rootTreeNode);
+        Assert.That(list, Is.EqualTo(new List<int?> { 5, 4, 3, -1, 7, 2, 9 }));
     }
 
     [Test]

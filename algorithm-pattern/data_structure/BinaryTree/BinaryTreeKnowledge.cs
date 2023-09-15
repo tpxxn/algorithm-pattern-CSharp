@@ -3,24 +3,26 @@ namespace algorithm_pattern;
 public class BinaryTreeKnowledge
 {
     /// <summary>
-    /// 前序递归
+    /// 递归遍历写法，以前序遍历为例
     /// </summary>
     /// <param name="root">根节点</param>
-    public static void PreorderTraversalRecursion(TreeNode root)
+    public static IList<int?> PreorderTraversalRecursion(TreeNode root)
     {
-        if (root.val == null)
+        List<int?> result = new List<int?>();
+        Traverse(root, result);
+        return result;
+    }
+
+    private static void Traverse(TreeNode? p, ICollection<int?> result)
+    {
+        if (p?.val == null)
         {
             return;
         }
-        Console.WriteLine(root.val);
-        if (root.left != null)
-        {
-            PreorderTraversalRecursion(root.left);
-        }
-        if (root.right != null)
-        {
-            PreorderTraversalRecursion(root.right);
-        }
+        // 其他遍历调整这里的语句顺序即可
+        result.Add(p.val);
+        Traverse(p.left, result);
+        Traverse(p.right, result);
     }
 
     /// <summary>
