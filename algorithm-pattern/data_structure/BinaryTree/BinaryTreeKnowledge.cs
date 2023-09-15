@@ -1,6 +1,8 @@
+using System.Text;
+
 namespace algorithm_pattern;
 
-public class BinaryTreeKnowledge
+public partial class BinaryTree
 {
     /// <summary>
     /// 递归遍历写法，以前序遍历为例
@@ -13,7 +15,7 @@ public class BinaryTreeKnowledge
         return result;
     }
 
-    private static void Traverse(TreeNode? p, ICollection<int?> result)
+    static void Traverse(TreeNode? p, ICollection<int?> result)
     {
         if (p?.val == null)
         {
@@ -26,7 +28,9 @@ public class BinaryTreeKnowledge
     }
 
     /// <summary>
-    /// 前序非递归
+    /// <para>144. 二叉树的前序遍历</para>
+    /// <para>https://leetcode.cn/problems/binary-tree-preorder-traversal/</para>
+    /// <para>前序非递归</para>
     /// </summary>
     /// <param name="root">根节点</param>
     /// <returns>前序遍历结果</returns>
@@ -56,7 +60,9 @@ public class BinaryTreeKnowledge
     }
 
     /// <summary>
-    /// 中序非递归
+    /// <para>94. 二叉树的中序遍历</para>
+    /// <para>https://leetcode.cn/problems/binary-tree-inorder-traversal/</para>
+    /// <para>中序非递归</para>
     /// </summary>
     /// <param name="root">根节点</param>
     /// <returns>中序遍历结果</returns>
@@ -83,7 +89,9 @@ public class BinaryTreeKnowledge
     }
 
     /// <summary>
-    /// 后序非递归
+    /// <para>145. 二叉树的后序遍历</para>
+    /// <para>https://leetcode.cn/problems/binary-tree-postorder-traversal/</para>
+    /// <para>后序非递归</para>
     /// </summary>
     /// <param name="root">根节点</param>
     /// <returns>后序遍历结果</returns>
@@ -110,5 +118,35 @@ public class BinaryTreeKnowledge
             }
         }
         return Enumerable.Reverse(result).ToList();
+    }
+
+    /// <summary>
+    /// BFS(广度优先搜索)
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>广度优先搜索结果</returns>
+    public static IList<int?> BFS(TreeNode root)
+    {
+        List<int?> result = new List<int?>();
+        if (root.val == null)
+        {
+            return result;
+        }
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        while (queue.Any())
+        {
+            TreeNode p = queue.Dequeue();
+            result.Add(p.val);
+            if (p.left != null)
+            {
+                queue.Enqueue(p.left);
+            }
+            if (p.right != null)
+            {
+                queue.Enqueue(p.right);
+            }
+        }
+        return result;
     }
 }

@@ -1,9 +1,8 @@
 # 二叉树
 
-## 知识点
+## 二叉树遍历
 
-### 二叉树遍历
-
+### 前中后序遍历
 
 **前序遍历**：[144. 二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/)
 
@@ -33,7 +32,7 @@ public static IList<int?> PreorderTraversalRecursion(TreeNode root)
     return result;
 }
 
-private static void Traverse(TreeNode? p, ICollection<int?> result)
+static void Traverse(TreeNode? p, ICollection<int?> result)
 {
     if (p?.val == null)
     {
@@ -134,7 +133,9 @@ public static IList<int?> PostorderTraversal(TreeNode root)
     return Enumerable.Reverse(result).ToList();
 }
 ```
-#### DFS 深度搜索-从上到下
+### DFS 和 BFS
+
+#### DFS 深度优先搜索-从上到下
 
 ```go
 type TreeNode struct {
@@ -160,7 +161,7 @@ func dfs(root *TreeNode, result *[]int) {
 }
 ```
 
-#### DFS 深度搜索-从下向上（分治法）
+#### DFS 深度优先搜索-从下向上（分治法）
 
 ```go
 // V2：通过分治法遍历
@@ -187,43 +188,75 @@ func divideAndConquer(root *TreeNode) []int {
 
 注意点：
 
-> DFS 深度搜索（从上到下） 和分治法区别：前者一般将最终结果通过指针参数传入，后者一般递归返回结果最后合并
+> DFS 深度优先搜索（从上到下） 和分治法区别：前者一般将最终结果通过指针参数传入，后者一般递归返回结果最后合并
 
-#### BFS 层次遍历
+#### BFS 广度优先搜索
 
-```go
-func levelOrder(root *TreeNode) [][]int {
-    // 通过上一层的长度确定下一层的元素
-    result := make([][]int, 0)
-    if root == nil {
-        return result
+```csharp
+public static IList<int?> BinaryTreePaths_BFS(TreeNode root)
+{
+    List<int?> result = new List<int?>();
+    if (root.val == null)
+    {
+        return result;
     }
-    queue := make([]*TreeNode, 0)
-    queue = append(queue, root)
-    for len(queue) > 0 {
-        list := make([]int, 0)
-        // 为什么要取length？
-        // 记录当前层有多少元素（遍历当前层，再添加下一层）
-        l := len(queue)
-        for i := 0; i < l; i++ {
-            // 出队列
-            level := queue[0]
-            queue = queue[1:]
-            list = append(list, level.Val)
-            if level.Left != nil {
-                queue = append(queue, level.Left)
-            }
-            if level.Right != nil {
-                queue = append(queue, level.Right)
-            }
+    Queue<TreeNode> queue = new Queue<TreeNode>();
+    queue.Enqueue(root);
+    while (queue.Any())
+    {
+        TreeNode p = queue.Dequeue();
+        result.Add(p.val);
+        if (p.left != null)
+        {
+            queue.Enqueue(p.left);
         }
-        result = append(result, list)
+        if (p.right != null)
+        {
+            queue.Enqueue(p.right);
+        }
     }
-    return result
+    return result;
 }
 ```
 
-### 分治法应用
+#### 常见题目
+
+> [257. 二叉树的所有路径](https://leetcode-cn.com/problems/binary-tree-paths/)
+>
+> 给你一个二叉树的根节点 root ，按 **任意顺序** ，返回所有从根节点到叶子节点的路径。
+>
+> **叶子节点** 是指没有子节点的节点。
+
+```csharp
+public static IList<string> BinaryTreePaths_DFS(TreeNode root)
+{
+    StringBuilder path = new StringBuilder();
+    List<string> paths = new List<string>();
+    DFS(root, path, paths);
+    return paths;
+}
+
+static void DFS(TreeNode? p, StringBuilder path, List<string> paths)
+{
+    if (p?.val == null)
+    {
+        return;
+    }
+    path.Append(p.val);
+    if (p.left?.val == null && p.right?.val == null)
+    {
+        paths.Add(path.ToString());
+    }
+    else
+    {
+        path.Append("->");
+        DFS(p.left, new StringBuilder(path.ToString()), paths);
+        DFS(p.right, new StringBuilder(path.ToString()), paths);
+    }
+}
+```
+
+## 二叉树分治
 
 先分别处理局部，再合并结果
 
@@ -257,7 +290,7 @@ func traversal(root *TreeNode) ResultType  {
 }
 ```
 
-#### 典型示例
+### 典型示例
 
 ```go
 // V2：通过分治法遍历二叉树
@@ -282,7 +315,7 @@ func divideAndConquer(root *TreeNode) []int {
 }
 ```
 
-#### 归并排序  
+### 归并排序
 
 ```go
 func MergeSort(nums []int) []int {
@@ -326,7 +359,7 @@ func merge(left, right []int) (result []int) {
 
 > 递归需要返回结果用于合并
 
-#### 快速排序  
+### 快速排序
 
 ```go
 func QuickSort(nums []int) []int {
