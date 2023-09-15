@@ -2,9 +2,9 @@
 
 ## 数据结构篇
 
-- [二叉树](data_structure/binary_tree.md)
 - [链表](data_structure/linked_list.md)
 - [栈和队列](data_structure/stack_queue.md)
+- [二叉树](data_structure/binary_tree.md)
 - [二进制](data_structure/binary_op.md)
 
 ## 基础算法篇
