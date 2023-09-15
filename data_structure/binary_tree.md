@@ -90,16 +90,17 @@ public static IList<int?> InorderTraversal(TreeNode root)
         return result;
     }
     Stack<TreeNode> stack = new Stack<TreeNode>();
-    while (stack.Any() || root != null)
+    TreeNode current = root;
+    while (stack.Any() || current != null)
     {
-        while (root is { val: not null })
+        while (current is { val: not null })
         {
-            stack.Push(root);
-            root = root.left;
+            stack.Push(current);
+            current = current.left;
         }
-        root = stack.Pop();
-        result.Add(root.val);
-        root = root.right;
+        current = stack.Pop();
+        result.Add(current.val);
+        current = current.right;
     }
     return result;
 }
