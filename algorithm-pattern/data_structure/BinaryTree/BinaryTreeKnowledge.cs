@@ -139,7 +139,7 @@ public partial class BinaryTree
         {
             return;
         }
-        result = result.Append(p.val).ToList();
+        result.Add(p.val);
         if (p.left != null)
         {
             DFS(p.left, ref result);

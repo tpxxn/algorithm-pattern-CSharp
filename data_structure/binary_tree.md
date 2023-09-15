@@ -153,7 +153,7 @@ static void DFS(TreeNode p, ref List<int?> result)
     {
         return;
     }
-    result = result.Append(p.val).ToList();
+    result.Add(p.val);
     if (p.left != null)
     {
         DFS(p.left, ref result);
