@@ -145,6 +145,7 @@ public static IList<int?> DFS_Traversal(TreeNode root)
     DFS(root, ref result);
     return result;
 }
+
 static void DFS(TreeNode p, ref List<int?> result)
 {
     if (p.val == null)
@@ -172,6 +173,7 @@ public static IList<int?> DFS_Traversal_Divide(TreeNode root)
     IList<int?> result = DivideAndConquer(root);
     return result;
 }
+
 static IList<int?> DivideAndConquer(TreeNode? p)
 {
     List<int?> result = new List<int?>();
