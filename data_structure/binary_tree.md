@@ -74,6 +74,11 @@ public static IList<int?> PreorderTraversal(TreeNode root)
 
 #### 中序非递归
 
+1. 设置一个栈S存放所经过的根结点（指针）信息；初始化S；
+2. 第一次访问到根结点并不访问，而是入栈；
+3. 中序遍历它的左子树，左子树遍历结束后，第二次遇到根结点，就将根结点（指针）退栈，并且访问根结点；然后中序遍历它的右子树。
+4. 当需要退栈时，如果栈为空则结束。
+
 ```csharp
 public static IList<int?> InorderTraversal(TreeNode root)
 {
