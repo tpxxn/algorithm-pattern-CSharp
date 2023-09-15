@@ -48,17 +48,17 @@ public void PreorderTraversalRecursion(TreeNode root)
 ```csharp
 public static IList<int?> PreorderTraversal(TreeNode root)
 {
-    var res = new List<int?>();
+    List<int?> result = new List<int?>();
     if (root.val == null)
     {
-        return res;
+        return result;
     }
     Stack<TreeNode> stack = new Stack<TreeNode>();
     stack.Push(root);
-    while (stack.Count > 0)
+    while (stack.Any())
     {
         var temp = stack.Pop();
-        res.Add(temp.val);
+        result.Add(temp.val);
         if (temp.right != null)
         {
             stack.Push(temp.right);
@@ -68,71 +68,64 @@ public static IList<int?> PreorderTraversal(TreeNode root)
             stack.Push(temp.left);
         }
     }
-    return res;
+    return result;
 }
 ```
 
 #### 中序非递归
 
-```go
-// 思路：通过stack 保存已经访问的元素，用于原路返回
-func inorderTraversal(root *TreeNode) []int {
-    result := make([]int, 0)
-    if root == nil {
-        return result
+```csharp
+public static IList<int?> InorderTraversal(TreeNode root)
+{
+    List<int?> result = new List<int?>();
+    if (root.val == null)
+    {
+        return result;
     }
-    stack := make([]*TreeNode, 0)
-    for len(stack) > 0 || root != nil {
-        for root != nil {
-            stack = append(stack, root)
-            root = root.Left // 一直向左
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    while (stack.Any() || root != null)
+    {
+        while (root is { val: not null })
+        {
+            stack.Push(root);
+            root = root.left;
         }
-        // 弹出
-        val := stack[len(stack)-1]
-        stack = stack[:len(stack)-1]
-        result = append(result, val.Val)
-        root = val.Right
+        root = stack.Pop();
+        result.Add(root.val);
+        root = root.right;
     }
-    return result
+    return result;
 }
 ```
 
 #### 后序非递归
 
-```go
-func postorderTraversal(root *TreeNode) []int {
-	// 通过lastVisit标识右子节点是否已经弹出
-	if root == nil {
-		return nil
-	}
-	result := make([]int, 0)
-	stack := make([]*TreeNode, 0)
-	var lastVisit *TreeNode
-	for root != nil || len(stack) != 0 {
-		for root != nil {
-			stack = append(stack, root)
-			root = root.Left
-		}
-		// 这里先看看，先不弹出
-		node:= stack[len(stack)-1]
-		// 根节点必须在右节点弹出之后，再弹出
-		if node.Right == nil || node.Right == lastVisit {
-			stack = stack[:len(stack)-1] // pop
-			result = append(result, node.Val)
-			// 标记当前这个节点已经弹出过
-			lastVisit = node
-		} else {
-			root = node.Right
-		}
-	}
-	return result
+```csharp
+public static IList<int?> PostorderTraversal(TreeNode root)
+{
+    List<int?> result = new List<int?>();
+    if (root.val == null)
+    {
+        return result;
+    }
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    stack.Push(root);
+    while (stack.Any())
+    {
+        TreeNode temp = stack.Pop();
+        result.Add(temp.val);
+        if (temp.left != null)
+        {
+            stack.Push(temp.left);
+        }
+        if (temp.right != null)
+        {
+            stack.Push(temp.right);
+        }
+    }
+    return Enumerable.Reverse(result).ToList();
 }
 ```
-
-注意点
-
-- 核心就是：根节点必须在右节点弹出之后，再弹出
-
 #### DFS 深度搜索-从上到下
 
 ```go

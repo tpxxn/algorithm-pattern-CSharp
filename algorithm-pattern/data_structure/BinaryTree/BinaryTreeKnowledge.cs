@@ -26,21 +26,21 @@ public class BinaryTreeKnowledge
     /// <summary>
     /// 前序非递归
     /// </summary>
-    /// <param name="root"></param>
-    /// <returns></returns>
+    /// <param name="root">根节点</param>
+    /// <returns>前序遍历结果</returns>
     public static IList<int?> PreorderTraversal(TreeNode root)
     {
-        var res = new List<int?>();
+        List<int?> result = new List<int?>();
         if (root.val == null)
         {
-            return res;
+            return result;
         }
         Stack<TreeNode> stack = new Stack<TreeNode>();
         stack.Push(root);
-        while (stack.Count > 0)
+        while (stack.Any())
         {
-            var temp = stack.Pop();
-            res.Add(temp.val);
+            TreeNode temp = stack.Pop();
+            result.Add(temp.val);
             if (temp.right != null)
             {
                 stack.Push(temp.right);
@@ -50,6 +50,63 @@ public class BinaryTreeKnowledge
                 stack.Push(temp.left);
             }
         }
-        return res;
+        return result;
+    }
+
+    /// <summary>
+    /// 中序非递归
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>中序遍历结果</returns>
+    public static IList<int?> InorderTraversal(TreeNode root)
+    {
+        List<int?> result = new List<int?>();
+        if (root.val == null)
+        {
+            return result;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        while (stack.Any() || root != null)
+        {
+            while (root is { val: not null })
+            {
+                stack.Push(root);
+                root = root.left;
+            }
+            root = stack.Pop();
+            result.Add(root.val);
+            root = root.right;
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// 后序非递归
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>后序遍历结果</returns>
+    public static IList<int?> PostorderTraversal(TreeNode root)
+    {
+        List<int?> result = new List<int?>();
+        if (root.val == null)
+        {
+            return result;
+        }
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        stack.Push(root);
+        while (stack.Any())
+        {
+            TreeNode temp = stack.Pop();
+            result.Add(temp.val);
+            if (temp.left != null)
+            {
+                stack.Push(temp.left);
+            }
+            if (temp.right != null)
+            {
+                stack.Push(temp.right);
+            }
+        }
+        return Enumerable.Reverse(result).ToList();
     }
 }
