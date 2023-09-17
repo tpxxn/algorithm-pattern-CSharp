@@ -136,5 +136,37 @@ public partial class BinaryTree
         }
         return Math.Max(GetHeight(node.left), GetHeight(node.right)) + 1;
     }
+    
+    static int maxSum = int.MinValue;
+
+    /// <summary>
+    /// <para>124. 二叉树中的最大路径和</para>
+    /// <para>https://leetcode.cn/problems/binary-tree-maximum-path-sum/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>最大路径和</returns>
+    public static int MaxPathSum(TreeNode root) 
+    {
+        MaxGain(root);
+        return maxSum;
+    }
+
+    static int MaxGain(TreeNode? node) 
+    {
+        if (node?.val == null) 
+        {
+            return 0;
+        }
+        // 递归计算左右子节点的最大贡献值
+        // 只有在最大贡献值大于 0 时，才会选取对应子节点
+        int leftGain = Math.Max(MaxGain(node.left), 0);
+        int rightGain = Math.Max(MaxGain(node.right), 0);
+        // 节点的最大路径和取决于该节点的值与该节点的左右子节点的最大贡献值
+        int priceNewPath = (int)node.val + leftGain + rightGain;
+        // 更新答案
+        maxSum = Math.Max(maxSum, priceNewPath);
+        // 返回节点的最大贡献值
+        return (int)node.val + Math.Max(leftGain, rightGain);
+    }
 
 }

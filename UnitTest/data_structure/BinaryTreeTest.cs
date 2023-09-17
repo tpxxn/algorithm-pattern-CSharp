@@ -192,4 +192,26 @@ public class BinaryTreeTest_Practice
     }
 
     #endregion
+
+    #region 124.最大路径和
+
+    [Test]
+    public void BinaryTreeTest_MaxPathSum()
+    {
+        int?[] root = { 1, 2, 3 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        int list = BinaryTree.MaxPathSum(rootTreeNode);
+        Assert.That(list, Is.EqualTo(6));
+    }
+
+    [Test]
+    public void BinaryTreeTest_MaxPathSum2()
+    {
+        int?[] root = { -10, 9, 20, null, null, 15, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        int list = BinaryTree.MaxPathSum(rootTreeNode);
+        Assert.That(list, Is.EqualTo(42));
+    }
+
+    #endregion
 }

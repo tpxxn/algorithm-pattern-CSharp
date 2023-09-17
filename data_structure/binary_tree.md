@@ -408,57 +408,41 @@ static int GetHeight(TreeNode? node) {
 }
 ```
 
-注意
+#### 二叉树中的最大路径和
 
-> 一般工程中，结果通过两个变量来返回，不建议用一个变量表示两种含义
+> [124. 二叉树中的最大路径和](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+>
+> 二叉树中的 **路径** 被定义为一条节点序列，序列中每对相邻节点之间都存在一条边。同一个节点在一条路径序列中 **至多出现一次** 。该路径 **至少包含一个** 节点，且不一定经过根节点。
+>
+> **路径和** 是路径中各节点值的总和。
+>
+> 给你一个二叉树的根节点 root ，返回其 **最大路径和** 。
 
-#### binary-tree-maximum-path-sum
+```csharp
+static int maxSum = int.MinValue;
 
-[binary-tree-maximum-path-sum](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
-
-> 给定一个**非空**二叉树，返回其最大路径和。
-
-思路：分治法，分为三种情况：左子树最大路径和最大，右子树最大路径和最大，左右子树最大加根节点最大，需要保存两个变量：一个保存子树最大路径和，一个保存左右加根节点和，然后比较这个两个变量选择最大值即可
-
-```go
-type ResultType struct {
-    SinglePath int // 保存单边最大值
-    MaxPath int // 保存最大值（单边或者两个单边+根的值）
+public static int MaxPathSum(TreeNode root) 
+{
+    MaxGain(root);
+    return maxSum;
 }
-func maxPathSum(root *TreeNode) int {
-    result := helper(root)
-    return result.MaxPath
-}
-func helper(root *TreeNode) ResultType {
-    // check
-    if root == nil {
-        return ResultType{
-            SinglePath: 0,
-            MaxPath: -(1 << 31),
-        }
-    }
-    // Divide
-    left := helper(root.Left)
-    right := helper(root.Right)
 
-    // Conquer
-    result := ResultType{}
-    // 求单边最大值
-    if left.SinglePath > right.SinglePath {
-        result.SinglePath = max(left.SinglePath + root.Val, 0)
-    } else {
-        result.SinglePath = max(right.SinglePath + root.Val, 0)
+static int MaxGain(TreeNode? node) 
+{
+    if (node?.val == null) 
+    {
+        return 0;
     }
-    // 求两边加根最大值
-    maxPath := max(right.MaxPath, left.MaxPath)
-    result.MaxPath = max(maxPath,left.SinglePath+right.SinglePath+root.Val)
-    return result
-}
-func max(a,b int) int {
-    if a > b {
-        return a
-    }
-    return b
+    // 递归计算左右子节点的最大贡献值
+    // 只有在最大贡献值大于 0 时，才会选取对应子节点
+    int leftGain = Math.Max(MaxGain(node.left), 0);
+    int rightGain = Math.Max(MaxGain(node.right), 0);
+    // 节点的最大路径和取决于该节点的值与该节点的左右子节点的最大贡献值
+    int priceNewPath = (int)node.val + leftGain + rightGai
+    // 更新答案
+    maxSum = Math.Max(maxSum, priceNewPath);
+    // 返回节点的最大贡献值
+    return (int)node.val + Math.Max(leftGain, rightGain);
 }
 ```
 
