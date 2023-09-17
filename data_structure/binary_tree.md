@@ -338,29 +338,45 @@ static bool IsValidBST_DivideAndConquer(TreeNode? p, long? min, long? max)
 
 ### 常见题目
 
-#### maximum-depth-of-binary-tree
+> [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+>
+> 给定一个二叉树 root ，返回其最大深度。
+>
+> 二叉树的 **最大深度** 是指从根节点到最远叶子节点的最长路径上的节点数。
 
-[maximum-depth-of-binary-tree](https://leetcode.cn/problems/maximum-depth-of-binary-tree/)
-
-> 给定一个二叉树，找出其最大深度。
-
-思路：分治法
-
-```go
-func maxDepth(root *TreeNode) int {
-    // 返回条件处理
-    if root == nil {
-        return 0
+DFS递归解法
+```csharp
+ public static int MaxDepth_DFS(TreeNode? root) {
+    if (root?.val == null) {
+        return 0;
     }
-    // divide：分左右子树分别计算
-    left := maxDepth(root.Left)
-    right := maxDepth(root.Right)
+    return Math.Max(MaxDepth_DFS(root.left), MaxDepth_DFS(root.right)) + 1;
+}
+```
 
-    // conquer：合并左右子树结果
-    if left > right {
-        return left + 1
+BFS队列解法
+```csharp
+public static int MaxDepth_BFS(TreeNode? root) {
+    if (root?.val == null) {
+        return 0;
     }
-    return right + 1
+    int depth = 0;
+    Queue<TreeNode> queue = new Queue<TreeNode>();
+    queue.Enqueue(root);
+    while (queue.Count > 0) {
+        depth++;
+        int size = queue.Count;
+        for (int i = 0; i < size; i++) {
+            TreeNode node = queue.Dequeue();
+            if (node.left != null) {
+                queue.Enqueue(node.left);
+            }
+            if (node.right != null) {
+                queue.Enqueue(node.right);
+            }
+        }
+    }
+    return depth;
 }
 ```
 

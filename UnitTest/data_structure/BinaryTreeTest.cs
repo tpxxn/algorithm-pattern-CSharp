@@ -130,4 +130,44 @@ public class BinaryTreeTest_Practice
     }
 
     #endregion
+
+    #region 257. 二叉树的所有路径
+
+    [Test]
+    public void BinaryTreeTest_MaxDepth_DFS()
+    {
+        int?[] root = { 3, 9, 20, null, null, 15, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        int list = BinaryTree.MaxDepth_DFS(rootTreeNode);
+        Assert.That(list, Is.EqualTo(3));
+    }
+
+    [Test]
+    public void BinaryTreeTest_MaxDepth_DFS2()
+    {
+        int?[] root = { 1, null, 2 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        int list = BinaryTree.MaxDepth_DFS(rootTreeNode);
+        Assert.That(list, Is.EqualTo(2));
+    }
+    
+    [Test]
+    public void BinaryTreeTest_MaxDepth_BFS()
+    {
+        int?[] root = { 3, 9, 20, null, null, 15, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        int list = BinaryTree.MaxDepth_BFS(rootTreeNode);
+        Assert.That(list, Is.EqualTo(3));
+    }
+    
+    [Test]
+    public void BinaryTreeTest_MaxDepth_BFS2()
+    {
+        int?[] root = { 1, null, 2 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        int list = BinaryTree.MaxDepth_BFS(rootTreeNode);
+        Assert.That(list, Is.EqualTo(2));
+    }
+    
+    #endregion
 }
