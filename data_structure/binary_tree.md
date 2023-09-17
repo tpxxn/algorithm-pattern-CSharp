@@ -338,6 +338,8 @@ static bool IsValidBST_DivideAndConquer(TreeNode? p, long? min, long? max)
 
 ### 常见题目
 
+#### 二叉树的的最大深度
+
 > [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 >
 > 给定一个二叉树 root ，返回其最大深度。
@@ -380,39 +382,29 @@ public static int MaxDepth_BFS(TreeNode? root) {
 }
 ```
 
-#### balanced-binary-tree
+#### 平衡二叉树
 
-[balanced-binary-tree](https://leetcode.cn/problems/balanced-binary-tree/)
-
+> [110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
+>
 > 给定一个二叉树，判断它是否是高度平衡的二叉树。
+>
+> 本题中，一棵高度平衡二叉树定义为：
+>
+>一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
 
-思路：分治法，左边平衡 && 右边平衡 && 左右两边高度 <= 1，
-因为需要返回是否平衡及高度，要么返回两个数据，要么合并两个数据，
-所以用-1 表示不平衡，>0 表示树高度（二义性：一个变量有两种含义）。
-
-```go
-func isBalanced(root *TreeNode) bool {
-    if maxDepth(root) == -1 {
-        return false
+```csharp
+public static bool IsBalanced(TreeNode? root) {
+    if (root?.val == null) {
+        return true;
     }
-    return true
+    return Math.Abs(GetHeight(root.left) - GetHeight(root.right)) <= 1 && IsBalanced(root.left) && IsBalanced(root.right);
 }
-func maxDepth(root *TreeNode) int {
-    // check
-    if root == nil {
-        return 0
-    }
-    left := maxDepth(root.Left)
-    right := maxDepth(root.Right)
 
-    // 为什么返回-1呢？（变量具有二义性）
-    if left == -1 || right == -1 || left-right > 1 || right-left > 1 {
-        return -1
+static int GetHeight(TreeNode? node) {
+    if (node?.val == null) {
+        return 0;
     }
-    if left > right {
-        return left + 1
-    }
-    return right + 1
+    return Math.Max(GetHeight(node.left), GetHeight(node.right)) + 1;
 }
 ```
 

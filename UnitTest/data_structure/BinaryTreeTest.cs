@@ -150,7 +150,7 @@ public class BinaryTreeTest_Practice
         int list = BinaryTree.MaxDepth_DFS(rootTreeNode);
         Assert.That(list, Is.EqualTo(2));
     }
-    
+
     [Test]
     public void BinaryTreeTest_MaxDepth_BFS()
     {
@@ -159,7 +159,7 @@ public class BinaryTreeTest_Practice
         int list = BinaryTree.MaxDepth_BFS(rootTreeNode);
         Assert.That(list, Is.EqualTo(3));
     }
-    
+
     [Test]
     public void BinaryTreeTest_MaxDepth_BFS2()
     {
@@ -168,6 +168,28 @@ public class BinaryTreeTest_Practice
         int list = BinaryTree.MaxDepth_BFS(rootTreeNode);
         Assert.That(list, Is.EqualTo(2));
     }
-    
+
+    #endregion
+
+    #region 110. 平衡二叉树
+
+    [Test]
+    public void BinaryTreeTest_IsBalanced()
+    {
+        int?[] root = { 3, 9, 20, null, null, 15, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        bool list = BinaryTree.IsBalanced(rootTreeNode);
+        Assert.That(list, Is.EqualTo(true));
+    }
+
+    [Test]
+    public void BinaryTreeTest_IsBalanced2()
+    {
+        int?[] root = { 1, 2, 2, 3, 3, null, null, 4, 4 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        bool list = BinaryTree.IsBalanced(rootTreeNode);
+        Assert.That(list, Is.EqualTo(false));
+    }
+
     #endregion
 }
