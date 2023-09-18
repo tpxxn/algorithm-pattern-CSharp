@@ -107,8 +107,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 2, 1, 3 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        bool list = BinaryTree.IsValidBST(rootTreeNode);
-        Assert.That(list, Is.EqualTo(true));
+        bool isValidBst = BinaryTree.IsValidBST(rootTreeNode);
+        Assert.That(isValidBst, Is.EqualTo(true));
     }
 
     [Test]
@@ -116,8 +116,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 5, 1, 4, null, null, 3, 6 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        bool list = BinaryTree.IsValidBST(rootTreeNode);
-        Assert.That(list, Is.EqualTo(false));
+        bool isValidBst = BinaryTree.IsValidBST(rootTreeNode);
+        Assert.That(isValidBst, Is.EqualTo(false));
     }
 
     [Test]
@@ -125,8 +125,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 2147483647 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        bool list = BinaryTree.IsValidBST(rootTreeNode);
-        Assert.That(list, Is.EqualTo(true));
+        bool isValidBst = BinaryTree.IsValidBST(rootTreeNode);
+        Assert.That(isValidBst, Is.EqualTo(true));
     }
 
     #endregion
@@ -138,8 +138,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 3, 9, 20, null, null, 15, 7 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        int list = BinaryTree.MaxDepth_DFS(rootTreeNode);
-        Assert.That(list, Is.EqualTo(3));
+        int maxDepthDfs = BinaryTree.MaxDepth_DFS(rootTreeNode);
+        Assert.That(maxDepthDfs, Is.EqualTo(3));
     }
 
     [Test]
@@ -147,8 +147,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 1, null, 2 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        int list = BinaryTree.MaxDepth_DFS(rootTreeNode);
-        Assert.That(list, Is.EqualTo(2));
+        int maxDepthDfs = BinaryTree.MaxDepth_DFS(rootTreeNode);
+        Assert.That(maxDepthDfs, Is.EqualTo(2));
     }
 
     [Test]
@@ -156,8 +156,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 3, 9, 20, null, null, 15, 7 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        int list = BinaryTree.MaxDepth_BFS(rootTreeNode);
-        Assert.That(list, Is.EqualTo(3));
+        int maxDepthBfs = BinaryTree.MaxDepth_BFS(rootTreeNode);
+        Assert.That(maxDepthBfs, Is.EqualTo(3));
     }
 
     [Test]
@@ -165,8 +165,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 1, null, 2 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        int list = BinaryTree.MaxDepth_BFS(rootTreeNode);
-        Assert.That(list, Is.EqualTo(2));
+        int maxDepthBfs = BinaryTree.MaxDepth_BFS(rootTreeNode);
+        Assert.That(maxDepthBfs, Is.EqualTo(2));
     }
 
     #endregion
@@ -178,8 +178,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 3, 9, 20, null, null, 15, 7 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        bool list = BinaryTree.IsBalanced(rootTreeNode);
-        Assert.That(list, Is.EqualTo(true));
+        bool isBalanced = BinaryTree.IsBalanced(rootTreeNode);
+        Assert.That(isBalanced, Is.EqualTo(true));
     }
 
     [Test]
@@ -187,8 +187,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 1, 2, 2, 3, 3, null, null, 4, 4 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        bool list = BinaryTree.IsBalanced(rootTreeNode);
-        Assert.That(list, Is.EqualTo(false));
+        bool isBalanced = BinaryTree.IsBalanced(rootTreeNode);
+        Assert.That(isBalanced, Is.EqualTo(false));
     }
 
     #endregion
@@ -200,8 +200,8 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { 1, 2, 3 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        int list = BinaryTree.MaxPathSum(rootTreeNode);
-        Assert.That(list, Is.EqualTo(6));
+        int maxPathSum = BinaryTree.MaxPathSum(rootTreeNode);
+        Assert.That(maxPathSum, Is.EqualTo(6));
     }
 
     [Test]
@@ -209,8 +209,39 @@ public class BinaryTreeTest_Practice
     {
         int?[] root = { -10, 9, 20, null, null, 15, 7 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        int list = BinaryTree.MaxPathSum(rootTreeNode);
-        Assert.That(list, Is.EqualTo(42));
+        int maxPathSum = BinaryTree.MaxPathSum(rootTreeNode);
+        Assert.That(maxPathSum, Is.EqualTo(42));
+    }
+
+    #endregion
+
+    #region 236.二叉树的最近公共祖先
+
+    [Test]
+    public void BinaryTreeTest_LowestCommonAncestor()
+    {
+        int?[] root = { 3, 5, 1, 6, 2, 0, 8, null, null, 7, 4 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        TreeNode lowestCommonAncestor = BinaryTree.LowestCommonAncestor(rootTreeNode, rootTreeNode.left, rootTreeNode.right);
+        Assert.That(lowestCommonAncestor, Is.EqualTo(rootTreeNode));
+    }
+
+    [Test]
+    public void BinaryTreeTest_LowestCommonAncestor2()
+    {
+        int?[] root = { 3, 5, 1, 6, 2, 0, 8, null, null, 7, 4 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        TreeNode lowestCommonAncestor = BinaryTree.LowestCommonAncestor(rootTreeNode, rootTreeNode.left, rootTreeNode.left.right.right);
+        Assert.That(lowestCommonAncestor, Is.EqualTo(rootTreeNode.left));
+    }
+
+    [Test]
+    public void BinaryTreeTest_LowestCommonAncestor3()
+    {
+        int?[] root = { 1, 2 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        TreeNode lowestCommonAncestor = BinaryTree.LowestCommonAncestor(rootTreeNode, rootTreeNode, rootTreeNode.left);
+        Assert.That(lowestCommonAncestor, Is.EqualTo(rootTreeNode));
     }
 
     #endregion

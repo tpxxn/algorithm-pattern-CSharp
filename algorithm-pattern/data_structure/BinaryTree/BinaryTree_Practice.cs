@@ -169,4 +169,34 @@ public partial class BinaryTree
         return (int)node.val + Math.Max(leftGain, rightGain);
     }
 
+    /// <summary>
+    /// <para>236. 二叉树的最近公共祖先</para>
+    /// <para>https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>最近公共祖先</returns>
+    public static TreeNode? LowestCommonAncestor(TreeNode? root, TreeNode p, TreeNode q) {
+        // check
+        if (root?.val==null)
+        {
+            return null;
+        }   
+        // 相等 直接返回root节点即可
+        if (root == p || root == q) {
+            return root;
+        }
+        // Divide
+        TreeNode? left = LowestCommonAncestor(root.left, p, q);
+        TreeNode? right = LowestCommonAncestor(root.right, p, q);
+        // Conquer
+        // 左右两边都不为空，则根节点为祖先
+        if (left != null && right != null) {
+            return root;
+        } else if (left != null) {
+            return left;
+        } else {
+            return right;
+        }
+    }
+    
 }
