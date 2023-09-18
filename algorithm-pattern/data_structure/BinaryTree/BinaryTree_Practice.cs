@@ -123,20 +123,24 @@ public partial class BinaryTree
     /// </summary>
     /// <param name="root">根节点</param>
     /// <returns>是否为高度平衡二叉树</returns>
-    public static bool IsBalanced(TreeNode? root) {
-        if (root?.val == null) {
+    public static bool IsBalanced(TreeNode? root)
+    {
+        if (root?.val == null)
+        {
             return true;
         }
         return Math.Abs(GetHeight(root.left) - GetHeight(root.right)) <= 1 && IsBalanced(root.left) && IsBalanced(root.right);
     }
 
-    static int GetHeight(TreeNode? node) {
-        if (node?.val == null) {
+    static int GetHeight(TreeNode? node)
+    {
+        if (node?.val == null)
+        {
             return 0;
         }
         return Math.Max(GetHeight(node.left), GetHeight(node.right)) + 1;
     }
-    
+
     static int maxSum = int.MinValue;
 
     /// <summary>
@@ -145,15 +149,15 @@ public partial class BinaryTree
     /// </summary>
     /// <param name="root">根节点</param>
     /// <returns>最大路径和</returns>
-    public static int MaxPathSum(TreeNode root) 
+    public static int MaxPathSum(TreeNode root)
     {
         MaxGain(root);
         return maxSum;
     }
 
-    static int MaxGain(TreeNode? node) 
+    static int MaxGain(TreeNode? node)
     {
-        if (node?.val == null) 
+        if (node?.val == null)
         {
             return 0;
         }
@@ -175,14 +179,16 @@ public partial class BinaryTree
     /// </summary>
     /// <param name="root">根节点</param>
     /// <returns>最近公共祖先</returns>
-    public static TreeNode? LowestCommonAncestor(TreeNode? root, TreeNode p, TreeNode q) {
+    public static TreeNode? LowestCommonAncestor(TreeNode? root, TreeNode p, TreeNode q)
+    {
         // check
-        if (root?.val==null)
+        if (root?.val == null)
         {
             return null;
-        }   
+        }
         // 相等 直接返回root节点即可
-        if (root == p || root == q) {
+        if (root == p || root == q)
+        {
             return root;
         }
         // Divide
@@ -190,13 +196,17 @@ public partial class BinaryTree
         TreeNode? right = LowestCommonAncestor(root.right, p, q);
         // Conquer
         // 左右两边都不为空，则根节点为祖先
-        if (left != null && right != null) {
+        if (left != null && right != null)
+        {
             return root;
-        } else if (left != null) {
+        }
+        else if (left != null)
+        {
             return left;
-        } else {
+        }
+        else
+        {
             return right;
         }
     }
-    
 }
