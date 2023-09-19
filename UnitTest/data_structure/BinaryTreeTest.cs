@@ -338,4 +338,26 @@ public class BinaryTreeTest_Practice
     }
 
     #endregion
+
+    #region 701. 二叉搜索树中的插入操作
+
+    [Test]
+    public void BinaryTreeTest_InsertIntoBST()
+    {
+        int?[] root = { 4, 2, 7, 1, 3 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        TreeNode levelOrder = BinaryTree.InsertIntoBST(rootTreeNode, 5);
+        Assert.That(BinaryTreeBuilder.ToList(levelOrder), Is.AnyOf(new List<int?> { 4, 2, 7, 1, 3, 5 }, new List<int?> { 5, 2, 7, 1, 3, null, null, null, null, null, 4 }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_InsertIntoBST2()
+    {
+        int?[] root = { 40, 20, 60, 10, 30, 50, 70 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        TreeNode levelOrder = BinaryTree.InsertIntoBST(rootTreeNode, 25);
+        Assert.That(BinaryTreeBuilder.ToList(levelOrder), Is.EqualTo(new List<int?> { 40, 20, 60, 10, 30, 50, 70, null, null, 25 }));
+    }
+
+    #endregion
 }

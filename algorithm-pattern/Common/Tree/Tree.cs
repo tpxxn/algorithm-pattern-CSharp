@@ -100,4 +100,50 @@ public static class BinaryTreeBuilder
         }
         return result;
     }
+
+    public static List<int?> ToList(TreeNode? root)
+    {
+        List<int?> levelOrderTraversal = new List<int?>();
+        if (root?.val == null)
+        {
+            return levelOrderTraversal;
+        }
+        Queue<TreeNode?> queue = new Queue<TreeNode?>();
+        queue.Enqueue(root);
+        var level = 0;
+        var isNotOver = true;
+        while (isNotOver)
+        {
+            isNotOver = false;
+            int size = (int)Math.Pow(2, level);
+            for (int i = 0; i < size; i++)
+            {
+                TreeNode? node = queue.Dequeue();
+                if (node?.val != null)
+                {
+                    isNotOver = true;
+                    levelOrderTraversal.Add(node.val);
+                }
+                else
+                {
+                    levelOrderTraversal.Add(null);
+                }
+                queue.Enqueue(node?.left);
+                queue.Enqueue(node?.right);
+            }
+            level += 1;
+        }
+        for (int i = levelOrderTraversal.Count - 1; i >= 0; i--)
+        {
+            if (levelOrderTraversal[i] == null)
+            {
+                levelOrderTraversal.RemoveAt(i);
+            }
+            else
+            {
+                return levelOrderTraversal;
+            }
+        }
+        return levelOrderTraversal;
+    }
 }

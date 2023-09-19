@@ -617,121 +617,36 @@ public static IList<IList<int?>> ZigzagLevelOrder(TreeNode? root)
 }
 ```
 
-### 二叉搜索树应用
+## 二叉搜索树应用
 
-#### validate-binary-search-tree
+### 常见题目
 
-[validate-binary-search-tree](https://leetcode.cn/problems/validate-binary-search-tree/)
+#### 二叉搜索树中的插入操作
 
-> 给定一个二叉树，判断其是否是一个有效的二叉搜索树。
-
-思路 1：中序遍历，检查结果列表是否已经有序
-
-思路 2：分治法，判断左 MAX < 根 < 右 MIN
-
-```go
-// v1
-func isValidBST(root *TreeNode) bool {
-    result := make([]int, 0)
-    inOrder(root, &result)
-    // check order
-    for i := 0; i < len(result) - 1; i++{
-        if result[i] >= result[i+1] {
-            return false
-        }
-    }
-    return true
-}
-
-func inOrder(root *TreeNode, result *[]int)  {
-    if root == nil{
-        return
-    }
-    inOrder(root.Left, result)
-    *result = append(*result, root.Val)
-    inOrder(root.Right, result)
-}
-
-
-```
-
-```go
-// v2分治法
-type ResultType struct {
-	IsValid bool
-    // 记录左右两边最大最小值，和根节点进行比较
-	Max     *TreeNode
-	Min     *TreeNode
-}
-
-func isValidBST2(root *TreeNode) bool {
-	result := helper(root)
-	return result.IsValid
-}
-func helper(root *TreeNode) ResultType {
-	result := ResultType{}
-	// check
-	if root == nil {
-		result.IsValid = true
-		return result
-	}
-
-	left := helper(root.Left)
-	right := helper(root.Right)
-
-	if !left.IsValid || !right.IsValid {
-		result.IsValid = false
-		return result
-	}
-	if left.Max != nil && left.Max.Val >= root.Val {
-		result.IsValid = false
-		return result
-	}
-	if right.Min != nil && right.Min.Val <= root.Val {
-		result.IsValid = false
-		return result
-	}
-
-	result.IsValid = true
-    // 如果左边还有更小的3，就用更小的节点，不用4
-    //  5
-    // / \
-    // 1   4
-    //      / \
-    //     3   6
-	result.Min = root
-	if left.Min != nil {
-		result.Min = left.Min
-	}
-	result.Max = root
-	if right.Max != nil {
-		result.Max = right.Max
-	}
-	return result
-}
-```
-
-#### insert-into-a-binary-search-tree
-
-[insert-into-a-binary-search-tree](https://leetcode.cn/problems/insert-into-a-binary-search-tree/)
-
-> 给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。
+> [701. 二叉搜索树中的插入操作](https://leetcode.cn/problems/insert-into-a-binary-search-tree/)
+>
+> 给定二叉搜索树（BST）的根节点 root 和要插入树中的值 value ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 **保证** ，新值和原始二叉搜索树中的任意节点值都不同。
+>
+> **注意**，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 **任意有效的结果** 。
 
 思路：找到最后一个叶子节点满足插入条件即可
 
-```go
-// DFS查找插入位置
-func insertIntoBST(root *TreeNode, val int) *TreeNode {
-    if root == nil {
-        root = &TreeNode{Val: val}
-        return root
+```csharp
+public static TreeNode InsertIntoBST(TreeNode? root, int val)
+{
+    if (root?.val == null)
+    {
+        return new TreeNode(val);
     }
-    if root.Val > val {
-        root.Left = insertIntoBST(root.Left, val)
-    } else {
-        root.Right = insertIntoBST(root.Right, val)
+    if (root.val > val)
+    {
+        root.left = InsertIntoBST(root.left, val);
     }
-    return root
+    else
+    {
+        root.right = InsertIntoBST(root.right, val);
+    }
+    return root;
 }
 ```
 

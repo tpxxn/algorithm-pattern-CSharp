@@ -329,4 +329,27 @@ public partial class BinaryTree
         }
         return zigzagLevelOrderTraversal;
     }
+
+    /// <summary>
+    /// <para>701. 二叉搜索树中的插入操作</para>
+    /// <para>https://leetcode.cn/problems/insert-into-a-binary-search-tree/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>插入后的二叉搜索树</returns>
+    public static TreeNode InsertIntoBST(TreeNode? root, int val)
+    {
+        if (root?.val == null)
+        {
+            return new TreeNode(val);
+        }
+        if (root.val > val)
+        {
+            root.left = InsertIntoBST(root.left, val);
+        }
+        else
+        {
+            root.right = InsertIntoBST(root.right, val);
+        }
+        return root;
+    }
 }
