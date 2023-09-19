@@ -13,40 +13,55 @@
 
 时间复杂度 O(logn)，使用场景一般是有序数组的查找
 
-典型示例
+### 典型示例
 
-[binary-search](https://leetcode-cn.com/problems/binary-search/)
 
-> 给定一个  n  个元素有序的（升序）整型数组  nums 和一个目标值  target  ，写一个函数搜索  nums  中的 target，如果目标值存在返回下标，否则返回 -1。
+> [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
+> 
+> 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。
 
-```go
+```csharp
 // 二分搜索最常用模板
-func search(nums []int, target int) int {
-    // 1、初始化start、end
-    start := 0
-    end := len(nums) - 1
+public static int Search(int[] nums, int target)
+{
+    // 1、初始化left、right
+    int left = 0;
+    int right = nums.Length - 1;
     // 2、处理for循环
-    for start+1 < end {
-        mid := start + (end-start)/2
-        // 3、比较a[mid]和target值
-        if nums[mid] == target {
-            end = mid
-        } else if nums[mid] < target {
-            start = mid
-        } else if nums[mid] > target {
-            end = mid
+    while (right - left > 1)
+    {
+        int mid = left + (right - left) / 2;
+        // 3、比较nums[mid]和target值
+        if (nums[mid] == target)
+        {
+            return mid;
+        }
+        else if (nums[mid] < target)
+        {
+            left = mid;
+        }
+        else
+        {
+            right = mid;
         }
     }
     // 4、最后剩下两个元素，手动判断
-    if nums[start] == target {
-        return start
+    if (nums[left] == target)
+    {
+        return left;
     }
-    if nums[end] == target {
-        return end
+    else if (nums[right] == target)
+    {
+        return right;
     }
-    return -1
+    else
+    {
+        return -1;
+    }
 }
 ```
+
+### 模板
 
 大部分二分查找类的题目都可以用这个模板，然后做一点特殊逻辑即可
 
@@ -58,25 +73,32 @@ func search(nums []int, target int) int {
 
 如果是最简单的二分搜索，不需要找第一个、最后一个位置、或者是没有重复元素，可以使用模板#1，代码更简洁
 
-```go
+```csharp
 // 无重复元素搜索时，更方便
-func search(nums []int, target int) int {
-    start := 0
-    end := len(nums) - 1
-    for start <= end {
-        mid := start + (end-start)/2
-        if nums[mid] == target {
-            return mid
-        } else if nums[mid] < target {
-            start = mid+1
-        } else if nums[mid] > target {
-            end = mid-1
+public static int Search_Template(int[] nums, int target)
+{
+    var start = 0;
+    var end = nums.Length - 1;
+    while (start <= end)
+    {
+        var mid = start + (end - start) / 2;
+        if (nums[mid] == target)
+        {
+            return mid;
+        }
+        else if (nums[mid] < target)
+        {
+            start = mid + 1;
+        }
+        else if (nums[mid] > target)
+        {
+            end = mid - 1;
         }
     }
     // 如果找不到，start 是第一个大于target的索引
     // 如果在B+树结构里面二分搜索，可以return start
     // 这样可以继续向子节点搜索，如：node:=node.Children[start]
-    return -1
+    return -1;
 }
 ```
 
@@ -412,7 +434,7 @@ func search(nums []int, target int) bool {
 - 4、判断最后两个元素是否符合：A[start]、A[end] ? target
 
 ## 练习题
-
+- [ ] [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 - [ ] [search-for-range](https://www.lintcode.com/problem/search-for-a-range/description)
 - [ ] [search-insert-position](https://leetcode-cn.com/problems/search-insert-position/)
 - [ ] [search-a-2d-matrix](https://leetcode-cn.com/problems/search-a-2d-matrix/)
