@@ -23,6 +23,7 @@ public static class BinaryTreeBuilder
         // 空树
         if (root.Length == 0 || root[0] == null)
         {
+            result.val = null;
             return result;
         }
 

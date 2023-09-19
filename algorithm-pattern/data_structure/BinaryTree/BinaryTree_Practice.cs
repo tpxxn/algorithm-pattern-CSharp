@@ -209,4 +209,124 @@ public partial class BinaryTree
             return right;
         }
     }
+
+    /// <summary>
+    /// <para>102. 二叉树的层序遍历</para>
+    /// <para>https://leetcode.cn/problems/binary-tree-level-order-traversal/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>层序遍历</returns>
+    public static IList<IList<int?>> LevelOrder(TreeNode? root)
+    {
+        IList<IList<int?>> levelOrderTraversal = new List<IList<int?>>();
+        if (root?.val == null)
+        {
+            return levelOrderTraversal;
+        }
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        while (queue.Count > 0)
+        {
+            IList<int?> levelValues = new List<int?>();
+            int size = queue.Count;
+            for (int i = 0; i < size; i++)
+            {
+                TreeNode node = queue.Dequeue();
+                levelValues.Add(node.val);
+                if (node.left != null)
+                {
+                    queue.Enqueue(node.left);
+                }
+                if (node.right != null)
+                {
+                    queue.Enqueue(node.right);
+                }
+            }
+            levelOrderTraversal.Add(levelValues);
+        }
+        return levelOrderTraversal;
+    }
+
+    /// <summary>
+    /// <para>107. 二叉树的层序遍历II</para>
+    /// <para>https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>自底向上的层序遍历</returns>
+    public static IList<IList<int?>> LevelOrderBottom(TreeNode? root)
+    {
+        IList<IList<int?>> levelOrderBottomTraversal = new List<IList<int?>>();
+        if (root?.val == null)
+        {
+            return levelOrderBottomTraversal;
+        }
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        while (queue.Count > 0)
+        {
+            IList<int?> levelValues = new List<int?>();
+            int size = queue.Count;
+            for (int i = 0; i < size; i++)
+            {
+                TreeNode node = queue.Dequeue();
+                levelValues.Add(node.val);
+                if (node.left != null)
+                {
+                    queue.Enqueue(node.left);
+                }
+                if (node.right != null)
+                {
+                    queue.Enqueue(node.right);
+                }
+            }
+            levelOrderBottomTraversal.Add(levelValues);
+        }
+        return levelOrderBottomTraversal.Reverse().ToList();
+    }
+
+    /// <summary>
+    /// <para>103. 二叉树的锯齿形层序遍历</para>
+    /// <para>https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>最近公共祖先</returns>
+    public static IList<IList<int?>> ZigzagLevelOrder(TreeNode? root)
+    {
+        IList<IList<int?>> zigzagLevelOrderTraversal = new List<IList<int?>>();
+        if (root?.val == null)
+        {
+            return zigzagLevelOrderTraversal;
+        }
+        Queue<TreeNode> queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+        bool isLeftToRight = true;
+        while (queue.Count > 0)
+        {
+            IList<int?> levelValues = new List<int?>();
+            int size = queue.Count;
+            for (int i = 0; i < size; i++)
+            {
+                TreeNode node = queue.Dequeue();
+                if (isLeftToRight)
+                {
+                    levelValues.Add(node.val);
+                }
+                else
+                {
+                    levelValues.Insert(0, node.val);
+                }
+                if (node.left != null)
+                {
+                    queue.Enqueue(node.left);
+                }
+                if (node.right != null)
+                {
+                    queue.Enqueue(node.right);
+                }
+            }
+            zigzagLevelOrderTraversal.Add(levelValues);
+            isLeftToRight = !isLeftToRight;
+        }
+        return zigzagLevelOrderTraversal;
+    }
 }

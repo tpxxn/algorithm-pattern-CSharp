@@ -245,4 +245,97 @@ public class BinaryTreeTest_Practice
     }
 
     #endregion
+
+    #region 102.二叉树的层序遍历
+
+    [Test]
+    public void BinaryTreeTest_LevelOrder()
+    {
+        int?[] root = { 3, 9, 20, null, null, 15, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.LevelOrder(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>> { new List<int> { 3 }, new List<int> { 9, 20 }, new List<int> { 15, 7 } }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_LevelOrder2()
+    {
+        int?[] root = { 1 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.LevelOrder(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>> { new List<int> { 1 } }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_LevelOrder3()
+    {
+        int?[] root = Array.Empty<int?>();
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.LevelOrder(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>>()));
+    }
+
+    #endregion
+
+    #region 107.二叉树的层序遍历II
+
+    [Test]
+    public void BinaryTreeTest_LevelOrderBottom()
+    {
+        int?[] root = { 3, 9, 20, null, null, 15, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.LevelOrderBottom(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>> { new List<int> { 15, 7 }, new List<int> { 9, 20 }, new List<int> { 3 } }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_LevelOrderBottom2()
+    {
+        int?[] root = { 1 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.LevelOrderBottom(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>> { new List<int> { 1 } }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_LevelOrderBottom3()
+    {
+        int?[] root = Array.Empty<int?>();
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.LevelOrderBottom(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>>()));
+    }
+
+    #endregion
+
+    #region 103.二叉树的锯齿形层序遍历
+
+    [Test]
+    public void BinaryTreeTest_ZigzagLevelOrder()
+    {
+        int?[] root = { 3, 9, 20, null, null, 15, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.ZigzagLevelOrder(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>> { new List<int> { 3 }, new List<int> { 20, 9 }, new List<int> { 15, 7 } }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_ZigzagLevelOrder2()
+    {
+        int?[] root = { 1 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.ZigzagLevelOrder(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>> { new List<int> { 1 } }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_ZigzagLevelOrder3()
+    {
+        int?[] root = Array.Empty<int?>();
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        IList<IList<int?>> levelOrder = BinaryTree.ZigzagLevelOrder(rootTreeNode);
+        Assert.That(levelOrder, Is.EqualTo(new List<List<int>>()));
+    }
+
+    #endregion
 }
