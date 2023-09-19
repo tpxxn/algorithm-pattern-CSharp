@@ -2,6 +2,12 @@ namespace algorithm_pattern;
 
 public partial class BinarySearch
 {
+    /// <summary>
+    /// <para>704. 二分查找</para>
+    /// <para>https://leetcode-cn.com/problems/binary-search/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>target 位置</returns>
     public static int Search(int[] nums, int target)
     {
         // 1、初始化left、right
