@@ -352,4 +352,53 @@ public partial class BinaryTree
         }
         return root;
     }
+
+    /// <summary>
+    /// <para>450. 删除二叉搜索树中节点</para>
+    /// <para>https://leetcode.cn/problems/delete-node-in-a-bst/</para>
+    /// </summary>
+    /// <param name="root">根节点</param>
+    /// <returns>删除后的二叉搜索树</returns>
+    public static TreeNode? DeleteNode(TreeNode? root, int key)
+    {
+        // 删除节点分为三种情况：
+        // 1、只有左节点 替换为右
+        // 2、只有右节点 替换为左
+        // 3、有左右子节点 左子节点连接到右边最左节点即可
+        if (root?.val == null)
+        {
+            return root;
+        }
+        if (root.val < key)
+        {
+            root.right = DeleteNode(root.right, key);
+        }
+        else if (root.val > key)
+        {
+            root.left = DeleteNode(root.left, key);
+        }
+        else if (root.val == key)
+        {
+            if (root.left?.val == null)
+            {
+                return root.right;
+            }
+            else if (root.right?.val == null)
+            {
+                return root.left;
+            }
+            else
+            {
+                var current = root.right;
+                // 一直向左找到最后一个左节点即可
+                while (current.left?.val != null)
+                {
+                    current = current.left;
+                }
+                current.left = root.left;
+                return root.right;
+            }
+        }
+        return root;
+    }
 }

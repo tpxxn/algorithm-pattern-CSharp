@@ -650,6 +650,63 @@ public static TreeNode InsertIntoBST(TreeNode? root, int val)
 }
 ```
 
+#### 删除二叉搜索树中节点
+
+> [450. 删除二叉搜索树中节点](https://leetcode.cn/problems/delete-node-in-a-bst/)
+>
+> 给定一个二叉搜索树的根节点 **root** 和一个值 **key**，删除二叉搜索树中的 **key** 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。
+>
+> 一般来说，删除节点可分为两个步骤：
+>
+> 1. 首先找到需要删除的节点；
+>
+> 2. 如果找到了，删除它。
+
+```csharp
+public static TreeNode? DeleteNode(TreeNode? root, int key)
+{
+    // 删除节点分为三种情况：
+    // 1、只有左节点 替换为右
+    // 2、只有右节点 替换为左
+    // 3、有左右子节点 左子节点连接到右边最左节点即可
+    if (root?.val == null)
+    {
+        return root;
+    }
+    if (root.val < key)
+    {
+        root.right = DeleteNode(root.right, key);
+    }
+    else if (root.val > key)
+    {
+        root.left = DeleteNode(root.left, key);
+    }
+    else if (root.val == key)
+    {
+        if (root.left?.val == null)
+        {
+            return root.right;
+        }
+        else if (root.right?.val == null)
+        {
+            return root.left;
+        }
+        else
+        {
+            var current = root.right;
+            // 一直向左找到最后一个左节点即可
+            while (current.left?.val != null)
+            {
+                current = current.left;
+            }
+            current.left = root.left;
+            return root.right;
+        }
+    }
+    return root;
+}
+```
+
 ## 总结
 
 - 掌握二叉树递归与非递归遍历
@@ -671,3 +728,4 @@ public static TreeNode InsertIntoBST(TreeNode? root, int val)
 - [ ] [107. 二叉树的层序遍历II](https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/)
 - [ ] [103. 二叉树的锯齿形层序遍历](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/)
 - [ ] [701. 二叉搜索树中的插入操作](https://leetcode.cn/problems/insert-into-a-binary-search-tree/)
+- [ ] [450. 删除二叉搜索树中节点](https://leetcode.cn/problems/delete-node-in-a-bst/)

@@ -360,4 +360,35 @@ public class BinaryTreeTest_Practice
     }
 
     #endregion
+
+    #region MyRegion
+
+    [Test]
+    public void BinaryTreeTest_DeleteNode()
+    {
+        int?[] root = { 5, 3, 6, 2, 4, null, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        TreeNode result = BinaryTree.DeleteNode(rootTreeNode, 3);
+        Assert.That(BinaryTreeBuilder.ToList(result), Is.AnyOf(new List<int?> { 5, 4, 6, 2, null, null, 7 }, new List<int?> { 5, 2, 6, null, 4, null, 7 }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_DeleteNode2()
+    {
+        int?[] root = { 5, 3, 6, 2, 4, null, 7 };
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        TreeNode result = BinaryTree.DeleteNode(rootTreeNode, 0);
+        Assert.That(BinaryTreeBuilder.ToList(result), Is.EqualTo(new List<int?> { 5, 3, 6, 2, 4, null, 7 }));
+    }
+
+    [Test]
+    public void BinaryTreeTest_DeleteNode3()
+    {
+        int?[] root = Array.Empty<int?>();
+        TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
+        TreeNode result = BinaryTree.DeleteNode(rootTreeNode, 0);
+        Assert.That(BinaryTreeBuilder.ToList(result), Is.EqualTo(new List<int?>()));
+    }
+
+    #endregion
 }
