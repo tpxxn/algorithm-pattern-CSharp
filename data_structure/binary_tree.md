@@ -8,7 +8,7 @@
 
 先访问根节点，再前序遍历左子树，再前序遍历右子树
 
-**中序遍历**：[94. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
+**中序遍历**：[094. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
 
 先中序遍历左子树，再访问根节点，再中序遍历右子树
 
@@ -230,7 +230,7 @@ public static IList<int?> BinaryTreePaths_BFS(TreeNode root)
 
 > [257. 二叉树的所有路径](https://leetcode-cn.com/problems/binary-tree-paths/)
 >
-> 给你一个二叉树的根节点 root ，按 **任意顺序** ，返回所有从根节点到叶子节点的路径。
+> 给你一个二叉树的根节点 `root` ，按 **任意顺序** ，返回所有从根节点到叶子节点的路径。
 >
 > **叶子节点** 是指没有子节点的节点。
 
@@ -299,9 +299,9 @@ public ResultType Traversal(TreeNode root) {
 
 ### 典型示例
 
-> [98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+> [098. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
 >
-> 给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。
+> 给你一个二叉树的根节点 `root` ，判断其是否是一个有效的二叉搜索树。
 > 
 > **有效** 二叉搜索树定义如下：
 > 
@@ -342,7 +342,7 @@ static bool IsValidBST_DivideAndConquer(TreeNode? p, long? min, long? max)
 
 > [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
 >
-> 给定一个二叉树 root ，返回其最大深度。
+> 给定一个二叉树 `root` ，返回其最大深度。
 >
 > 二叉树的 **最大深度** 是指从根节点到最远叶子节点的最长路径上的节点数。
 
@@ -390,7 +390,7 @@ public static int MaxDepth_BFS(TreeNode? root) {
 >
 > 本题中，一棵高度平衡二叉树定义为：
 >
->一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
+> 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
 
 ```csharp
 public static bool IsBalanced(TreeNode? root) {
@@ -416,7 +416,7 @@ static int GetHeight(TreeNode? node) {
 >
 > **路径和** 是路径中各节点值的总和。
 >
-> 给你一个二叉树的根节点 root ，返回其 **最大路径和** 。
+> 给你一个二叉树的根节点 `root` ，返回其 **最大路径和** 。
 
 ```csharp
 static int maxSum = int.MinValue;
@@ -490,7 +490,7 @@ public static TreeNode? LowestCommonAncestor(TreeNode? root, TreeNode p, TreeNod
 
 > [102. 二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
 > 
-> 给你二叉树的根节点 root ，返回其节点值的 **层序遍历** 。 （即逐层地，从左到右访问所有节点）。
+> 给你二叉树的根节点 `root` ，返回其节点值的 **层序遍历** 。 （即逐层地，从左到右访问所有节点）。
 
 思路：用一个队列记录一层的元素，然后扫描这一层元素添加下一层元素到队列（一个数进去出来一次，所以复杂度 O(logN)）
 
@@ -532,7 +532,7 @@ public static IList<IList<int?>> LevelOrder(TreeNode? root)
 
 > [107. 二叉树的层序遍历II](https://leetcode.cn/problems/binary-tree-level-order-traversal-ii/)
 >
-> 给你二叉树的根节点 root ，返回其节点值 **自底向上的层序遍历** 。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
+> 给你二叉树的根节点 `root` ，返回其节点值 **自底向上的层序遍历** 。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）
 
 思路：在层级遍历的基础上，翻转一下结果即可
 
@@ -573,7 +573,7 @@ public static IList<IList<int?>> LevelOrderBottom(TreeNode? root)
 
 > [103. 二叉树的锯齿形层序遍历](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/)
 >
-> 给你二叉树的根节点 root ，返回其节点值的 **锯齿形层序遍历** 。锯齿形层序遍历 。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
+> 给你二叉树的根节点 `root` ，返回其节点值的 **锯齿形层序遍历** 。锯齿形层序遍历 。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
 
 ```csharp
 public static IList<IList<int?>> ZigzagLevelOrder(TreeNode? root)
@@ -625,7 +625,7 @@ public static IList<IList<int?>> ZigzagLevelOrder(TreeNode? root)
 
 > [701. 二叉搜索树中的插入操作](https://leetcode.cn/problems/insert-into-a-binary-search-tree/)
 >
-> 给定二叉搜索树（BST）的根节点 root 和要插入树中的值 value ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 **保证** ，新值和原始二叉搜索树中的任意节点值都不同。
+> 给定二叉搜索树（BST）的根节点 `root` 和要插入树中的值 `value` ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 **保证** ，新值和原始二叉搜索树中的任意节点值都不同。
 >
 > **注意**，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 **任意有效的结果** 。
 
@@ -716,10 +716,10 @@ public static TreeNode? DeleteNode(TreeNode? root, int key)
 ## 练习
 
 - [ ] [144. 二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/)
-- [ ] [&nbsp;&nbsp;94. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
+- [ ] [094. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
 - [ ] [145. 二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/)
 - [ ] [257. 二叉树的所有路径](https://leetcode-cn.com/problems/binary-tree-paths/)
-- [ ] [&nbsp;&nbsp;98. 验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree/)
+- [ ] [098. 验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree/)
 - [ ] [104. 二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree/)
 - [ ] [110. 平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree/)
 - [ ] [124. 二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)

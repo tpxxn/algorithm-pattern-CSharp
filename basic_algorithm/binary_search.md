@@ -15,10 +15,9 @@
 
 ### 典型示例
 
-
 > [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
-> 
-> 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。
+>
+> 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。
 
 ```csharp
 // 二分搜索最常用模板
@@ -104,14 +103,17 @@ public static int Search_Template(int[] nums, int target)
 
 ## 常见题目
 
-### [search-for-range](https://www.lintcode.com/problem/search-for-a-range/description)
+### 搜索区间
 
-> 给定一个包含 n 个整数的排序数组，找出给定目标值 target 的起始和结束位置。
+> [061. 搜索区间](https://www.lintcode.com/problem/search-for-a-range/description)
+>
+> 给定一个包含 `n` 个整数的排序数组，找出给定目标值 `target` 的起始和结束位置。
+>
 > 如果目标值不在数组中，则返回`[-1, -1]`
 
 思路：核心点就是找第一个 target 的索引，和最后一个 target 的索引，所以用两次二分搜索分别找第一次和最后一次的位置
 
-```go
+```csharp
 func searchRange (A []int, target int) []int {
     if len(A) == 0 {
         return []int{-1, -1}
@@ -167,11 +169,15 @@ func searchRange (A []int, target int) []int {
 }
 ```
 
-### [search-insert-position](https://leetcode-cn.com/problems/search-insert-position/)
+### 搜索插入位置
 
+> [035. 搜索插入位置](https://leetcode-cn.com/problems/search-insert-position/)
+> 
 > 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+>
+> 请必须使用时间复杂度为 `O(log n)` 的算法。
 
-```go
+```csharp
 func searchInsert(nums []int, target int) int {
     // 思路：找到第一个 >= target 的元素位置
     start := 0
@@ -198,14 +204,18 @@ func searchInsert(nums []int, target int) int {
 }
 ```
 
-### [search-a-2d-matrix](https://leetcode-cn.com/problems/search-a-2d-matrix/)
+### 搜索二维矩阵
 
-> 编写一个高效的算法来判断  m x n  矩阵中，是否存在一个目标值。该矩阵具有如下特性：
+> [074. 搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)
+>
+> 编写一个高效的算法来判断 `m x n` 矩阵中，是否存在一个目标值。该矩阵具有如下特性：
 >
 > - 每行中的整数从左到右按升序排列。
 > - 每行的第一个整数大于前一行的最后一个整数。
+>
+> 给你一个整数 `target` ，如果 `target` 在矩阵中，返回 `true` ；否则，返回 `false` 。
 
-```go
+```csharp
 func searchMatrix(matrix [][]int, target int) bool {
     // 思路：将2纬数组转为1维数组 进行二分搜索
     if len(matrix) == 0 || len(matrix[0]) == 0 {
@@ -234,12 +244,17 @@ func searchMatrix(matrix [][]int, target int) bool {
 }
 ```
 
-### [first-bad-version](https://leetcode-cn.com/problems/first-bad-version/)
+### 第一个错误的版本
 
-> 假设你有 n 个版本 [1, 2, ..., n]，你想找出导致之后所有版本出错的第一个错误的版本。
-> 你可以通过调用  bool isBadVersion(version)  接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。
+> [278. 第一个错误的版本](https://leetcode-cn.com/problems/first-bad-version/)
+>
+> 你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。
+>
+> 假设你有 n 个版本 `[1, 2, ..., n]`，你想找出导致之后所有版本出错的第一个错误的版本。
+>
+> 你可以通过调用 `bool isBadVersion(version)` 接口来判断版本号 `version` 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。
 
-```go
+```csharp
 func firstBadVersion(n int) int {
     // 思路：二分搜索
     start := 0
@@ -259,12 +274,21 @@ func firstBadVersion(n int) int {
 }
 ```
 
-### [find-minimum-in-rotated-sorted-array](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+### 寻找旋转排序数组中的最小值
 
-> 假设按照升序排序的数组在预先未知的某个点上进行了旋转( 例如，数组  [0,1,2,4,5,6,7] 可能变为  [4,5,6,7,0,1,2] )。
-> 请找出其中最小的元素。
+> [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+>
+> 已知一个长度为 n 的数组，预先按照升序排列，经由 `1` 到 `n` 次 **旋转** 后，得到输入数组。例如，原数组 `nums` = `[0,1,2,4,5,6,7]` 在变化后可能得到：
+> - 若旋转 4 次，则可以得到 `[4,5,6,7,0,1,2]`
+> - 若旋转 7 次，则可以得到 `[0,1,2,4,5,6,7]`
+>
+> 注意，数组 `[a[0], a[1], a[2], ..., a[n-1]]` 旋转一次 的结果为数组 `[a[n-1], a[0], a[1], a[2], ..., a[n-2]]` 。
+>
+> 给你一个元素值 **互不相同** 的数组 `nums` ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 **最小元素** 。
+>
+> 你必须设计一个时间复杂度为 `O(log n)` 的算法解决此问题。
 
-```go
+```csharp
 func findMin(nums []int) int {
     // 思路：/ / 最后一个值作为target，然后往左移动，最后比较start、end的值
     if len(nums) == 0 {
@@ -289,13 +313,22 @@ func findMin(nums []int) int {
 }
 ```
 
-### [find-minimum-in-rotated-sorted-array-ii](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)
+### 寻找旋转排序数组中的最小值II
 
-> 假设按照升序排序的数组在预先未知的某个点上进行了旋转
-> ( 例如，数组  [0,1,2,4,5,6,7] 可能变为  [4,5,6,7,0,1,2] )。
-> 请找出其中最小的元素。(包含重复元素)
+> [154. 寻找旋转排序数组中的最小值II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)
+>
+> 已知一个长度为 n 的数组，预先按照升序排列，经由 `1` 到 `n` 次 **旋转** 后，得到输入数组。例如，原数组 `nums` = `[0,1,4,4,5,6,7]` 在变化后可能得到：
+> - 若旋转 4 次，则可以得到 `[4,5,6,7,0,1,4]`
+> - 若旋转 7 次，则可以得到 `[0,1,4,4,5,6,7]`
+>
+> 注意，数组 `[a[0], a[1], a[2], ..., a[n-1]]` 旋转一次 的结果为数组 `[a[n-1], a[0], a[1], a[2], ..., a[n-2]]` 。
+>
+> 给你一个可能存在 **重复** 元素值的数组 `nums` ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 **最小元素** 。
+>
+> 你必须尽可能减少整个过程的操作步骤。
 
-```go
+
+```csharp
 func findMin(nums []int) int {
     // 思路：跳过重复元素，mid值和end值比较，分为两种情况进行处理
     if len(nums) == 0 {
@@ -326,14 +359,19 @@ func findMin(nums []int) int {
 }
 ```
 
-### [search-in-rotated-sorted-array](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+### 搜索旋转排序数组
 
-> 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
-> ( 例如，数组  [0,1,2,4,5,6,7]  可能变为  [4,5,6,7,0,1,2] )。
-> 搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回  -1 。
-> 你可以假设数组中不存在重复的元素。
+> [033. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+>
+> 整数数组 `nums` 按升序排列，数组中的值 **互不相同** 。
+>
+> 在传递给函数之前，`nums` 在预先未知的某个下标 `k`（`0 <= k < nums.length`） 上进行了 **旋转**，使数组变为 `[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]`（下标 **从 0 开始** 计数）。例如， `[0,1,2,4,5,6,7]` 在下标 `3` 处经旋转后可能变为 `[4,5,6,7,0,1,2]` 。
+>
+> 给你 **旋转后** 的数组 `nums` 和一个整数 `target` ，如果 `nums` 中存在这个目标值 `target` ，则返回它的下标，否则返回 `-1` 。
+>
+> 你必须设计一个时间复杂度为 `O(log n)` 的算法解决此问题。
 
-```go
+```csharp
 func search(nums []int, target int) int {
     // 思路：/ / 两条上升直线，四种情况判断
     if len(nums) == 0 {
@@ -375,13 +413,19 @@ func search(nums []int, target int) int {
 
 > 面试时，可以直接画图进行辅助说明，空讲很容易让大家都比较蒙圈
 
-### [search-in-rotated-sorted-array-ii](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/)
+### 搜索旋转排序数组II 
 
-> 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
-> ( 例如，数组  [0,0,1,2,2,5,6]  可能变为  [2,5,6,0,0,1,2] )。
-> 编写一个函数来判断给定的目标值是否存在于数组中。若存在返回  true，否则返回  false。(包含重复元素)
+> [081. 搜索旋转排序数组II](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/)
+>
+> 已知存在一个按非降序排列的整数数组 `nums` ，数组中的值不必互不相同。
+>
+> 在传递给函数之前，`nums` 在预先未知的某个下标 `k`（`0 <= k < nums.length`）上进行了 **旋转** ，使数组变为 `[nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]`（下标 **从 0 开始** 计数）。例如， `[0,1,2,4,4,4,5,6,6,7]` 在下标 `5` 处经旋转后可能变为 `[4,5,6,6,7,0,1,2,4,4]` 。
+>
+>给你 **旋转后** 的数组 `nums` 和一个整数 `target` ，请你编写一个函数来判断给定的目标值是否存在于数组中。如果 `nums` 中存在这个目标值 `target` ，则返回 `true` ，否则返回 `false` 。
+>
+> 你必须尽可能减少整个操作步骤。
 
-```go
+```csharp
 func search(nums []int, target int) bool {
     // 思路：/ / 两条上升直线，四种情况判断，并且处理重复数字
     if len(nums) == 0 {
@@ -434,12 +478,13 @@ func search(nums []int, target int) bool {
 - 4、判断最后两个元素是否符合：A[start]、A[end] ? target
 
 ## 练习题
+
 - [ ] [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
-- [ ] [search-for-range](https://www.lintcode.com/problem/search-for-a-range/description)
-- [ ] [search-insert-position](https://leetcode-cn.com/problems/search-insert-position/)
-- [ ] [search-a-2d-matrix](https://leetcode-cn.com/problems/search-a-2d-matrix/)
-- [ ] [first-bad-version](https://leetcode-cn.com/problems/first-bad-version/)
-- [ ] [find-minimum-in-rotated-sorted-array](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
-- [ ] [find-minimum-in-rotated-sorted-array-ii](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)
-- [ ] [search-in-rotated-sorted-array](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
-- [ ] [search-in-rotated-sorted-array-ii](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/)
+- [ ] [061. 搜索区间](https://www.lintcode.com/problem/search-for-a-range/description)
+- [ ] [035. 搜索插入位置](https://leetcode-cn.com/problems/search-insert-position/)
+- [ ] [074. 搜索二维矩阵](https://leetcode-cn.com/problems/search-a-2d-matrix/)
+- [ ] [278. 第一个错误的版本](https://leetcode-cn.com/problems/first-bad-version/)
+- [ ] [153. 寻找旋转排序数组中的最小值](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/)
+- [ ] [154. 寻找旋转排序数组中的最小值II](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array-ii/)
+- [ ] [033. 搜索旋转排序数组](https://leetcode-cn.com/problems/search-in-rotated-sorted-array/)
+- [ ] [081. 搜索旋转排序数组II](https://leetcode-cn.com/problems/search-in-rotated-sorted-array-ii/)
