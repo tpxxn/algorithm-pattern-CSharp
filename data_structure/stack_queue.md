@@ -12,13 +12,28 @@
 
 ## Stack 栈
 
-[min-stack](https://leetcode-cn.com/problems/min-stack/)
+### 最小栈
 
-> 设计一个支持 push，pop，top 操作，并能在常数时间内检索到最小元素的栈。
+> [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
+>
+> 设计一个支持 `push` ，`pop` ，`top` 操作，并能在常数时间内检索到最小元素的栈。
+>
+> 实现 `MinStack` 类:
+>
+> `MinStack()` 初始化堆栈对象。
+> 
+> `void push(int val)` 将元素val推入堆栈。
+> 
+> `void pop()` 删除堆栈顶部的元素。
+> 
+> `int top()` 获取堆栈顶部的元素。
+> 
+> `int getMin()` 获取堆栈中的最小元素。
+
 
 思路：用两个栈实现，一个最小栈始终保证最小值在顶部
 
-```go
+```csharp
 type MinStack struct {
     min []int
     stack []int
@@ -81,15 +96,17 @@ func (this *MinStack) GetMin() int {
  */
 ```
 
-[evaluate-reverse-polish-notation](https://leetcode-cn.com/problems/evaluate-reverse-polish-notation/)
+### 逆波兰表达式求值
 
-> **波兰表达式计算** > **输入:** `["2", "1", "+", "3", "*"]` > **输出:** 9
+> [150. 逆波兰表达式求值](https://leetcode-cn.com/problems/evaluate-reverse-polish-notation/)
 >
-> **解释:** `((2 + 1) * 3) = 9`
+> 给你一个字符串数组 `tokens` ，表示一个根据 [逆波兰表示法](https://baike.baidu.com/item/%E9%80%86%E6%B3%A2%E5%85%B0%E5%BC%8F/128437) 表示的算术表达式。
+>
+> 请你计算该表达式。返回一个表示表达式值的整数。
 
 思路：通过栈保存原来的元素，遇到表达式弹出运算，再推入结果，重复这个过程
 
-```go
+```csharp
 func evalRPN(tokens []string) int {
     if len(tokens)==0{
         return 0
@@ -127,16 +144,21 @@ func evalRPN(tokens []string) int {
 }
 ```
 
-[decode-string](https://leetcode-cn.com/problems/decode-string/)
+### 字符串解码
 
+> [394. 字符串解码](https://leetcode-cn.com/problems/decode-string/)
+>
 > 给定一个经过编码的字符串，返回它解码后的字符串。
-> s = "3[a]2[bc]", 返回 "aaabcbc".
-> s = "3[a2[c]]", 返回 "accaccacc".
-> s = "2[abc]3[cd]ef", 返回 "abcabccdcdcdef".
+>
+> 编码规则为: `k[encoded_string]`，表示其中方括号内部的 `encoded_string` 正好重复 `k` 次。注意 `k` 保证为正整数。
+>
+> 你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。
+>
+> 此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 `k` ，例如不会出现像 `3a` 或 `2[4]` 的输入。
 
 思路：通过栈辅助进行操作
 
-```go
+```csharp
 func decodeString(s string) string {
 	if len(s) == 0 {
 		return ""
@@ -179,7 +201,7 @@ func decodeString(s string) string {
 
 利用栈进行 DFS 递归搜索模板
 
-```go
+```csharp
 boolean DFS(int root, int target) {
     Set<Node> visited;
     Stack<Node> s;
@@ -199,11 +221,13 @@ boolean DFS(int root, int target) {
 }
 ```
 
-[binary-tree-inorder-traversal](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+### 二叉树的中序遍历
 
-> 给定一个二叉树，返回它的*中序*遍历。
+> [094. 二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+>
+> 给定一个二叉树的根节点 `root` ，返回 它的 **中序** 遍历 。
 
-```go
+```csharp
 // 思路：通过stack 保存已经访问的元素，用于原路返回
 func inorderTraversal(root *TreeNode) []int {
     result := make([]int, 0)
@@ -226,11 +250,23 @@ func inorderTraversal(root *TreeNode) []int {
 }
 ```
 
-[clone-graph](https://leetcode-cn.com/problems/clone-graph/)
+### 克隆图
 
-> 给你无向连通图中一个节点的引用，请你返回该图的深拷贝（克隆）。
+> [133. 克隆图](https://leetcode-cn.com/problems/clone-graph/)
+>
+> 给你无向 连通 图中一个节点的引用，请你返回该图的 深拷贝（克隆）。
+>
+> 图中的每个节点都包含它的值 `val`（`int`） 和其邻居的列表（`list[Node]`）。
+>
+> > class Node {
+> >
+> > &nbsp;&nbsp;&nbsp;&nbsp; public int val;
+> >
+> > &nbsp;&nbsp;&nbsp;&nbsp; public List<Node> neighbors;
+> >
+> >}
 
-```go
+```csharp
 func cloneGraph(node *Node) *Node {
     visited:=make(map[*Node]*Node)
     return clone(node,visited)
@@ -258,13 +294,19 @@ func clone(node *Node,visited map[*Node]*Node)*Node{
 }
 ```
 
-[number-of-islands](https://leetcode-cn.com/problems/number-of-islands/)
+### 岛屿数量
 
-> 给定一个由  '1'（陆地）和 '0'（水）组成的的二维网格，计算岛屿的数量。一个岛被水包围，并且它是通过水平方向或垂直方向上相邻的陆地连接而成的。你可以假设网格的四个边均被水包围。
+> [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+>
+> 给你一个由 `'1'`（陆地）和 `'0'`（水）组成的的二维网格，请你计算网格中岛屿的数量。
+>
+> 岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。
+>
+> 此外，你可以假设该网格的四条边均被水包围。
 
 思路：通过深度搜索遍历可能性（注意标记已访问元素）
 
-```go
+```csharp
 
 func numIslands(grid [][]byte) int {
     var count int
@@ -290,9 +332,12 @@ func dfs(grid [][]byte,i,j int)int{
 }
 ```
 
-[largest-rectangle-in-histogram](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
+### 柱状图中最大的矩形
 
-> 给定 _n_ 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
+> [084. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
+>
+> 给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
+>
 > 求在该柱状图中，能够勾勒出来的矩形的最大面积。
 
 思路：求以当前柱子为高度的面积，即转化为寻找小于当前值的左右两边值
@@ -303,7 +348,7 @@ func dfs(grid [][]byte,i,j int)int{
 
 ![image.png](https://img.fuiboom.com/img/stack_rain2.png)
 
-```go
+```csharp
 func largestRectangleArea(heights []int) int {
 	if len(heights) == 0 {
 		return 0
@@ -347,11 +392,25 @@ func Max(a, b int) int {
 
 常用于 BFS 宽度优先搜索
 
-[implement-queue-using-stacks](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+### 用栈实现队列
 
-> 使用栈实现队列
+> [232. 用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+>
+> 请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（`push`、`pop`、`peek`、`empty`）：
+>
+> 实现 `MyQueue` 类：
+>
+> `void push(int x)` 将元素 x 推到队列的末尾
+> `int pop()` 从队列的开头移除并返回元素
+> `int peek()` 返回队列开头的元素
+> `boolean empty()` 如果队列为空，返回 `true` ；否则，返回 `false`
+>
+> 说明：
+>
+> 你 `只能` 使用标准的栈操作 —— 也就是只有 `push to top`, `peek/pop from top`, `size`, 和 `is empty` 操作是合法的。
+> 你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
 
-```go
+```csharp
 type MyQueue struct {
     stack []int
     back  []int
@@ -423,46 +482,15 @@ func (this *MyQueue) Empty() bool {
  */
 ```
 
-二叉树层次遍历
+### 01矩阵
 
-```go
-func levelOrder(root *TreeNode) [][]int {
-    // 通过上一层的长度确定下一层的元素
-    result := make([][]int, 0)
-    if root == nil {
-        return result
-    }
-    queue := make([]*TreeNode, 0)
-    queue = append(queue, root)
-    for len(queue) > 0 {
-        list := make([]int, 0)
-        // 为什么要取length？
-        // 记录当前层有多少元素（遍历当前层，再添加下一层）
-        l := len(queue)
-        for i := 0; i < l; i++ {
-            // 出队列
-            level := queue[0]
-            queue = queue[1:]
-            list = append(list, level.Val)
-            if level.Left != nil {
-                queue = append(queue, level.Left)
-            }
-            if level.Right != nil {
-                queue = append(queue, level.Right)
-            }
-        }
-        result = append(result, list)
-    }
-    return result
-}
-```
+> [542. 01矩阵](https://leetcode-cn.com/problems/01-matrix/)
+>
+> 给定一个由 `0` 和 `1` 组成的矩阵 `mat` ，请输出一个大小相同的矩阵，其中每一个格子是 `mat` 中对应位置元素到最近的 `0` 的距离。
+>
+> 两个相邻元素间的距离为 `1` 。
 
-[01-matrix](https://leetcode-cn.com/problems/01-matrix/)
-
-> 给定一个由 0 和 1 组成的矩阵，找出每个元素到最近的 0 的距离。
-> 两个相邻元素间的距离为 1
-
-```go
+```csharp
 // BFS 从0进队列，弹出之后计算上下左右的结果，将上下左右重新进队列进行二层操作
 // 0 0 0 0
 // 0 x 0 0
@@ -514,19 +542,19 @@ func updateMatrix(matrix [][]int) [][]int {
 ## 总结
 
 - 熟悉栈的使用场景
-  - 后入先出，保存临时值
-  - 利用栈 DFS 深度搜索
+    - 后入先出，保存临时值
+    - 利用栈 DFS 深度搜索
 - 熟悉队列的使用场景
-  - 利用队列 BFS 广度搜索
+    - 利用队列 BFS 广度搜索
 
 ## 练习
 
-- [ ] [min-stack](https://leetcode-cn.com/problems/min-stack/)
-- [ ] [evaluate-reverse-polish-notation](https://leetcode-cn.com/problems/evaluate-reverse-polish-notation/)
-- [ ] [decode-string](https://leetcode-cn.com/problems/decode-string/)
-- [ ] [binary-tree-inorder-traversal](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
-- [ ] [clone-graph](https://leetcode-cn.com/problems/clone-graph/)
-- [ ] [number-of-islands](https://leetcode-cn.com/problems/number-of-islands/)
-- [ ] [largest-rectangle-in-histogram](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
-- [ ] [implement-queue-using-stacks](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
-- [ ] [01-matrix](https://leetcode-cn.com/problems/01-matrix/)
+- [ ] [最小栈](https://leetcode-cn.com/problems/min-stack/)
+- [ ] [逆波兰表达式求值](https://leetcode-cn.com/problems/evaluate-reverse-polish-notation/)
+- [ ] [字符串解码](https://leetcode-cn.com/problems/decode-string/)
+- [ ] [二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
+- [ ] [克隆图](https://leetcode-cn.com/problems/clone-graph/)
+- [ ] [岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+- [ ] [柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
+- [ ] [用栈实现队列](https://leetcode-cn.com/problems/implement-queue-using-stacks/)
+- [ ] [01矩阵](https://leetcode-cn.com/problems/01-matrix/)

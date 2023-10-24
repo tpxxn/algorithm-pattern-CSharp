@@ -475,7 +475,7 @@ public static bool SearchRotate2(int[] nums, int target)
 - 3、比较中点和目标值：A[mid] ==、 <、> target
 - 4、判断最后两个元素是否符合：A[start]、A[end] ? target
 
-## 练习题
+## 练习
 
 - [ ] [704. 二分查找](https://leetcode-cn.com/problems/binary-search/)
 - [ ] [061. 搜索区间](https://www.lintcode.com/problem/search-for-a-range/description)

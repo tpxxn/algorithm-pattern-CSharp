@@ -15,7 +15,6 @@
       <Folder Include="basic_algorithm\DP\" />
       <Folder Include="data_structure\BinaryOp\" />
       <Folder Include="data_structure\LinkedList\" />
-      <Folder Include="data_structure\StackQueue\" />
     </ItemGroup>
 
 </Project>
