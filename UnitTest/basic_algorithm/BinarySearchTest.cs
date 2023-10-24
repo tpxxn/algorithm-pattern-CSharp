@@ -57,6 +57,13 @@ public class BinarySearchTest
         Assert.That(result, Is.EqualTo(new[] { 3, 4 }));
     }
 
+    [Test]
+    public void BinarySearchTest_SearchRange3()
+    {
+        var result = BinarySearch.SearchRange(new[] { 5, 7, 7, 8, 8, 10 }, 9);
+        Assert.That(result, Is.EqualTo(new[] { -1, -1 }));
+    }
+
     #endregion
 
     #region 35.搜索插入位置

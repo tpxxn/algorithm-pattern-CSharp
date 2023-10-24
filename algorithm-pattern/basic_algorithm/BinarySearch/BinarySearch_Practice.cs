@@ -11,7 +11,81 @@ public static partial class BinarySearch
     /// <returns>是否为有效的二叉搜索树</returns>
     public static int[] SearchRange(int[] nums, int target)
     {
-        return new int[] { -1, -1 };
+        if (nums.Length == 0)
+        {
+            return new[] { -1, -1 };
+        }
+
+        int mid;
+        int[] bound = new int[2];
+
+        // search for left bound
+        var start = 0;
+        var end = nums.Length - 1;
+        while (start + 1 < end)
+        {
+            mid = start + (end - start) / 2;
+            if (nums[mid] == target)
+            {
+                end = mid;
+            }
+            else if (nums[mid] < target)
+            {
+                start = mid;
+            }
+            else
+            {
+                end = mid;
+            }
+        }
+        if (nums[start] == target)
+        {
+            bound[0] = start;
+        }
+        else if (nums[end] == target)
+        {
+            bound[0] = end;
+        }
+        else
+        {
+            bound[0] = bound[1] = -1;
+            return bound;
+        }
+
+        // search for right bound
+        start = 0;
+        end = nums.Length - 1;
+        while (start + 1 < end)
+        {
+            mid = start + (end - start) / 2;
+            if (nums[mid] == target)
+            {
+                start = mid;
+            }
+            else if (nums[mid] < target)
+            {
+                start = mid;
+            }
+            else
+            {
+                end = mid;
+            }
+        }
+        if (nums[end] == target)
+        {
+            bound[1] = end;
+        }
+        else if (nums[start] == target)
+        {
+            bound[1] = start;
+        }
+        else
+        {
+            bound[0] = bound[1] = -1;
+            return bound;
+        }
+
+        return bound;
     }
 
     /// <summary>
@@ -23,7 +97,24 @@ public static partial class BinarySearch
     /// <returns>插入位置</returns>
     public static int SearchInsert(int[] nums, int target)
     {
-        return 0;
+        int low = 0, high = nums.Length - 1;
+        while (low <= high)
+        {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target)
+            {
+                return mid;
+            }
+            else if (nums[mid] > target)
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        return low;
     }
 
     /// <summary>
@@ -35,6 +126,25 @@ public static partial class BinarySearch
     /// <returns>target 是否在二维矩阵中</returns>
     public static bool SearchMatrix(int[][] matrix, int target)
     {
+        int m = matrix.Length, n = matrix[0].Length;
+        int low = 0, high = m * n - 1;
+        while (low <= high)
+        {
+            int mid = low + (high - low) / 2;
+            int row = mid / n, column = mid % n;
+            if (matrix[row][column] == target)
+            {
+                return true;
+            }
+            else if (matrix[row][column] > target)
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
         return false;
     }
 
@@ -75,7 +185,20 @@ public static partial class BinarySearch
     /// <returns>最小值</returns>
     public static int FindMin(int[] nums)
     {
-        return 0;
+        int low = 0, high = nums.Length - 1;
+        while (low < high && nums[low] > nums[high])
+        {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] < nums[low])
+            {
+                high = mid;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        return nums[low];
     }
 
     /// <summary>
@@ -86,7 +209,25 @@ public static partial class BinarySearch
     /// <returns>最小值</returns>
     public static int FindMin2(int[] nums)
     {
-        return 0;
+        int low = 0, high = nums.Length - 1;
+        while (low < high && nums[low] >= nums[high])
+        {
+            int mid = low + (high - low) / 2;
+            if (nums[low] == nums[mid] && nums[high] == nums[mid])
+            {
+                low++;
+                high--;
+            }
+            else if (nums[mid] < nums[low])
+            {
+                high = mid;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        return nums[low];
     }
 
     /// <summary>
@@ -98,7 +239,38 @@ public static partial class BinarySearch
     /// <returns>target 位置</returns>
     public static int SearchRotate(int[] nums, int target)
     {
-        return 0;
+        int low = 0, high = nums.Length - 1;
+        while (low <= high)
+        {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target)
+            {
+                return mid;
+            }
+            if (nums[low] <= nums[mid])
+            {
+                if (target >= nums[low] && target < nums[mid])
+                {
+                    high = mid - 1;
+                }
+                else
+                {
+                    low = mid + 1;
+                }
+            }
+            else
+            {
+                if (target <= nums[high] && target > nums[mid])
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+        }
+        return -1;
     }
 
     /// <summary>
@@ -110,6 +282,42 @@ public static partial class BinarySearch
     /// <returns>target 位置</returns>
     public static bool SearchRotate2(int[] nums, int target)
     {
+        int low = 0, high = nums.Length - 1;
+        while (low <= high)
+        {
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target)
+            {
+                return true;
+            }
+            if (nums[low] == nums[mid] && nums[high] == nums[mid])
+            {
+                low++;
+                high--;
+            }
+            else if (nums[low] <= nums[mid])
+            {
+                if (target >= nums[low] && target < nums[mid])
+                {
+                    high = mid - 1;
+                }
+                else
+                {
+                    low = mid + 1;
+                }
+            }
+            else
+            {
+                if (target <= nums[high] && target > nums[mid])
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid - 1;
+                }
+            }
+        }
         return false;
     }
 }

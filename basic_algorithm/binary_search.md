@@ -114,58 +114,79 @@ public static int Search_Template(int[] nums, int target)
 思路：核心点就是找第一个 target 的索引，和最后一个 target 的索引，所以用两次二分搜索分别找第一次和最后一次的位置
 
 ```csharp
-func searchRange (A []int, target int) []int {
-    if len(A) == 0 {
-        return []int{-1, -1}
+public static int[] SearchRange(int[] nums, int target)
+{
+    if (nums.Length == 0)
+    {
+        return new[] { -1, -1 };
     }
-    result := make([]int, 2)
-    start := 0
-    end := len(A) - 1
-    for start+1 < end {
-        mid := start + (end-start)/2
-        if A[mid] > target {
-            end = mid
-        } else if A[mid] < target {
-            start = mid
-        } else {
-            // 如果相等，应该继续向左找，就能找到第一个目标值的位置
-            end = mid
+    int mid;
+    int[] bound = new int[2];
+    // search for left bound
+    var start = 0;
+    var end = nums.Length - 1;
+    while (start + 1 < end)
+    {
+        mid = start + (end - start) / 2;
+        if (nums[mid] == target)
+        {
+            end = mid;
+        }
+        else if (nums[mid] < target)
+        {
+            start = mid;
+        }
+        else
+        {
+            end = mid;
         }
     }
-    // 搜索左边的索引
-    if A[start] == target {
-        result[0] = start
-    } else if A[end] == target {
-        result[0] = end
-    } else {
-        result[0] = -1
-        result[1] = -1
-        return result
+    if (nums[start] == target)
+    {
+        bound[0] = start;
     }
-    start = 0
-    end = len(A) - 1
-    for start+1 < end {
-        mid := start + (end-start)/2
-        if A[mid] > target {
-            end = mid
-        } else if A[mid] < target {
-            start = mid
-        } else {
-            // 如果相等，应该继续向右找，就能找到最后一个目标值的位置
-            start = mid
+    else if (nums[end] == target)
+    {
+        bound[0] = end;
+    }
+    else
+    {
+        bound[0] = bound[1] = -1;
+        return bound;
+    }
+    // search for right bound
+    start = 0;
+    end = nums.Length - 1;
+    while (start + 1 < end)
+    {
+        mid = start + (end - start) / 2;
+        if (nums[mid] == target)
+        {
+            start = mid;
+        }
+        else if (nums[mid] < target)
+        {
+            start = mid;
+        }
+        else
+        {
+            end = mid;
         }
     }
-    // 搜索右边的索引
-    if A[end] == target {
-        result[1] = end
-    } else if A[start] == target {
-        result[1] = start
-    } else {
-        result[0] = -1
-        result[1] = -1
-        return result
+    if (nums[end] == target)
+    {
+        bound[1] = end;
     }
-    return result
+    else if (nums[start] == target)
+    {
+        bound[1] = start;
+    }
+    else
+    {
+        bound[0] = bound[1] = -1;
+        return bound;
+    }
+    return bound;
 }
 ```
 
@@ -178,29 +199,26 @@ func searchRange (A []int, target int) []int {
 > 请必须使用时间复杂度为 `O(log n)` 的算法。
 
 ```csharp
-func searchInsert(nums []int, target int) int {
-    // 思路：找到第一个 >= target 的元素位置
-    start := 0
-    end := len(nums) - 1
-    for start+1 < end {
-        mid := start + (end-start)/2
-        if nums[mid] == target {
-            // 标记开始位置
-            start = mid
-        } else if nums[mid] > target {
-            end = mid
-        } else {
-            start = mid
+public static int SearchInsert(int[] nums, int target)
+{
+    int low = 0, high = nums.Length - 1;
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+        if (nums[mid] == target)
+        {
+            return mid;
+        }
+        else if (nums[mid] > target)
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
         }
     }
-    if nums[start] >= target {
-        return start
-    } else if nums[end] >= target {
-        return end
-    } else if nums[end] < target { // 目标值比所有值都大
-        return end + 1
-    }
-    return 0
+    return low;
 }
 ```
 
@@ -216,31 +234,22 @@ func searchInsert(nums []int, target int) int {
 > 给你一个整数 `target` ，如果 `target` 在矩阵中，返回 `true` ；否则，返回 `false` 。
 
 ```csharp
-func searchMatrix(matrix [][]int, target int) bool {
-    // 思路：将2纬数组转为1维数组 进行二分搜索
-    if len(matrix) == 0 || len(matrix[0]) == 0 {
-        return false
-    }
-    row := len(matrix)
-    col := len(matrix[0])
-    start := 0
-    end := row*col - 1
-    for start+1 < end {
-        mid := start + (end-start)/2
-        // 获取2纬数组对应值
-        val := matrix[mid/col][mid%col]
-        if val > target {
-            end = mid
-        } else if val < target {
-            start = mid
+public static bool SearchMatrix(int[][] matrix, int target)
+{
+    int m = matrix.Length, n = matrix[0].Length;
+    int low = 0, high = m * n - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        int row = mid / n, column = mid % n;
+        if (matrix[row][column] == target) {
+            return true;
+        } else if (matrix[row][column] > target) {
+            high = mid - 1;
         } else {
-            return true
+            low = mid + 1;
         }
     }
-    if matrix[start/col][start%col] == target || matrix[end/col][end%col] == target{
-        return true
-    }
-    return false
+    return false;
 }
 ```
 
@@ -255,22 +264,22 @@ func searchMatrix(matrix [][]int, target int) bool {
 > 你可以通过调用 `bool isBadVersion(version)` 接口来判断版本号 `version` 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。
 
 ```csharp
-func firstBadVersion(n int) int {
-    // 思路：二分搜索
-    start := 0
-    end := n
-    for start+1 < end {
-        mid := start + (end - start)/2
-        if isBadVersion(mid) {
-            end = mid
-        } else if isBadVersion(mid) == false {
-            start = mid
+public static int FirstBadVersion(int n, int badVersion)
+{
+    int low = 1, high = n;
+    while (low < high)
+    {
+        int mid = low + (high - low) / 2;
+        if (IsBadVersion(mid, badVersion))
+        {
+            high = mid;
+        }
+        else
+        {
+            low = mid + 1;
         }
     }
-    if isBadVersion(start) {
-        return start
-    }
-    return end
+    return low;
 }
 ```
 
@@ -289,27 +298,22 @@ func firstBadVersion(n int) int {
 > 你必须设计一个时间复杂度为 `O(log n)` 的算法解决此问题。
 
 ```csharp
-func findMin(nums []int) int {
-    // 思路：/ / 最后一个值作为target，然后往左移动，最后比较start、end的值
-    if len(nums) == 0 {
-        return -1
-    }
-    start := 0
-    end := len(nums) - 1
-
-    for start+1 < end {
-        mid := start + (end-start)/2
-        // 最后一个元素值为target
-        if nums[mid] <= nums[end] {
-            end = mid
-        } else {
-            start = mid
+public static int FindMin(int[] nums)
+{
+    int low = 0, high = nums.Length - 1;
+    while (low < high && nums[low] > nums[high])
+    {
+        int mid = low + (high - low) / 2;
+        if (nums[mid] < nums[low])
+        {
+            high = mid;
+        }
+        else
+        {
+            low = mid + 1;
         }
     }
-    if nums[start] > nums[end] {
-        return nums[end]
-    }
-    return nums[start]
+    return nums[low];
 }
 ```
 
@@ -329,33 +333,27 @@ func findMin(nums []int) int {
 
 
 ```csharp
-func findMin(nums []int) int {
-    // 思路：跳过重复元素，mid值和end值比较，分为两种情况进行处理
-    if len(nums) == 0 {
-        return -1
-    }
-    start := 0
-    end := len(nums) - 1
-    for start+1 < end {
-        // 去除重复元素
-        for start < end && nums[end] == nums[end-1] {
-            end--
+public static int FindMin2(int[] nums)
+{
+    int low = 0, high = nums.Length - 1;
+    while (low < high && nums[low] >= nums[high])
+    {
+        int mid = low + (high - low) / 2;
+        if (nums[low] == nums[mid] && nums[high] == nums[mid])
+        {
+            low++;
+            high--;
         }
-        for start < end && nums[start] == nums[start+1] {
-            start++
+        else if (nums[mid] < nums[low])
+        {
+            high = mid;
         }
-        mid := start + (end-start)/2
-        // 中间元素和最后一个元素比较（判断中间点落在左边上升区，还是右边上升区）
-        if nums[mid] <= nums[end] {
-            end = mid
-        } else {
-            start = mid
+        else
+        {
+            low = mid + 1;
         }
     }
-    if nums[start] > nums[end] {
-        return nums[end]
-    }
-    return nums[start]
+    return nums[low];
 }
 ```
 
@@ -372,40 +370,40 @@ func findMin(nums []int) int {
 > 你必须设计一个时间复杂度为 `O(log n)` 的算法解决此问题。
 
 ```csharp
-func search(nums []int, target int) int {
-    // 思路：/ / 两条上升直线，四种情况判断
-    if len(nums) == 0 {
-        return -1
-    }
-    start := 0
-    end := len(nums) - 1
-    for start+1 < end {
-        mid := start + (end-start)/2
-        // 相等直接返回
-        if nums[mid] == target {
-            return mid
+public static int SearchRotate(int[] nums, int target)
+{
+    int low = 0, high = nums.Length - 1;
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+        if (nums[mid] == target)
+        {
+            return mid;
         }
-        // 判断在那个区间，可能分为四种情况
-        if nums[start] < nums[mid] {
-            if nums[start] <= target && target <= nums[mid] {
-                end = mid
-            } else {
-                start = mid
+        if (nums[low] <= nums[mid])
+        {
+            if (target >= nums[low] && target < nums[mid])
+            {
+                high = mid - 1;
             }
-        } else if nums[end] > nums[mid] {
-            if nums[end] >= target && nums[mid] <= target {
-                start = mid
-            } else {
-                end = mid
+            else
+            {
+                low = mid + 1;
             }
         }
+        else
+        {
+            if (target <= nums[high] && target > nums[mid])
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
     }
-    if nums[start] == target {
-        return start
-    } else if nums[end] == target {
-        return end
-    }
-    return -1
+    return -1;
 }
 ```
 
@@ -426,45 +424,45 @@ func search(nums []int, target int) int {
 > 你必须尽可能减少整个操作步骤。
 
 ```csharp
-func search(nums []int, target int) bool {
-    // 思路：/ / 两条上升直线，四种情况判断，并且处理重复数字
-    if len(nums) == 0 {
-        return false
-    }
-    start := 0
-    end := len(nums) - 1
-    for start+1 < end {
-        // 处理重复数字
-        for start < end && nums[start] == nums[start+1] {
-            start++
+public static bool SearchRotate2(int[] nums, int target)
+{
+    int low = 0, high = nums.Length - 1;
+    while (low <= high)
+    {
+        int mid = low + (high - low) / 2;
+        if (nums[mid] == target)
+        {
+            return true;
         }
-        for start < end && nums[end] == nums[end-1] {
-            end--
+        if (nums[low] == nums[mid] && nums[high] == nums[mid])
+        {
+            low++;
+            high--;
         }
-        mid := start + (end-start)/2
-        // 相等直接返回
-        if nums[mid] == target {
-            return true
-        }
-        // 判断在那个区间，可能分为四种情况
-        if nums[start] < nums[mid] {
-            if nums[start] <= target && target <= nums[mid] {
-                end = mid
-            } else {
-                start = mid
+        else if (nums[low] <= nums[mid])
+        {
+            if (target >= nums[low] && target < nums[mid])
+            {
+                high = mid - 1;
             }
-        } else if nums[end] > nums[mid] {
-            if nums[end] >= target && nums[mid] <= target {
-                start = mid
-            } else {
-                end = mid
+            else
+            {
+                low = mid + 1;
             }
         }
+        else
+        {
+            if (target <= nums[high] && target > nums[mid])
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
     }
-    if nums[start] == target || nums[end] == target {
-        return true
-    }
-    return false
+    return false;
 }
 ```
 
