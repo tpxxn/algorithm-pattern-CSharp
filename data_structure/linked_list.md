@@ -13,54 +13,70 @@
 - 合并两个链表
 - 找到链表的中间节点
 
-## 常见题型
+## 基本操作
 
-### [remove-duplicates-from-sorted-list](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+### 链表删除
 
-> 给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+#### 删除排序链表中的重复元素
 
-```go
-func deleteDuplicates(head *ListNode) *ListNode {
-    current := head
-    for current != nil {
-        // 全部删除完再移动到下一个元素
-        for current.Next != nil && current.Val == current.Next.Val {
-            current.Next = current.Next.Next
-        }
-        current = current.Next
+> [083. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+>
+> 给定一个已排序的链表的头 `head` ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
+
+```csharp
+public static ListNode DeleteDuplicates(ListNode head)
+{
+    if (head == null)
+    {
+        return head;
     }
-    return head
+    ListNode temp = head;
+    while (temp.next != null)
+    {
+        if (temp.val == temp.next.val)
+        {
+            temp.next = temp.next.next;
+        }
+        else
+        {
+            temp = temp.next;
+        }
+    }
+    return head;
 }
 ```
 
-### [remove-duplicates-from-sorted-list-ii](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+#### 删除排序链表中的重复元素ii
 
-> 给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中   没有重复出现的数字。
+> [082. 删除排序链表中的重复元素ii](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+>
+> 给定一个已排序的链表的头 `head` ， *删除原始链表中所有重复数字的节点，只留下不同的数字* 。返回 *已排序的链表* 。
 
 思路：链表头结点可能被删除，所以用 dummy node 辅助删除
 
-```go
-func deleteDuplicates(head *ListNode) *ListNode {
-    if head == nil {
-        return head
-    }
-    dummy := &ListNode{Val: 0}
-    dummy.Next = head
-    head = dummy
-
-    var rmVal int
-    for head.Next != nil && head.Next.Next != nil {
-        if head.Next.Val == head.Next.Next.Val {
-            // 记录已经删除的值，用于后续节点判断
-            rmVal = head.Next.Val
-            for head.Next != nil && head.Next.Val == rmVal  {
-                head.Next = head.Next.Next
+```csharp
+public static ListNode DeleteDuplicates2(ListNode head)
+{
+    ListNode dummyHead = new ListNode(0);
+    dummyHead.next = head;
+    ListNode curr = dummyHead;
+    while (curr.next != null)
+    {
+        ListNode next = curr.next;
+        if (next.next == null || next.next.val != next.val)
+        {
+            curr = curr.next;
+        }
+        else
+        {
+            while (next.next != null && next.next.val == next.val)
+            {
+                next.next = next.next.next;
             }
-        } else {
-            head = head.Next
+            curr.next = next.next;
         }
     }
-    return dummy.Next
+    return dummyHead.next;
 }
 ```
 
@@ -69,84 +85,71 @@ func deleteDuplicates(head *ListNode) *ListNode {
 • 删除用一个 Dummy Node 节点辅助（允许头节点可变）
 • 访问 X.next 、X.value 一定要保证 X != nil
 
-### [reverse-linked-list](https://leetcode-cn.com/problems/reverse-linked-list/)
+### 链表反转
 
-> 反转一个单链表。
+#### 反转链表
+
+> [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)
+>
+> 给你单链表的头节点 `head` ，请你反转链表，并返回反转后的链表。
 
 思路：用一个 prev 节点保存向前指针，temp 保存向后的临时指针
 
-```go
-func reverseList(head *ListNode) *ListNode {
-    var prev *ListNode
-    for head != nil {
-        // 保存当前head.Next节点，防止重新赋值后被覆盖
-        // 一轮之后状态：nil<-1 2->3->4
-        //              prev   head
-        temp := head.Next
-        head.Next = prev
-        // pre 移动
-        prev = head
-        // head 移动
-        head = temp
+```csharp
+public static ListNode ReverseList(ListNode head)
+{
+    ListNode prev = null, curr = head;
+    while (curr != null)
+    {
+        ListNode next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
     }
-    return prev
+    return prev;
 }
 ```
 
-### [reverse-linked-list-ii](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+#### 反转链表ii
 
-> 反转从位置  *m*  到  *n*  的链表。请使用一趟扫描完成反转。
+> [092. 反转链表ii](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+>
+> 给你单链表的头指针 `head` 和两个整数 `left` 和 `right` ，其中 `left <= right` 。请你反转从位置 `left` 到位置 `right` 的链表节点，返回 **反转后的链表** 。
 
-思路：先遍历到 m 处，翻转，再拼接后续，注意指针处理
+思路：先遍历到 left 处，翻转，再拼接后续，注意指针处理
 
-```go
-func reverseBetween(head *ListNode, m int, n int) *ListNode {
-    // 思路：先遍历到m处，翻转，再拼接后续，注意指针处理
-    // 输入: 1->2->3->4->5->NULL, m = 2, n = 4
-    if head == nil {
-        return head
+```csharp
+public static ListNode ReverseBetween(ListNode head, int left, int right)
+{
+    ListNode dummyHead = new ListNode(0, head);
+    ListNode prev = dummyHead;
+    for (int i = 1; i < left; i++)
+    {
+        prev = prev.next;
     }
-    // 头部变化所以使用dummy node
-    dummy := &ListNode{Val: 0}
-    dummy.Next = head
-    head = dummy
-    // 最开始：0->1->2->3->4->5->nil
-    var pre *ListNode
-    var i = 0
-    for i < m {
-        pre = head
-        head = head.Next
-        i++
+    ListNode curr = prev.next;
+    for (int i = left; i < right; i++)
+    {
+        ListNode next = curr.next;
+        curr.next = next.next;
+        next.next = prev.next;
+        prev.next = next;
     }
-    // 遍历之后： 1(pre)->2(head)->3->4->5->NULL
-    // i = 1
-    var j = i
-    var next *ListNode
-    // 用于中间节点连接
-    var mid = head
-    for head != nil && j <= n {
-        // 第一次循环： 1 nil<-2 3->4->5->nil
-        temp := head.Next
-        head.Next = next
-        next = head
-        head = temp
-        j++
-    }
-    // 循环需要执行四次
-    // 循环结束：1 nil<-2<-3<-4 5(head)->nil
-    pre.Next = next
-    mid.Next = head
-    return dummy.Next
+    return dummyHead.next;
 }
 ```
 
-### [merge-two-sorted-lists](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+### 链表合并
 
+#### 合并两个有序链表
+
+> [021. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+>
 > 将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
 
 思路：通过 dummy node 链表，连接各个元素
 
-```go
+```csharp
 func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
     dummy := &ListNode{Val: 0}
     head := dummy
@@ -176,13 +179,15 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 }
 ```
 
-### [partition-list](https://leetcode-cn.com/problems/partition-list/)
+#### 分隔链表
 
-> 给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于  *x*  的节点都在大于或等于  *x*  的节点之前。
+> [086. 分隔链表](https://leetcode-cn.com/problems/partition-list/)
+>
+> 给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于*x*的节点都在大于或等于*x*的节点之前。
 
 思路：将大于 x 的节点，放到另外一个链表，最后连接这两个链表
 
-```go
+```csharp
 func partition(head *ListNode, x int) *ListNode {
     // 思路：将大于x的节点，放到另外一个链表，最后连接这两个链表
     // check
@@ -217,13 +222,19 @@ func partition(head *ListNode, x int) *ListNode {
 
 > 当头节点不确定的时候，使用哑巴节点
 
-### [sort-list](https://leetcode-cn.com/problems/sort-list/)
+## 快慢指针
 
-> 在  *O*(*n* log *n*) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+### 链表中点
+
+#### 排序链表
+
+> [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
+>
+> 在*O*(*n*log*n*) 时间复杂度和常数级空间复杂度下，对链表进行排序。
 
 思路：归并排序，找中点和合并操作
 
-```go
+```csharp
 func sortList(head *ListNode) *ListNode {
     // 思路：归并排序，找中点和合并操作
     return mergeSort(head)
@@ -289,14 +300,16 @@ func mergeSort(head *ListNode) *ListNode {
 - 递归 mergeSort 需要断开中间节点
 - 递归返回条件为 head 为 nil 或者 head.Next 为 nil
 
-### [reorder-list](https://leetcode-cn.com/problems/reorder-list/)
+#### 重排链表
 
-> 给定一个单链表  *L*：*L*→*L*→…→*L\_\_n*→*L*
-> 将其重新排列后变为： *L*→*L\_\_n*→*L*→*L\_\_n*→*L*→*L\_\_n*→…
+> [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
+>
+> 给定一个单链表*L*：*L*→*L*→…→*L\_\_n*→*L*
+> 将其重新排列后变为：*L*→*L\_\_n*→*L*→*L\_\_n*→*L*→*L\_\_n*→…
 
 思路：找到中点断开，翻转后面部分，然后合并前后两个链表
 
-```go
+```csharp
 func reorderList(head *ListNode)  {
     // 思路：找到中点断开，翻转后面部分，然后合并前后两个链表
     if head == nil {
@@ -363,14 +376,17 @@ func reverseList(head *ListNode) *ListNode {
 }
 ```
 
-### [linked-list-cycle](https://leetcode-cn.com/problems/linked-list-cycle/)
+### 结构判断
 
+#### 环形链表
+> [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+>
 > 给定一个链表，判断链表中是否有环。
 
 思路：快慢指针，快慢指针相同则有环，证明：如果有环每走一步快慢指针距离会减 1
 ![fast_slow_linked_list](https://img.fuiboom.com/img/fast_slow_linked_list.png)
 
-```go
+```csharp
 func hasCycle(head *ListNode) bool {
     // 思路：快慢指针 快慢指针相同则有环，证明：如果有环每走一步快慢指针距离会减1
     if head == nil {
@@ -390,14 +406,16 @@ func hasCycle(head *ListNode) bool {
 }
 ```
 
-### [linked-list-cycle-ii](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+#### 环形链表ii
 
-> 给定一个链表，返回链表开始入环的第一个节点。  如果链表无环，则返回  `null`。
+> [142. 环形链表ii](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+>
+> 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回`null`。
 
 思路：快慢指针，快慢相遇之后，慢指针回到头，快慢指针步调一致一起移动，相遇点即为入环点
 ![cycled_linked_list](https://img.fuiboom.com/img/cycled_linked_list.png)
 
-```go
+```csharp
 func detectCycle(head *ListNode) *ListNode {
     // 思路：快慢指针，快慢相遇之后，慢指针回到头，快慢指针步调一致一起移动，相遇点即为入环点
     if head == nil {
@@ -432,7 +450,7 @@ func detectCycle(head *ListNode) *ListNode {
 
 另外一种方式是 fast=head,slow=head
 
-```go
+```csharp
 func detectCycle(head *ListNode) *ListNode {
     // 思路：快慢指针，快慢相遇之后，其中一个指针回到头，快慢指针步调一致一起移动，相遇点即为入环点
     // nb+a=2nb+a
@@ -464,11 +482,13 @@ func detectCycle(head *ListNode) *ListNode {
 - fast 如果初始化为 head.Next 则中点在 slow.Next
 - fast 初始化为 head,则中点在 slow
 
-### [palindrome-linked-list](https://leetcode-cn.com/problems/palindrome-linked-list/)
+#### 回文链表
 
+> [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+>
 > 请判断一个链表是否为回文链表。
 
-```go
+```csharp
 func isPalindrome(head *ListNode) bool {
     // 1 2 nil
     // 1 2 1 nil
@@ -515,14 +535,29 @@ func reverse(head *ListNode)*ListNode{
 }
 ```
 
-### [copy-list-with-random-pointer](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+#### 随机链表的复制
 
-> 给定一个链表，每个节点包含一个额外增加的随机指针，该指针可以指向链表中的任何节点或空节点。
-> 要求返回这个链表的 深拷贝。
+> [138. 随机链表的复制](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+>
+> 给你一个长度为 `n` 的链表，每个节点包含一个额外增加的随机指针 `random` ，该指针可以指向链表中的任何节点或空节点。
+>
+> 构造这个链表的 [深拷贝](https://baike.baidu.com/item/%E6%B7%B1%E6%8B%B7%E8%B4%9D/22785317?fr=aladdin)。 深拷贝应该正好由 `n` 个 **全新** 节点组成，其中每个新节点的值都设为其对应的原节点的值。新节点的 `next` 指针和 `random` 指针也都应指向复制链表中的新节点，并使原链表和复制链表中的这些指针能够表示相同的链表状态。复制链表中的指针都不应指向原链表中的节点 。
+>
+> 例如，如果原链表中有 `X` 和 `Y` 两个节点，其中 `X.random --> Y` 。那么在复制链表中对应的两个节点 `x` 和 `y` ，同样有 `x.random --> y` 。
+>
+> 返回复制链表的头节点。
+>
+> 用一个由 `n` 个节点组成的链表来表示输入/输出中的链表。每个节点用一个 `[val, random_index]` 表示：
+>
+> - `val`：一个表示 `Node.val` 的整数。
+>
+> - `random_index`：随机指针指向的节点索引（范围从 `0` 到 `n-1`）；如果不指向任何节点，则为 `null` 。
+>
+> 你的代码 **只** 接受原链表的头节点 `head` 作为传入参数。
 
 思路：1、hash 表存储指针，2、复制节点跟在原节点后面
 
-```go
+```csharp
 func copyRandomList(head *Node) *Node {
 	if head == nil {
 		return head
@@ -573,15 +608,15 @@ func copyRandomList(head *Node) *Node {
 
 ## 练习
 
-- [ ] [remove-duplicates-from-sorted-list](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
-- [ ] [remove-duplicates-from-sorted-list-ii](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
-- [ ] [reverse-linked-list](https://leetcode-cn.com/problems/reverse-linked-list/)
-- [ ] [reverse-linked-list-ii](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
-- [ ] [merge-two-sorted-lists](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
-- [ ] [partition-list](https://leetcode-cn.com/problems/partition-list/)
-- [ ] [sort-list](https://leetcode-cn.com/problems/sort-list/)
-- [ ] [reorder-list](https://leetcode-cn.com/problems/reorder-list/)
-- [ ] [linked-list-cycle](https://leetcode-cn.com/problems/linked-list-cycle/)
-- [ ] [linked-list-cycle-ii](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
-- [ ] [palindrome-linked-list](https://leetcode-cn.com/problems/palindrome-linked-list/)
-- [ ] [copy-list-with-random-pointer](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+- [ ] [083. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+- [ ] [082. 删除排序链表中的重复元素ii](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii/)
+- [ ] [206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)
+- [ ] [092. 反转链表ii](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+- [ ] [021. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+- [ ] [086. 分隔链表](https://leetcode-cn.com/problems/partition-list/)
+- [ ] [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
+- [ ] [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
+- [ ] [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+- [ ] [142. 环形链表ii](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+- [ ] [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+- [ ] [138. 随机链表的复制](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)

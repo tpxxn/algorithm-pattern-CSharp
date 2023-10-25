@@ -14,7 +14,6 @@
       <Folder Include="advanced_algorithm\SlideWindow\" />
       <Folder Include="basic_algorithm\DP\" />
       <Folder Include="data_structure\BinaryOp\" />
-      <Folder Include="data_structure\LinkedList\" />
     </ItemGroup>
 
 </Project>
