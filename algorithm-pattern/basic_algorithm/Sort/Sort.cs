@@ -124,7 +124,7 @@ public class Sort
         }
     }
 
-    private static void Sink(int[] nums, int i, int length)
+    static void Sink(int[] nums, int i, int length)
     {
         while (true)
         {
