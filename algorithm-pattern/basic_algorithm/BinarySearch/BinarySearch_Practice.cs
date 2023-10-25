@@ -8,7 +8,7 @@ public static partial class BinarySearch
     /// </summary>
     /// <param name="nums">数组</param>
     /// <param name="target">目标值</param>
-    /// <returns>是否为有效的二叉搜索树</returns>
+    /// <returns>区间</returns>
     public static int[] SearchRange(int[] nums, int target)
     {
         if (nums.Length == 0)
