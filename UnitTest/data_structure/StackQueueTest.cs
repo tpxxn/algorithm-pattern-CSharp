@@ -1,7 +1,7 @@
 using algorithm_pattern;
-using MinStack = algorithm_pattern.StackQueue_Practice.MinStack;
-using Node = algorithm_pattern.StackQueue_Practice.Node;
-using MyQueue = algorithm_pattern.StackQueue_Practice.MyQueue;
+using MinStack = algorithm_pattern.StackQueue.MinStack;
+using Node = algorithm_pattern.StackQueue.Node;
+using MyQueue = algorithm_pattern.StackQueue.MyQueue;
 
 namespace UnitTest.data_structure;
 
@@ -34,21 +34,21 @@ public class StackQueueTest
     [Test]
     public void StackQueueTest_EvalRPN()
     {
-        var result = StackQueue_Practice.EvalRPN(new[] { "2", "1", "+", "3", "*" });
+        var result = StackQueue.EvalRPN(new[] { "2", "1", "+", "3", "*" });
         Assert.That(result, Is.EqualTo(9));
     }
 
     [Test]
     public void StackQueueTest_EvalRPN2()
     {
-        var result = StackQueue_Practice.EvalRPN(new[] { "4", "13", "5", "/", "+" });
+        var result = StackQueue.EvalRPN(new[] { "4", "13", "5", "/", "+" });
         Assert.That(result, Is.EqualTo(6));
     }
 
     [Test]
     public void StackQueueTest_EvalRPN3()
     {
-        var result = StackQueue_Practice.EvalRPN(new[] { "10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+" });
+        var result = StackQueue.EvalRPN(new[] { "10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+" });
         Assert.That(result, Is.EqualTo(22));
     }
 
@@ -60,28 +60,28 @@ public class StackQueueTest
     [Test]
     public void StackQueueTest_DecodeString()
     {
-        var result = StackQueue_Practice.DecodeString("3[a]2[bc]");
+        var result = StackQueue.DecodeString("3[a]2[bc]");
         Assert.That(result, Is.EqualTo("aaabcbc"));
     }
 
     [Test]
     public void StackQueueTest_DecodeString2()
     {
-        var result = StackQueue_Practice.DecodeString("3[a2[c]]");
+        var result = StackQueue.DecodeString("3[a2[c]]");
         Assert.That(result, Is.EqualTo("accaccacc"));
     }
 
     [Test]
     public void StackQueueTest_DecodeString3()
     {
-        var result = StackQueue_Practice.DecodeString("2[abc]3[cd]ef");
+        var result = StackQueue.DecodeString("2[abc]3[cd]ef");
         Assert.That(result, Is.EqualTo("abcabccdcdcdef"));
     }
 
     [Test]
     public void StackQueueTest_DecodeString4()
     {
-        var result = StackQueue_Practice.DecodeString("abc3[cd]xyz");
+        var result = StackQueue.DecodeString("abc3[cd]xyz");
         Assert.That(result, Is.EqualTo("abccdcdcdxyz"));
     }
     // ReSharper restore StringLiteralTypo
@@ -95,7 +95,7 @@ public class StackQueueTest
     {
         int?[] root = { 5, 4, 7, 3, null, 2, null, -1, null, null, null, 9 };
         TreeNode rootTreeNode = BinaryTreeBuilder.Builder(root);
-        IList<int?> list = StackQueue_Practice.InorderTraversal(rootTreeNode);
+        IList<int?> list = StackQueue.InorderTraversal(rootTreeNode);
         Assert.That(list, Is.EqualTo(new List<int?> { -1, 3, 4, 5, 9, 2, 7 }));
     }
 
@@ -106,14 +106,14 @@ public class StackQueueTest
     [Test]
     public void StackQueueTest_LargestRectangleArea()
     {
-        int list = StackQueue_Practice.LargestRectangleArea(new[] { 2, 1, 5, 6, 2, 3 });
+        int list = StackQueue.LargestRectangleArea(new[] { 2, 1, 5, 6, 2, 3 });
         Assert.That(list, Is.EqualTo(10));
     }
 
     [Test]
     public void StackQueueTest_LargestRectangleArea2()
     {
-        int list = StackQueue_Practice.LargestRectangleArea(new[] { 2, 4 });
+        int list = StackQueue.LargestRectangleArea(new[] { 2, 4 });
         Assert.That(list, Is.EqualTo(4));
     }
 
@@ -124,14 +124,14 @@ public class StackQueueTest
     [Test]
     public void StackQueueTest_Trap()
     {
-        int list = StackQueue_Practice.Trap(new[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 });
+        int list = StackQueue.Trap(new[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 });
         Assert.That(list, Is.EqualTo(6));
     }
 
     [Test]
     public void StackQueueTest_Trap2()
     {
-        int list = StackQueue_Practice.Trap(new[] { 4, 2, 0, 3, 2, 5 });
+        int list = StackQueue.Trap(new[] { 4, 2, 0, 3, 2, 5 });
         Assert.That(list, Is.EqualTo(9));
     }
 
@@ -157,7 +157,7 @@ public class StackQueueTest
     [Test]
     public void StackQueueTest_NumIslands()
     {
-        int list = StackQueue_Practice.NumIslands(new[]
+        int list = StackQueue.NumIslands(new[]
         {
             new[] { '1', '1', '1', '1', '0' },
             new[] { '1', '1', '0', '1', '0' },
@@ -170,7 +170,7 @@ public class StackQueueTest
     [Test]
     public void StackQueueTest_NumIslands2()
     {
-        int list = StackQueue_Practice.NumIslands(new[]
+        int list = StackQueue.NumIslands(new[]
         {
             new[] { '1', '1', '0', '0', '0' },
             new[] { '1', '1', '0', '0', '0' },
@@ -187,7 +187,7 @@ public class StackQueueTest
     [Test]
     public void StackQueueTest_UpdateMatrix()
     {
-        int[][] list = StackQueue_Practice.UpdateMatrix(new[]
+        int[][] list = StackQueue.UpdateMatrix(new[]
         {
             new[] { 0, 0, 0 },
             new[] { 0, 1, 0 },
@@ -204,7 +204,7 @@ public class StackQueueTest
     [Test]
     public void StackQueueTest_UpdateMatrix2()
     {
-        int[][] list = StackQueue_Practice.UpdateMatrix(new[]
+        int[][] list = StackQueue.UpdateMatrix(new[]
         {
             new[] { 0, 0, 0 },
             new[] { 0, 1, 0 },
@@ -233,7 +233,7 @@ public class StackQueueTest
         node2.neighbors = new List<Node> { node1, node3 };
         node3.neighbors = new List<Node> { node2, node4 };
         node4.neighbors = new List<Node> { node1, node3 };
-        var result = StackQueue_Practice.CloneGraph(node1);
+        var result = StackQueue.CloneGraph(node1);
         Assert.That(result.val, Is.EqualTo(1));
         Assert.Multiple(() =>
         {

@@ -2,7 +2,7 @@ using System.Text;
 
 namespace algorithm_pattern;
 
-public static class StackQueue_Practice
+public static class StackQueue
 {
     static int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
     const int INFINITY = int.MaxValue / 2;
