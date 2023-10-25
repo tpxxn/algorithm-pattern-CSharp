@@ -145,7 +145,7 @@ public static ListNode ReverseBetween(ListNode head, int left, int right)
 
 > [021. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 >
-> 将两个升序链表合并为一个新的升序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+> 将两个升序链表合并为一个新的 **升序** 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
 
 思路：通过 dummy node 链表，连接各个元素
 
@@ -180,7 +180,9 @@ public static ListNode MergeTwoLists(ListNode list1, ListNode list2)
 
 > [086. 分隔链表](https://leetcode-cn.com/problems/partition-list/)
 >
-> 给定一个链表和一个特定值 x，对链表进行分隔，使得所有小于*x*的节点都在大于或等于*x*的节点之前。
+> 给你一个链表的头节点 `head` 和一个特定值 `x` ，请你对链表进行分隔，使得所有 **小于** `x` 的节点都出现在 **大于或等于** `x` 的节点之前。
+>
+> 你应当 **保留** 两个分区中每个节点的初始相对位置。
 
 思路：将大于 x 的节点，放到另外一个链表，最后连接这两个链表
 
