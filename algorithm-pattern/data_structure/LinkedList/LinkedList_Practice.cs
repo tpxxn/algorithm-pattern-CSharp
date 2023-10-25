@@ -104,4 +104,68 @@ public class LinkedList
         }
         return dummyHead.next;
     }
+
+    /// <summary>
+    /// <para>21. 合并两个有序链表</para>
+    /// <para>https://leetcode.cn/problems/merge-two-sorted-lists/</para>
+    /// </summary>
+    /// <param name="list1">根节点1</param>
+    /// <param name="list2">根节点2</param>
+    /// <returns>结果根节点</returns>
+    public static ListNode MergeTwoLists(ListNode list1, ListNode list2)
+    {
+        if (list1 == null)
+        {
+            return list2;
+        }
+        else if (list2 == null)
+        {
+            return list1;
+        }
+        else
+        {
+            if (list1.val <= list2.val)
+            {
+                list1.next = MergeTwoLists(list1.next, list2);
+                return list1;
+            }
+            else
+            {
+                list2.next = MergeTwoLists(list1, list2.next);
+                return list2;
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>86. 合并两个有序链表</para>
+    /// <para>https://leetcode.cn/problems/merge-two-sorted-lists/</para>
+    /// </summary>
+    /// <param name="head">根节点1</param>
+    /// <param name="x">特定值x</param>
+    /// <returns>结果根节点</returns>
+    public static ListNode Partition(ListNode head, int x)
+    {
+        ListNode dummyHead1 = new ListNode(0);
+        ListNode dummyHead2 = new ListNode(0);
+        ListNode temp1 = dummyHead1, temp2 = dummyHead2;
+        ListNode temp = head;
+        while (temp != null)
+        {
+            if (temp.val < x)
+            {
+                temp1.next = temp;
+                temp1 = temp1.next;
+            }
+            else
+            {
+                temp2.next = temp;
+                temp2 = temp2.next;
+            }
+            temp = temp.next;
+        }
+        temp1.next = dummyHead2.next;
+        temp2.next = null;
+        return dummyHead1.next;
+    }
 }

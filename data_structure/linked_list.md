@@ -150,32 +150,29 @@ public static ListNode ReverseBetween(ListNode head, int left, int right)
 思路：通过 dummy node 链表，连接各个元素
 
 ```csharp
-func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-    dummy := &ListNode{Val: 0}
-    head := dummy
-    for l1 != nil && l2 != nil {
-        if l1.Val < l2.Val {
-            head.Next = l1
-            l1 = l1.Next
-        } else {
-            head.Next = l2
-            l2 = l2.Next
+public static ListNode MergeTwoLists(ListNode list1, ListNode list2)
+{
+    if (list1 == null)
+    {
+        return list2;
+    }
+    else if (list2 == null)
+    {
+        return list1;
+    }
+    else
+    {
+        if (list1.val <= list2.val)
+        {
+            list1.next = MergeTwoLists(list1.next, list2);
+            return list1;
         }
-        head = head.Next
+        else
+        {
+            list2.next = MergeTwoLists(list1, list2.next);
+            return list2;
+        }
     }
-    // 连接l1 未处理完节点
-    for l1 != nil {
-        head.Next = l1
-        head = head.Next
-        l1 = l1.Next
-    }
-    // 连接l2 未处理完节点
-    for l2 != nil {
-        head.Next = l2
-        head = head.Next
-        l2 = l2.Next
-    }
-    return dummy.Next
 }
 ```
 
@@ -188,33 +185,29 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 思路：将大于 x 的节点，放到另外一个链表，最后连接这两个链表
 
 ```csharp
-func partition(head *ListNode, x int) *ListNode {
-    // 思路：将大于x的节点，放到另外一个链表，最后连接这两个链表
-    // check
-    if head == nil {
-        return head
-    }
-    headDummy := &ListNode{Val: 0}
-    tailDummy := &ListNode{Val: 0}
-    tail := tailDummy
-    headDummy.Next = head
-    head = headDummy
-    for head.Next != nil {
-        if head.Next.Val < x {
-            head = head.Next
-        } else {
-            // 移除<x节点
-            t := head.Next
-            head.Next = head.Next.Next
-            // 放到另外一个链表
-            tail.Next = t
-            tail = tail.Next
+public static ListNode Partition(ListNode head, int x)
+{
+    ListNode dummyHead1 = new ListNode(0);
+    ListNode dummyHead2 = new ListNode(0);
+    ListNode temp1 = dummyHead1, temp2 = dummyHead2;
+    ListNode temp = head;
+    while (temp != null)
+    {
+        if (temp.val < x)
+        {
+            temp1.next = temp;
+            temp1 = temp1.next;
         }
+        else
+        {
+            temp2.next = temp;
+            temp2 = temp2.next;
+        }
+        temp = temp.next;
     }
-    // 拼接两个链表
-    tail.Next = nil
-    head.Next = tailDummy.Next
-    return headDummy.Next
+    temp1.next = dummyHead2.next;
+    temp2.next = null;
+    return dummyHead1.next;
 }
 ```
 

@@ -88,4 +88,47 @@ public class LinkedListTest
     }
 
     #endregion
+
+    #region 21.合并两个有序链表
+
+    [Test]
+    public void StackQueueTest_MergeTwoLists()
+    {
+        var result = LinkedList.MergeTwoLists(LinkedListBuilder.Builder(new[] { 1, 2, 4 }), LinkedListBuilder.Builder(new[] { 1, 3, 4 }));
+        Assert.That(LinkedListBuilder.ToList(result), Is.EqualTo(new[] { 1, 1, 2, 3, 4, 4 }));
+    }
+
+    [Test]
+    public void StackQueueTest_MergeTwoLists2()
+    {
+        var result = LinkedList.MergeTwoLists(LinkedListBuilder.Builder(Array.Empty<int>()), LinkedListBuilder.Builder(Array.Empty<int>()));
+        Assert.That(result, Is.EqualTo(null));
+    }
+
+    [Test]
+    public void StackQueueTest_MergeTwoLists3()
+    {
+        var result = LinkedList.MergeTwoLists(LinkedListBuilder.Builder(Array.Empty<int>()), LinkedListBuilder.Builder(new[] { 0 }));
+        Assert.That(LinkedListBuilder.ToList(result), Is.EqualTo(new[] { 0 }));
+    }
+
+    #endregion
+
+    #region 86.分隔链表
+
+    [Test]
+    public void StackQueueTest_Partition()
+    {
+        var result = LinkedList.Partition(LinkedListBuilder.Builder(new[] { 1, 4, 3, 2, 5, 2 }), 3);
+        Assert.That(LinkedListBuilder.ToList(result), Is.EqualTo(new[] { 1, 2, 2, 4, 3, 5 }));
+    }
+
+    [Test]
+    public void StackQueueTest_Partition2()
+    {
+        var result = LinkedList.Partition(LinkedListBuilder.Builder(new[] { 2, 1 }), 2);
+        Assert.That(LinkedListBuilder.ToList(result), Is.EqualTo(new[] { 1, 2 }));
+    }
+
+    #endregion
 }
