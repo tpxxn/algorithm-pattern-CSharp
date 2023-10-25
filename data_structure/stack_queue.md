@@ -34,65 +34,49 @@
 思路：用两个栈实现，一个最小栈始终保证最小值在顶部
 
 ```csharp
-type MinStack struct {
-    min []int
-    stack []int
-}
-
-
-/** initialize your data structure here. */
-func Constructor() MinStack {
-    return MinStack{
-        min: make([]int, 0),
-        stack: make([]int, 0),
+public class MinStack
+{
+    Stack<int> stack;
+    Stack<int> minStack;
+    public MinStack()
+    {
+        stack = new Stack<int>();
+        minStack = new Stack<int>();
+    }
+    public void Push(int val)
+    {
+        stack.Push(val);
+        if (minStack.Count == 0 || val <= minStack.Peek())
+        {
+            minStack.Push(val);
+        }
+    }
+    public void Pop()
+    {
+        int val = stack.Pop();
+        if (minStack.Peek() == val)
+        {
+            minStack.Pop();
+        }
+    }
+    public int Top()
+    {
+        return stack.Peek();
+    }
+    public int GetMin()
+    {
+        return minStack.Peek();
     }
 }
-
-
-func (this *MinStack) Push(x int)  {
-    min := this.GetMin()
-    if x < min {
-        this.min = append(this.min, x)
-    } else {
-        this.min = append(this.min, min)
-    }
-    this.stack = append(this.stack, x)
-}
-
-
-func (this *MinStack) Pop()  {
-    if len(this.stack) == 0 {
-        return
-    }
-    this.stack = this.stack[:len(this.stack)-1]
-    this.min = this.min[:len(this.min)-1]
-}
-
-
-func (this *MinStack) Top() int {
-    if len(this.stack) == 0 {
-        return 0
-    }
-    return this.stack[len(this.stack)-1]
-}
-
-
-func (this *MinStack) GetMin() int {
-    if len(this.min) == 0 {
-        return 1 << 31
-    }
-    min := this.min[len(this.min)-1]
-    return min
-}
-
 
 /**
+
  * Your MinStack object will be instantiated and called as such:
- * obj := Constructor();
- * obj.Push(x);
+ * MinStack obj = new MinStack();
+ * obj.Push(val);
  * obj.Pop();
- * param_3 := obj.Top();
- * param_4 := obj.GetMin();
+ * int param_3 = obj.Top();
+ * int param_4 = obj.GetMin();
  */
 ```
 
@@ -107,40 +91,44 @@ func (this *MinStack) GetMin() int {
 思路：通过栈保存原来的元素，遇到表达式弹出运算，再推入结果，重复这个过程
 
 ```csharp
-func evalRPN(tokens []string) int {
-    if len(tokens)==0{
-        return 0
-    }
-    stack:=make([]int,0)
-    for i:=0;i<len(tokens);i++{
-        switch tokens[i]{
-        case "+","-","*","/":
-            if len(stack)<2{
-                return -1
+public static int EvalRPN(string[] tokens)
+{
+    Stack<int> stack = new Stack<int>();
+    int length = tokens.Length;
+    for (int i = 0; i < length; i++)
+    {
+        string token = tokens[i];
+        if (IsNumber(token))
+        {
+            stack.Push(int.Parse(token));
+        }
+        else
+        {
+            int num2 = stack.Pop();
+            int num1 = stack.Pop();
+            switch (token)
+            {
+                case "+":
+                    stack.Push(num1 + num2);
+                    break;
+                case "-":
+                    stack.Push(num1 - num2);
+                    break;
+                case "*":
+                    stack.Push(num1 * num2);
+                    break;
+                case "/":
+                    stack.Push(num1 / num2);
+                    break;
             }
-            // 注意：a为被除数，b为除数
-            b:=stack[len(stack)-1]
-            a:=stack[len(stack)-2]
-            stack=stack[:len(stack)-2]
-            var result int
-            switch tokens[i]{
-            case "+":
-                result=a+b
-            case "-":
-                result=a-b
-            case "*":
-                result=a*b
-            case "/":
-                result=a/b
-            }
-            stack=append(stack,result)
-        default:
-            // 转为数字
-            val,_:=strconv.Atoi(tokens[i])
-            stack=append(stack,val)
         }
     }
-    return stack[0]
+    return stack.Pop();
+}
+
+public static bool IsNumber(string token)
+{
+    return char.IsDigit(token[^1]);
 }
 ```
 
@@ -159,65 +147,53 @@ func evalRPN(tokens []string) int {
 思路：通过栈辅助进行操作
 
 ```csharp
-func decodeString(s string) string {
-	if len(s) == 0 {
-		return ""
-	}
-	stack := make([]byte, 0)
-	for i := 0; i < len(s); i++ {
-		switch s[i] {
-		case ']':
-			temp := make([]byte, 0)
-			for len(stack) != 0 && stack[len(stack)-1] != '[' {
-				v := stack[len(stack)-1]
-				stack = stack[:len(stack)-1]
-				temp = append(temp, v)
-			}
-			// pop '['
-			stack = stack[:len(stack)-1]
-			// pop num
-			idx := 1
-			for len(stack) >= idx && stack[len(stack)-idx] >= '0' && stack[len(stack)-idx] <= '9' {
-				idx++
-			}
-            // 注意索引边界
-			num := stack[len(stack)-idx+1:]
-			stack = stack[:len(stack)-idx+1]
-			count, _ := strconv.Atoi(string(num))
-			for j := 0; j < count; j++ {
-                // 把字符正向放回到栈里面
-				for j := len(temp) - 1; j >= 0; j-- {
-					stack = append(stack, temp[j])
-				}
-			}
-		default:
-			stack = append(stack, s[i])
-
-		}
-	}
-	return string(stack)
-}
-```
-
-利用栈进行 DFS 递归搜索模板
-
-```csharp
-boolean DFS(int root, int target) {
-    Set<Node> visited;
-    Stack<Node> s;
-    add root to s;
-    while (s is not empty) {
-        Node cur = the top element in s;
-        return true if cur is target;
-        for (Node next : the neighbors of cur) {
-            if (next is not in visited) {
-                add next to s;
-                add next to visited;
+public static string DecodeString(string s)
+{
+    StringBuilder sb = new StringBuilder();
+    Stack<int> stack = new Stack<int>();
+    int num = 0;
+    int length = s.Length;
+    for (int i = 0; i < length; i++)
+    {
+        char c = s[i];
+        if (char.IsDigit(c))
+        {
+            num = num * 10 + c - '0';
+        }
+        else if (char.IsLetter(c))
+        {
+            sb.Append(c);
+        }
+        else if (c == '[')
+        {
+            stack.Push(num);
+            num = 0;
+            sb.Append(c);
+        }
+        else
+        {
+            int top = sb.Length - 1;
+            StringBuilder temp = new StringBuilder();
+            while (sb[top] != '[')
+            {
+                temp.Append(sb[top]);
+                sb.Length = top;
+                top--;
+            }
+            sb.Length = top;
+            StringBuilder temp2 = new StringBuilder();
+            for (int j = temp.Length - 1; j >= 0; j--)
+            {
+                temp2.Append(temp[j]);
+            }
+            int k = stack.Pop();
+            for (int j = 0; j < k; j++)
+            {
+                sb.Append(temp2);
             }
         }
-        remove cur from s;
     }
-    return false;
+    return sb.ToString();
 }
 ```
 
@@ -229,68 +205,23 @@ boolean DFS(int root, int target) {
 
 ```csharp
 // 思路：通过stack 保存已经访问的元素，用于原路返回
-func inorderTraversal(root *TreeNode) []int {
-    result := make([]int, 0)
-    if root == nil {
-        return result
-    }
-    stack := make([]*TreeNode, 0)
-    for len(stack) > 0 || root != nil {
-        for root != nil {
-            stack = append(stack, root)
-            root = root.Left // 一直向左
+public static IList<int?> InorderTraversal(TreeNode root)
+{
+    IList<int?> traversal = new List<int?>();
+    Stack<TreeNode> stack = new Stack<TreeNode>();
+    TreeNode node = root;
+    while (stack.Count > 0 || node != null)
+    {
+        while (node != null)
+        {
+            stack.Push(node);
+            node = node.left;
         }
-        // 弹出
-        val := stack[len(stack)-1]
-        stack = stack[:len(stack)-1]
-        result = append(result, val.Val)
-        root = val.Right
+        node = stack.Pop();
+        traversal.Add(node.val);
+        node = node.right;
     }
-    return result
-}
-```
-
-### 克隆图
-
-> [133. 克隆图](https://leetcode-cn.com/problems/clone-graph/)
->
-> 给你无向 连通 图中一个节点的引用，请你返回该图的 深拷贝（克隆）。
->
-> 图中的每个节点都包含它的值 `val`（`int`） 和其邻居的列表（`list[Node]`）。
->
-> > class Node {
-> >
-> > &nbsp;&nbsp;&nbsp;&nbsp; public int val;
-> >
-> > &nbsp;&nbsp;&nbsp;&nbsp; public List<Node> neighbors;
-> >
-> >}
-
-```csharp
-func cloneGraph(node *Node) *Node {
-    visited:=make(map[*Node]*Node)
-    return clone(node,visited)
-}
-// 1 2
-// 4 3
-// 递归克隆，传入已经访问过的元素作为过滤条件
-func clone(node *Node,visited map[*Node]*Node)*Node{
-    if node==nil{
-        return nil
-    }
-    // 已经访问过直接返回
-    if v,ok:=visited[node];ok{
-        return v
-    }
-    newNode:=&Node{
-        Val:node.Val,
-        Neighbors:make([]*Node,len(node.Neighbors)),
-    }
-    visited[node]=newNode
-    for i:=0;i<len(node.Neighbors);i++{
-        newNode.Neighbors[i]=clone(node.Neighbors[i],visited)
-    }
-    return newNode
+    return traversal;
 }
 ```
 
@@ -307,28 +238,46 @@ func clone(node *Node,visited map[*Node]*Node)*Node{
 思路：通过深度搜索遍历可能性（注意标记已访问元素）
 
 ```csharp
+static int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
 
-func numIslands(grid [][]byte) int {
-    var count int
-    for i:=0;i<len(grid);i++{
-        for j:=0;j<len(grid[i]);j++{
-            if grid[i][j]=='1' && dfs(grid,i,j)>=1{
-                count++
+public static int NumIslands(char[][] grid)
+{
+    int islands = 0;
+    int m = grid.Length, n = grid[0].Length;
+    bool[][] visited = new bool[m][];
+    for (int i = 0; i < m; i++)
+    {
+        visited[i] = new bool[n];
+    }
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (grid[i][j] == '0' || visited[i][j])
+            {
+                continue;
+            }
+            islands++;
+            visited[i][j] = true;
+            Queue<int[]> queue = new Queue<int[]>();
+            queue.Enqueue(new int[] { i, j });
+            while (queue.Count > 0)
+            {
+                int[] cell = queue.Dequeue();
+                int row = cell[0], col = cell[1];
+                foreach (int[] dir in dirs)
+                {
+                    int newRow = row + dir[0], newCol = col + dir[1];
+                    if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && grid[newRow][newCol] == '1' && !visited[newRow][newCol])
+                    {
+                        visited[newRow][newCol] = true;
+                        queue.Enqueue(new int[] { newRow, newCol });
+                    }
+                }
             }
         }
     }
-    return count
-}
-func dfs(grid [][]byte,i,j int)int{
-    if i<0||i>=len(grid)||j<0||j>=len(grid[0]){
-        return 0
-    }
-    if grid[i][j]=='1'{
-        // 标记已经访问过(每一个点只需要访问一次)
-        grid[i][j]=0
-        return dfs(grid,i-1,j)+dfs(grid,i,j-1)+dfs(grid,i+1,j)+dfs(grid,i,j+1)+1
-    }
-    return 0
+    return islands;
 }
 ```
 
@@ -349,42 +298,62 @@ func dfs(grid [][]byte,i,j int)int{
 ![image.png](https://img.fuiboom.com/img/stack_rain2.png)
 
 ```csharp
-func largestRectangleArea(heights []int) int {
-	if len(heights) == 0 {
-		return 0
-	}
-	stack := make([]int, 0)
-	max := 0
-	for i := 0; i <= len(heights); i++ {
-		var cur int
-		if i == len(heights) {
-			cur = 0
-		} else {
-			cur = heights[i]
-		}
-        // 当前高度小于栈，则将栈内元素都弹出计算面积
-		for len(stack) != 0 && cur <= heights[stack[len(stack)-1]] {
-			pop := stack[len(stack)-1]
-			stack = stack[:len(stack)-1]
-			h := heights[pop]
-            // 计算宽度
-			w := i
-			if len(stack) != 0 {
-				peek := stack[len(stack)-1]
-				w = i - peek - 1
-			}
-			max = Max(max, h*w)
-		}
-        // 记录索引即可获取对应元素
-		stack = append(stack, i)
-	}
-	return max
+public static int LargestRectangleArea(int[] heights)
+{
+    int length = heights.Length;
+    int[] left = new int[length];
+    int[] right = new int[length];
+    Array.Fill(left, -1);
+    Array.Fill(right, length);
+    Stack<int> stack = new Stack<int>();
+    for (int i = 0; i < length; i++)
+    {
+        int height = heights[i];
+        while (stack.Count > 0 && heights[stack.Peek()] >= height)
+        {
+            right[stack.Pop()] = i;
+        }
+        if (stack.Count > 0)
+        {
+            left[i] = stack.Peek();
+        }
+        stack.Push(i);
+    }
+    int area = 0;
+    for (int i = 0; i < length; i++)
+    {
+        area = Math.Max(area, (right[i] - left[i] - 1) * heights[i]);
+    }
+    return area;
 }
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+```
+
+### 接雨水
+
+> [42. 接雨水](https://leetcode-cn.com/problems/01-matrix/)
+>
+> 给定 `n` 个非负整数表示每个宽度为 `1` 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+
+```csharp
+public static int Trap(int[] height)
+{
+    int amount = 0;
+    Stack<int> stack = new Stack<int>();
+    int n = height.Length;
+    for (int i = 0; i < n; i++) {
+        while (stack.Count > 0 && height[stack.Peek()] <= height[i]) {
+            int curr = stack.Pop();
+            if (stack.Count == 0) {
+                break;
+            }
+            int prev = stack.Peek();
+            int currWidth = i - prev - 1;
+            int currHeight = Math.Min(height[prev], height[i]) - height[curr];
+            amount += currWidth * currHeight;
+        }
+        stack.Push(i);
+    }
+    return amount;
 }
 ```
 
@@ -411,74 +380,96 @@ func Max(a, b int) int {
 > 你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
 
 ```csharp
-type MyQueue struct {
-    stack []int
-    back  []int
-}
-
-/** Initialize your data structure here. */
-func Constructor() MyQueue {
-    return MyQueue{
-        stack: make([]int, 0),
-        back:  make([]int, 0),
+public class MyQueue
+{
+    Stack<int> inStack;
+    Stack<int> outStack;
+    public MyQueue()
+    {
+        inStack = new Stack<int>();
+        outStack = new Stack<int>();
+    }
+    public void Push(int x)
+    {
+        inStack.Push(x);
+    }
+    public int Pop()
+    {
+        if (outStack.Count == 0)
+        {
+            In2Out();
+        }
+        return outStack.Pop();
+    }
+    public int Peek()
+    {
+        if (outStack.Count == 0)
+        {
+            In2Out();
+        }
+        return outStack.Peek();
+    }
+    public bool Empty()
+    {
+        return inStack.Count == 0 && outStack.Count == 0;
+    }
+    private void In2Out()
+    {
+        while (inStack.Count > 0)
+        {
+            outStack.Push(inStack.Pop());
+        }
     }
 }
 
-// 1
-// 3
-// 5
-
-/** Push element x to the back of queue. */
-func (this *MyQueue) Push(x int) {
-    for len(this.back) != 0 {
-        val := this.back[len(this.back)-1]
-        this.back = this.back[:len(this.back)-1]
-        this.stack = append(this.stack, val)
+public class MyQueue
+{
+    Stack<int> inStack;
+    Stack<int> outStack;
+    public MyQueue()
+    {
+        inStack = new Stack<int>();
+        outStack = new Stack<int>();
     }
-    this.stack = append(this.stack, x)
+    public void Push(int x)
+    {
+        inStack.Push(x);
+    }
+    public int Pop()
+    {
+        if (outStack.Count == 0)
+        {
+            In2Out();
+        }
+        return outStack.Pop();
+    }
+    public int Peek()
+    {
+        if (outStack.Count == 0)
+        {
+            In2Out();
+        }
+        return outStack.Peek();
+    }
+    public bool Empty()
+    {
+        return inStack.Count == 0 && outStack.Count == 0;
+    }
+    private void In2Out()
+    {
+        while (inStack.Count > 0)
+        {
+            outStack.Push(inStack.Pop());
+        }
+    }
 }
-
-/** Removes the element from in front of queue and returns that element. */
-func (this *MyQueue) Pop() int {
-    for len(this.stack) != 0 {
-        val := this.stack[len(this.stack)-1]
-        this.stack = this.stack[:len(this.stack)-1]
-        this.back = append(this.back, val)
-    }
-    if len(this.back) == 0 {
-        return 0
-    }
-    val := this.back[len(this.back)-1]
-    this.back = this.back[:len(this.back)-1]
-    return val
-}
-
-/** Get the front element. */
-func (this *MyQueue) Peek() int {
-    for len(this.stack) != 0 {
-        val := this.stack[len(this.stack)-1]
-        this.stack = this.stack[:len(this.stack)-1]
-        this.back = append(this.back, val)
-    }
-    if len(this.back) == 0 {
-        return 0
-    }
-    val := this.back[len(this.back)-1]
-    return val
-}
-
-/** Returns whether the queue is empty. */
-func (this *MyQueue) Empty() bool {
-    return len(this.stack) == 0 && len(this.back) == 0
-}
-
 /**
  * Your MyQueue object will be instantiated and called as such:
- * obj := Constructor();
+ * MyQueue obj = new MyQueue();
  * obj.Push(x);
- * param_2 := obj.Pop();
- * param_3 := obj.Peek();
- * param_4 := obj.Empty();
+ * int param_2 = obj.Pop();
+ * int param_3 = obj.Peek();
+ * bool param_4 = obj.Empty();
  */
 ```
 
@@ -491,51 +482,94 @@ func (this *MyQueue) Empty() bool {
 > 两个相邻元素间的距离为 `1` 。
 
 ```csharp
-// BFS 从0进队列，弹出之后计算上下左右的结果，将上下左右重新进队列进行二层操作
-// 0 0 0 0
-// 0 x 0 0
-// x x x 0
-// 0 x 0 0
+static int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
+const int INFINITY = int.MaxValue / 2;
 
-// 0 0 0 0
-// 0 1 0 0
-// 1 x 1 0
-// 0 1 0 0
-
-// 0 0 0 0
-// 0 1 0 0
-// 1 2 1 0
-// 0 1 0 0
-func updateMatrix(matrix [][]int) [][]int {
-    q:=make([][]int,0)
-    for i:=0;i<len(matrix);i++{
-        for j:=0;j<len(matrix[0]);j++{
-            if matrix[i][j]==0{
-                // 进队列
-                point:=[]int{i,j}
-                q=append(q,point)
-            }else{
-                matrix[i][j]=-1
+public static int[][] UpdateMatrix(int[][] mat)
+{
+    int m = mat.Length, n = mat[0].Length;
+    int[][] distances = new int[m][];
+    for (int i = 0; i < m; i++)
+    {
+        distances[i] = new int[n];
+    }
+    Queue<int[]> queue = new Queue<int[]>();
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (mat[i][j] == 0)
+            {
+                queue.Enqueue(new int[] { i, j });
+            }
+            else
+            {
+                distances[i][j] = INFINITY;
             }
         }
     }
-    directions:=[][]int{{0,1},{0,-1},{-1,0},{1,0}}
-    for len(q)!=0{
-        // 出队列
-        point:=q[0]
-        q=q[1:]
-        for _,v:=range directions{
-            x:=point[0]+v[0]
-            y:=point[1]+v[1]
-            if x>=0&&x<len(matrix)&&y>=0&&y<len(matrix[0])&&matrix[x][y]==-1{
-                matrix[x][y]=matrix[point[0]][point[1]]+1
-                // 将当前的元素进队列，进行一次BFS
-                q=append(q,[]int{x,y})
+    while (queue.Count > 0)
+    {
+        int[] cell = queue.Dequeue();
+        int row = cell[0], col = cell[1];
+        foreach (int[] dir in dirs)
+        {
+            int newRow = row + dir[0], newCol = col + dir[1];
+            if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && distances[newRow][newCol] == INFINITY)
+            {
+                distances[newRow][newCol] = distances[row][col] + 1;
+                queue.Enqueue(new[] { newRow, newCol });
             }
         }
     }
-    return matrix
+    return distances;
+}
+```
 
+### 克隆图
+
+> [133. 克隆图](https://leetcode-cn.com/problems/clone-graph/)
+>
+> 给你无向 [连通](https://baike.baidu.com/item/%E8%BF%9E%E9%80%9A%E5%9B%BE/6460995?fr=aladdin) 图中一个节点的引用，请你返回该图的 [深拷贝](https://baike.baidu.com/item/%E6%B7%B1%E6%8B%B7%E8%B4%9D/22785317?fr=aladdin)（克隆）。
+>
+> 图中的每个节点都包含它的值 `val`（`int`） 和其邻居的列表（`list[Node]`）。
+>
+> > class Node {
+> >
+> > &nbsp;&nbsp;&nbsp;&nbsp; public int val;
+> >
+> > &nbsp;&nbsp;&nbsp;&nbsp; public List<Node> neighbors;
+> >
+> >}
+
+```csharp
+public static Node CloneGraph(Node node)
+{
+    if (node == null)
+    {
+        return null;
+    }
+    IDictionary<Node, Node> cloneDictionary = new Dictionary<Node, Node>();
+    cloneDictionary.Add(node, new Node(node.val));
+    Queue<Node> queue = new Queue<Node>();
+    queue.Enqueue(node);
+    while (queue.Count > 0)
+    {
+        Node original = queue.Dequeue();
+        Node cloned = cloneDictionary[original];
+        IList<Node> originalNeighbors = original.neighbors;
+        IList<Node> clonedNeighbors = cloned.neighbors;
+        foreach (Node originalNeighbor in originalNeighbors)
+        {
+            if (!cloneDictionary.ContainsKey(originalNeighbor))
+            {
+                cloneDictionary.Add(originalNeighbor, new Node(originalNeighbor.val));
+                queue.Enqueue(originalNeighbor);
+            }
+            clonedNeighbors.Add(cloneDictionary[originalNeighbor]);
+        }
+    }
+    return cloneDictionary[node];
 }
 ```
 
