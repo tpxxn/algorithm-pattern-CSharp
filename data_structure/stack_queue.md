@@ -225,62 +225,6 @@ public static IList<int?> InorderTraversal(TreeNode root)
 }
 ```
 
-### 岛屿数量
-
-> [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
->
-> 给你一个由 `'1'`（陆地）和 `'0'`（水）组成的的二维网格，请你计算网格中岛屿的数量。
->
-> 岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。
->
-> 此外，你可以假设该网格的四条边均被水包围。
-
-思路：通过深度搜索遍历可能性（注意标记已访问元素）
-
-```csharp
-static int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
-
-public static int NumIslands(char[][] grid)
-{
-    int islands = 0;
-    int m = grid.Length, n = grid[0].Length;
-    bool[][] visited = new bool[m][];
-    for (int i = 0; i < m; i++)
-    {
-        visited[i] = new bool[n];
-    }
-    for (int i = 0; i < m; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            if (grid[i][j] == '0' || visited[i][j])
-            {
-                continue;
-            }
-            islands++;
-            visited[i][j] = true;
-            Queue<int[]> queue = new Queue<int[]>();
-            queue.Enqueue(new int[] { i, j });
-            while (queue.Count > 0)
-            {
-                int[] cell = queue.Dequeue();
-                int row = cell[0], col = cell[1];
-                foreach (int[] dir in dirs)
-                {
-                    int newRow = row + dir[0], newCol = col + dir[1];
-                    if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && grid[newRow][newCol] == '1' && !visited[newRow][newCol])
-                    {
-                        visited[newRow][newCol] = true;
-                        queue.Enqueue(new int[] { newRow, newCol });
-                    }
-                }
-            }
-        }
-    }
-    return islands;
-}
-```
-
 ### 柱状图中最大的矩形
 
 > [084. 柱状图中最大的矩形](https://leetcode-cn.com/problems/largest-rectangle-in-histogram/)
@@ -471,6 +415,62 @@ public class MyQueue
  * int param_3 = obj.Peek();
  * bool param_4 = obj.Empty();
  */
+```
+
+### 岛屿数量
+
+> [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
+>
+> 给你一个由 `'1'`（陆地）和 `'0'`（水）组成的的二维网格，请你计算网格中岛屿的数量。
+>
+> 岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。
+>
+> 此外，你可以假设该网格的四条边均被水包围。
+
+思路：通过深度搜索遍历可能性（注意标记已访问元素）
+
+```csharp
+static int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
+
+public static int NumIslands(char[][] grid)
+{
+    int islands = 0;
+    int m = grid.Length, n = grid[0].Length;
+    bool[][] visited = new bool[m][];
+    for (int i = 0; i < m; i++)
+    {
+        visited[i] = new bool[n];
+    }
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (grid[i][j] == '0' || visited[i][j])
+            {
+                continue;
+            }
+            islands++;
+            visited[i][j] = true;
+            Queue<int[]> queue = new Queue<int[]>();
+            queue.Enqueue(new int[] { i, j });
+            while (queue.Count > 0)
+            {
+                int[] cell = queue.Dequeue();
+                int row = cell[0], col = cell[1];
+                foreach (int[] dir in dirs)
+                {
+                    int newRow = row + dir[0], newCol = col + dir[1];
+                    if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && grid[newRow][newCol] == '1' && !visited[newRow][newCol])
+                    {
+                        visited[newRow][newCol] = true;
+                        queue.Enqueue(new int[] { newRow, newCol });
+                    }
+                }
+            }
+        }
+    }
+    return islands;
+}
 ```
 
 ### 01矩阵

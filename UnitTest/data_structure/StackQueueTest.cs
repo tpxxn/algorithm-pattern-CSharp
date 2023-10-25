@@ -101,36 +101,6 @@ public class StackQueueTest
 
     #endregion
 
-    #region 200.岛屿数量
-
-    [Test]
-    public void StackQueueTest_NumIslands()
-    {
-        int list = StackQueue_Practice.NumIslands(new[]
-        {
-            new[] { '1', '1', '1', '1', '0' },
-            new[] { '1', '1', '0', '1', '0' },
-            new[] { '1', '1', '0', '0', '0' },
-            new[] { '0', '0', '0', '0', '0' }
-        });
-        Assert.That(list, Is.EqualTo(1));
-    }
-
-    [Test]
-    public void StackQueueTest_NumIslands2()
-    {
-        int list = StackQueue_Practice.NumIslands(new[]
-        {
-            new[] { '1', '1', '0', '0', '0' },
-            new[] { '1', '1', '0', '0', '0' },
-            new[] { '0', '0', '1', '0', '0' },
-            new[] { '0', '0', '0', '1', '1' }
-        });
-        Assert.That(list, Is.EqualTo(3));
-    }
-
-    #endregion
-
     #region 84.柱状图中最大的矩形
 
     [Test]
@@ -178,6 +148,36 @@ public class StackQueueTest
         Assert.That(myQueue.Peek(), Is.EqualTo(1));
         Assert.That(myQueue.Pop(), Is.EqualTo(1));
         Assert.That(myQueue.Empty(), Is.EqualTo(false));
+    }
+
+    #endregion
+
+    #region 200.岛屿数量
+
+    [Test]
+    public void StackQueueTest_NumIslands()
+    {
+        int list = StackQueue_Practice.NumIslands(new[]
+        {
+            new[] { '1', '1', '1', '1', '0' },
+            new[] { '1', '1', '0', '1', '0' },
+            new[] { '1', '1', '0', '0', '0' },
+            new[] { '0', '0', '0', '0', '0' }
+        });
+        Assert.That(list, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void StackQueueTest_NumIslands2()
+    {
+        int list = StackQueue_Practice.NumIslands(new[]
+        {
+            new[] { '1', '1', '0', '0', '0' },
+            new[] { '1', '1', '0', '0', '0' },
+            new[] { '0', '0', '1', '0', '0' },
+            new[] { '0', '0', '0', '1', '1' }
+        });
+        Assert.That(list, Is.EqualTo(3));
     }
 
     #endregion

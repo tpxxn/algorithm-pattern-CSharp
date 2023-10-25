@@ -187,52 +187,6 @@ public static class StackQueue_Practice
     }
 
     /// <summary>
-    /// <para>200. 岛屿数量</para>
-    /// <para>https://leetcode.cn/problems/number-of-islands/</para>
-    /// </summary>
-    /// <param name="grid">陆地(1)和水(0)构成的二维网格</param>
-    /// <returns>岛屿的数量</returns>
-    public static int NumIslands(char[][] grid)
-    {
-        int islands = 0;
-        int m = grid.Length, n = grid[0].Length;
-        bool[][] visited = new bool[m][];
-        for (int i = 0; i < m; i++)
-        {
-            visited[i] = new bool[n];
-        }
-        for (int i = 0; i < m; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                if (grid[i][j] == '0' || visited[i][j])
-                {
-                    continue;
-                }
-                islands++;
-                visited[i][j] = true;
-                Queue<int[]> queue = new Queue<int[]>();
-                queue.Enqueue(new int[] { i, j });
-                while (queue.Count > 0)
-                {
-                    int[] cell = queue.Dequeue();
-                    int row = cell[0], col = cell[1];
-                    foreach (int[] dir in dirs)
-                    {
-                        int newRow = row + dir[0], newCol = col + dir[1];
-                        if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && grid[newRow][newCol] == '1' && !visited[newRow][newCol])
-                        {
-                            visited[newRow][newCol] = true;
-                            queue.Enqueue(new int[] { newRow, newCol });
-                        }
-                    }
-                }
-            }
-        }
-        return islands;
-    }
-
-    /// <summary>
     /// <para>84. 柱状图中最大的矩形</para>
     /// <para>https://leetcode.cn/problems/largest-rectangle-in-histogram/</para>
     /// </summary>
@@ -354,6 +308,53 @@ public static class StackQueue_Practice
      * int param_3 = obj.Peek();
      * bool param_4 = obj.Empty();
      */
+    
+    /// <summary>
+    /// <para>200. 岛屿数量</para>
+    /// <para>https://leetcode.cn/problems/number-of-islands/</para>
+    /// </summary>
+    /// <param name="grid">陆地(1)和水(0)构成的二维网格</param>
+    /// <returns>岛屿的数量</returns>
+    public static int NumIslands(char[][] grid)
+    {
+        int islands = 0;
+        int m = grid.Length, n = grid[0].Length;
+        bool[][] visited = new bool[m][];
+        for (int i = 0; i < m; i++)
+        {
+            visited[i] = new bool[n];
+        }
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (grid[i][j] == '0' || visited[i][j])
+                {
+                    continue;
+                }
+                islands++;
+                visited[i][j] = true;
+                Queue<int[]> queue = new Queue<int[]>();
+                queue.Enqueue(new int[] { i, j });
+                while (queue.Count > 0)
+                {
+                    int[] cell = queue.Dequeue();
+                    int row = cell[0], col = cell[1];
+                    foreach (int[] dir in dirs)
+                    {
+                        int newRow = row + dir[0], newCol = col + dir[1];
+                        if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n && grid[newRow][newCol] == '1' && !visited[newRow][newCol])
+                        {
+                            visited[newRow][newCol] = true;
+                            queue.Enqueue(new int[] { newRow, newCol });
+                        }
+                    }
+                }
+            }
+        }
+        return islands;
+    }
+    
     /// <summary>
     /// <para>542. 01矩阵</para>
     /// <para>https://leetcode.cn/problems/01-matrix/</para>
