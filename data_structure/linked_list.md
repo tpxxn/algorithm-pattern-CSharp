@@ -223,67 +223,50 @@ public static ListNode Partition(ListNode head, int x)
 
 > [148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
 >
-> 在*O*(*n*log*n*) 时间复杂度和常数级空间复杂度下，对链表进行排序。
+> 给你链表的头结点 `head` ，请将其按 **升序** 排列并返回 **排序后的链表** 。
 
 思路：归并排序，找中点和合并操作
 
 ```csharp
-func sortList(head *ListNode) *ListNode {
-    // 思路：归并排序，找中点和合并操作
-    return mergeSort(head)
-}
-func findMiddle(head *ListNode) *ListNode {
-    // 1->2->3->4->5
-    slow := head
-    fast := head.Next
-    // 快指针先为nil
-    for fast !=nil && fast.Next != nil {
-        fast = fast.Next.Next
-        slow = slow.Next
+public static ListNode SortList(ListNode head)
+{
+    if (head?.next == null)
+    {
+        return head;
     }
-    return slow
+    ListNode slow = head, fast = head.next;
+    while (fast is { next: not null })
+    {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    ListNode head2 = slow.next;
+    slow.next = null;
+    ListNode list1 = SortList(head);
+    ListNode list2 = SortList(head2);
+    return MergeTwoLists_SortList(list1, list2);
 }
-func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-    dummy := &ListNode{Val: 0}
-    head := dummy
-    for l1 != nil && l2 != nil {
-        if l1.Val < l2.Val {
-            head.Next = l1
-            l1 = l1.Next
-        } else {
-            head.Next = l2
-            l2 = l2.Next
+
+static ListNode MergeTwoLists_SortList(ListNode list1, ListNode list2)
+{
+    ListNode dummyHead = new ListNode(0);
+    ListNode temp = dummyHead;
+    while (list1 != null && list2 != null)
+    {
+        if (list1.val <= list2.val)
+        {
+            temp.next = list1;
+            list1 = list1.next;
         }
-        head = head.Next
+        else
+        {
+            temp.next = list2;
+            list2 = list2.next;
+        }
+        temp = temp.next;
     }
-    // 连接l1 未处理完节点
-    for l1 != nil {
-        head.Next = l1
-        head = head.Next
-        l1 = l1.Next
-    }
-    // 连接l2 未处理完节点
-    for l2 != nil {
-        head.Next = l2
-        head = head.Next
-        l2 = l2.Next
-    }
-    return dummy.Next
-}
-func mergeSort(head *ListNode) *ListNode {
-    // 如果只有一个节点 直接就返回这个节点
-    if head == nil || head.Next == nil{
-        return head
-    }
-    // find middle
-    middle := findMiddle(head)
-    // 断开中间节点
-    tail := middle.Next
-    middle.Next = nil
-    left := mergeSort(head)
-    right := mergeSort(tail)
-    result := mergeTwoLists(left, right)
-    return result
+    temp.next = list1 ?? list2;
+    return dummyHead.next;
 }
 ```
 
@@ -297,75 +280,50 @@ func mergeSort(head *ListNode) *ListNode {
 
 > [143. 重排链表](https://leetcode-cn.com/problems/reorder-list/)
 >
-> 给定一个单链表*L*：*L*→*L*→…→*L\_\_n*→*L*
-> 将其重新排列后变为：*L*→*L\_\_n*→*L*→*L\_\_n*→*L*→*L\_\_n*→…
+> 给定一个单链表 L 的头节点 head ，单链表 L 表示为：
+>
+> > L<sub>0</sub> → L<sub>1</sub> → … → L<sub>n - 1</sub> → L<sub>n</sub>
+> 
+> 请将其重新排列后变为：
+>
+> > L<sub>0</sub> → L<sub>n</sub> → L<sub>1</sub> → L<sub>n - 1</sub> → L<sub>2</sub> → L<sub>n - 2</sub> → …
+> 
+> 不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
 
 思路：找到中点断开，翻转后面部分，然后合并前后两个链表
 
 ```csharp
-func reorderList(head *ListNode)  {
-    // 思路：找到中点断开，翻转后面部分，然后合并前后两个链表
-    if head == nil {
-        return
+public static void ReorderList(ListNode head)
+{
+    if (head == null)
+    {
+        return;
     }
-    mid := findMiddle(head)
-    tail := reverseList(mid.Next)
-    mid.Next = nil
-    head = mergeTwoLists(head, tail)
-}
-func findMiddle(head *ListNode) *ListNode {
-    fast := head.Next
-    slow := head
-    for fast != nil && fast.Next != nil {
-        fast = fast.Next.Next
-        slow = slow.Next
+    ListNode fast = head, slow = head;
+    while (fast.next is { next: not null })
+    {
+        fast = fast.next.next;
+        slow = slow.next;
     }
-    return slow
-}
-func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-    dummy := &ListNode{Val: 0}
-    head := dummy
-    toggle := true
-    for l1 != nil && l2 != nil {
-        // 节点切换
-        if toggle {
-            head.Next = l1
-            l1 = l1.Next
-        } else {
-            head.Next = l2
-            l2 = l2.Next
-        }
-        toggle = !toggle
-        head = head.Next
+    ListNode rightHead = slow.next;
+    slow.next = null;
+    ListNode prev = null, curr = rightHead;
+    while (curr != null)
+    {
+        ListNode next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
     }
-    // 连接l1 未处理完节点
-    for l1 != nil {
-        head.Next = l1
-        head = head.Next
-        l1 = l1.Next
+    ListNode node1 = head, node2 = prev;
+    while (node1 != null && node2 != null)
+    {
+        ListNode temp1 = node1.next, temp2 = node2.next;
+        node1.next = node2;
+        node1 = temp1;
+        node2.next = node1;
+        node2 = temp2;
     }
-    // 连接l2 未处理完节点
-    for l2 != nil {
-        head.Next = l2
-        head = head.Next
-        l2 = l2.Next
-    }
-    return dummy.Next
-}
-func reverseList(head *ListNode) *ListNode {
-    var prev *ListNode
-    for head != nil {
-        // 保存当前head.Next节点，防止重新赋值后被覆盖
-        // 一轮之后状态：nil<-1 2->3->4
-        //              prev   head
-        temp := head.Next
-        head.Next = prev
-        // pre 移动
-        prev = head
-        // head 移动
-        head = temp
-    }
-    return prev
 }
 ```
 
@@ -374,28 +332,29 @@ func reverseList(head *ListNode) *ListNode {
 #### 环形链表
 > [141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
 >
-> 给定一个链表，判断链表中是否有环。
+> 给你一个链表的头节点 `head` ，判断链表中是否有环。
+>
+> 如果链表中有某个节点，可以通过连续跟踪 `next` 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 `pos` 来表示链表尾连接到链表中的位置（**索引从 0 开始**）。**注意：`pos` 不作为参数进行传递** 。仅仅是为了标识链表的实际情况。
+>
+> 如果链表中存在环 ，则返回 `true` 。 否则，返回 `false` 。
 
 思路：快慢指针，快慢指针相同则有环，证明：如果有环每走一步快慢指针距离会减 1
 ![fast_slow_linked_list](https://img.fuiboom.com/img/fast_slow_linked_list.png)
 
 ```csharp
-func hasCycle(head *ListNode) bool {
-    // 思路：快慢指针 快慢指针相同则有环，证明：如果有环每走一步快慢指针距离会减1
-    if head == nil {
-        return false
-    }
-    fast := head.Next
-    slow := head
-    for fast != nil && fast.Next != nil {
-        // 比较指针是否相等（不要使用val比较！）
-        if fast == slow {
-            return true
+public static bool HasCycle(ListNode head)
+{
+    ListNode fast = head, slow = head;
+    while (fast is { next: not null })
+    {
+        fast = fast.next.next;
+        slow = slow.next;
+        if (fast == slow)
+        {
+            return true;
         }
-        fast = fast.Next.Next
-        slow = slow.Next
     }
-    return false
+    return false;
 }
 ```
 
@@ -403,130 +362,83 @@ func hasCycle(head *ListNode) bool {
 
 > [142. 环形链表ii](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 >
-> 给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回`null`。
+> 给定一个链表的头节点  `head` ，返回链表开始入环的第一个节点。 如果链表无环，则返回 `null`。
+>
+> 如果链表中有某个节点，可以通过连续跟踪 `next` 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 `pos` 来表示链表尾连接到链表中的位置（**索引从 0 开始**）。如果 `pos` 是 `-1`，则在该链表中没有环。**注意：`pos` 不作为参数进行传递**，仅仅是为了标识链表的实际情况。
+>
+> **不允许修改** 链表。
 
 思路：快慢指针，快慢相遇之后，慢指针回到头，快慢指针步调一致一起移动，相遇点即为入环点
 ![cycled_linked_list](https://img.fuiboom.com/img/cycled_linked_list.png)
 
 ```csharp
-func detectCycle(head *ListNode) *ListNode {
+public static ListNode DetectCycle(ListNode head) {
     // 思路：快慢指针，快慢相遇之后，慢指针回到头，快慢指针步调一致一起移动，相遇点即为入环点
-    if head == nil {
-        return head
-    }
-    fast := head.Next
-    slow := head
-
-    for fast != nil && fast.Next != nil {
-        if fast == slow {
-            // 慢指针重新从头开始移动，快指针从第一次相交点下一个节点开始移动
-            fast = head
-            slow = slow.Next // 注意
-            // 比较指针对象（不要比对指针Val值）
-            for fast != slow {
-                fast = fast.Next
-                slow = slow.Next
-            }
-            return slow
-        }
-        fast = fast.Next.Next
-        slow = slow.Next
-    }
-    return nil
-}
-```
-
-坑点
-
-- 指针比较时直接比较对象，不要用值比较，链表中有可能存在重复值情况
-- 第一次相交后，快指针需要从下一个节点开始和头指针一起匀速移动
-
-另外一种方式是 fast=head,slow=head
-
-```csharp
-func detectCycle(head *ListNode) *ListNode {
-    // 思路：快慢指针，快慢相遇之后，其中一个指针回到头，快慢指针步调一致一起移动，相遇点即为入环点
-    // nb+a=2nb+a
-    if head == nil {
-        return head
-    }
-    fast := head
-    slow := head
-
-    for fast != nil && fast.Next != nil {
-        fast = fast.Next.Next
-        slow = slow.Next
-        if fast == slow {
+    ListNode p = head, q = head;
+    while (p != null && q is { next: not null }) {
+        p = p.next;
+        q = q.next.next;
+        if (p == q) {
             // 指针重新从头开始移动
-            fast = head
-            for fast != slow {
-                fast = fast.Next
-                slow = slow.Next
+            ListNode m = head;
+            // 比较指针对象（不要比对指针Val值）
+            while (m != p) {
+                m = m.next;
+                p = p.next;
             }
-            return slow
+            return p;
         }
     }
-    return nil
+    return null;
 }
 ```
-
-这两种方式不同点在于，**一般用 fast=head.Next 较多**，因为这样可以知道中点的上一个节点，可以用来删除等操作。
-
-- fast 如果初始化为 head.Next 则中点在 slow.Next
-- fast 初始化为 head,则中点在 slow
 
 #### 回文链表
 
 > [234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
 >
-> 请判断一个链表是否为回文链表。
+> 给你一个单链表的头节点 `head` ，请你判断该链表是否为回文链表。如果是，返回 `true` ；否则，返回 `false` 。
 
 ```csharp
-func isPalindrome(head *ListNode) bool {
-    // 1 2 nil
-    // 1 2 1 nil
-    // 1 2 2 1 nil
-    if head==nil{
-        return true
+public static bool IsPalindrome(ListNode head)
+{
+    ListNode fast = head, slow = head;
+    while (fast is { next: not null })
+    {
+        fast = fast.next.next;
+        slow = slow.next;
     }
-    slow:=head
-    // fast如果初始化为head.Next则中点在slow.Next
-    // fast初始化为head,则中点在slow
-    fast:=head.Next
-    for fast!=nil&&fast.Next!=nil{
-        fast=fast.Next.Next
-        slow=slow.Next
-    }
-
-    tail:=reverse(slow.Next)
-    // 断开两个链表(需要用到中点前一个节点)
-    slow.Next=nil
-    for head!=nil&&tail!=nil{
-        if head.Val!=tail.Val{
-            return false
+    bool odd = fast != null;
+    ListNode firstHalfEnd = slow;
+    ListNode secondHalfStart = odd ? slow.next : slow;
+    ListNode node1 = ReverseFirstHalf(head, firstHalfEnd);
+    ListNode node2 = secondHalfStart;
+    while (node1 != null)
+    {
+        if (node1.val != node2.val)
+        {
+            return false;
         }
-        head=head.Next
-        tail=tail.Next
+        node1 = node1.next;
+        node2 = node2.next;
     }
-    return true
-
+    return true;
 }
-
-func reverse(head *ListNode)*ListNode{
-    // 1->2->3
-    if head==nil{
-        return head
+public static ListNode ReverseFirstHalf(ListNode head, ListNode firstHalfEnd)
+{
+    ListNode prev = null, curr = head;
+    while (curr != firstHalfEnd)
+    {
+        ListNode next = curr.next;
+        curr.next = prev;
+        prev = curr;
+        curr = next;
     }
-    var prev *ListNode
-    for head!=nil{
-        t:=head.Next
-        head.Next=prev
-        prev=head
-        head=t
-    }
-    return prev
+    return prev;
 }
 ```
+
+## 其他
 
 #### 随机链表的复制
 
@@ -551,38 +463,45 @@ func reverse(head *ListNode)*ListNode{
 思路：1、hash 表存储指针，2、复制节点跟在原节点后面
 
 ```csharp
-func copyRandomList(head *Node) *Node {
-	if head == nil {
-		return head
-	}
-	// 复制节点，紧挨到到后面
-	// 1->2->3  ==>  1->1'->2->2'->3->3'
-	cur := head
-	for cur != nil {
-		clone := &Node{Val: cur.Val, Next: cur.Next}
-		temp := cur.Next
-		cur.Next = clone
-		cur = temp
-	}
-	// 处理random指针
-	cur = head
-	for cur != nil {
-		if cur.Random != nil {
-			cur.Next.Random = cur.Random.Next
-		}
-		cur = cur.Next.Next
-	}
-	// 分离两个链表
-	cur = head
-	cloneHead := cur.Next
-	for cur != nil && cur.Next != nil {
-		temp := cur.Next
-		cur.Next = cur.Next.Next
-		cur = temp
-	}
-	// 原始链表头：head 1->2->3
-	// 克隆的链表头：cloneHead 1'->2'->3'
-	return cloneHead
+public static Node CopyRandomList(Node head)
+{
+    if (head == null)
+    {
+        return null;
+    }
+    // 复制节点，紧挨到到后面
+    // 1->2->3  ==>  1->1'->2->2'->3->3'
+    Node cur = head;
+    while (cur != null)
+    {
+        Node cloneNode = new Node(cur.val);
+        cloneNode.next = cur.next;
+        Node temp = cur.next;
+        cur.next = cloneNode;
+        cur = temp;
+    }
+    // 处理random指针
+    cur = head;
+    while (cur != null)
+    {
+        if (cur.random != null)
+        {
+            cur.next.random = cur.random.next;
+        }
+        cur = cur.next.next;
+    }
+    // 分离两个链表
+    cur = head;
+    Node cloneHead = cur.next;
+    while (cur is { next: not null })
+    {
+        Node temp = cur.next;
+        cur.next = cur.next.next;
+        cur = temp;
+    }
+    // 原始链表头：head 1->2->3
+    // 克隆的链表头：cloneHead 1'->2'->3'
+    return cloneHead;
 }
 ```
 
