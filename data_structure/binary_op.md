@@ -28,171 +28,172 @@ diff=(n&(n-1))^n
 
 ## 常见题目
 
-[single-number](https://leetcode-cn.com/problems/single-number/)
+### 只出现一次的数字
 
-> 给定一个**非空**整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+> [136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)
+>
+> 给你一个 **非空** 整数数组 `nums` ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+>
+> 你必须设计并实现线性时间复杂度的算法来解决此问题，且该算法只使用常量额外空间。
 
-```go
-func singleNumber(nums []int) int {
-    // 10 ^10 == 00
-    // 两个数异或就变成0
-    result:=0
-    for i:=0;i<len(nums);i++{
-        result=result^nums[i]
+
+
+```csharp
+public static int SingleNumber(int[] nums)
+{
+    int single = 0;
+    foreach (int num in nums)
+    {
+        single ^= num;
     }
-    return result
+    return single;
 }
 ```
 
-[single-number-ii](https://leetcode-cn.com/problems/single-number-ii/)
+### 只出现一次的数字 II
 
-> 给定一个**非空**整数数组，除了某个元素只出现一次以外，其余每个元素均出现了三次。找出那个只出现了一次的元素。
+> [137. 只出现一次的数字 II](https://leetcode-cn.com/problems/single-number-ii/)
+>
+> 给你一个整数数组 `nums` ，除某个元素仅出现 **一次** 外，其余每个元素都恰出现 **三次** 。请你找出并返回那个只出现了一次的元素。
+>
+> 你必须设计并实现线性时间复杂度的算法且使用常数级空间来解决此问题。
 
-```go
-func singleNumber(nums []int) int {
-	// 统计每位1的个数
-	var result int
-	for i := 0; i < 64; i++ {
-		sum := 0
-		for j := 0; j < len(nums); j++ {
-			// 统计1的个数
-			sum += (nums[j] >> i) & 1
-		}
-		// 还原位00^10=10 或者用| 也可以
-		result ^= (sum % 3) << i
-	}
-	return result
+```csharp
+public static int SingleNumberII(int[] nums)
+{
+    int ones = 0, twos = 0;
+    foreach (int num in nums)
+    {
+        ones ^= num & ~twos;
+        twos ^= num & ~ones;
+    }
+    return ones;
 }
 ```
 
-[single-number-iii](https://leetcode-cn.com/problems/single-number-iii/)
+### 只出现一次的数字 III
 
-> 给定一个整数数组  `nums`，其中恰好有两个元素只出现一次，其余所有元素均出现两次。 找出只出现一次的那两个元素。
+> [260. 只出现一次的数字 III](https://leetcode-cn.com/problems/single-number-iii/)
+>
+> 给你一个整数数组 `nums`，其中恰好有两个元素只出现一次，其余所有元素均出现两次。 找出只出现一次的那两个元素。你可以按 `任意顺序` 返回答案。
+>
+> 你必须设计并实现线性时间复杂度的算法且仅使用常量额外空间来解决此问题。
 
-```go
-func singleNumber(nums []int) []int {
-    // a=a^b
-    // b=a^b
-    // a=a^b
-    // 关键点怎么把a^b分成两部分,方案：可以通过diff最后一个1区分
-
-    diff:=0
-    for i:=0;i<len(nums);i++{
-        diff^=nums[i]
+```csharp
+public static int[] SingleNumberIII(int[] nums)
+{
+    int[] singles = new int[2];
+    int xor = 0;
+    foreach (int num in nums)
+    {
+        xor ^= num;
     }
-    result:=[]int{diff,diff}
-    // 去掉末尾的1后异或diff就得到最后一个1的位置
-    diff=(diff&(diff-1))^diff
-    for i:=0;i<len(nums);i++{
-        if diff&nums[i]==0{
-            result[0]^=nums[i]
-        }else{
-            result[1]^=nums[i]
+    int lowBit = xor & -xor;
+    foreach (int num in nums)
+    {
+        if ((num & lowBit) != 0)
+        {
+            singles[0] ^= num;
+        }
+        else
+        {
+            singles[1] ^= num;
         }
     }
-    return result
+    return singles;
 }
 ```
 
-[number-of-1-bits](https://leetcode-cn.com/problems/number-of-1-bits/)
+### 位1的个数
 
-> 编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’  的个数（也被称为[汉明重量](https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F)）。
+> [191. 位1的个数](https://leetcode-cn.com/problems/number-of-1-bits/)
+>
+> 编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’  的个数（也被称为[汉明重量](https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F)）。
 
-```go
-func hammingWeight(num uint32) int {
-    res:=0
-    for num!=0{
-        num=num&(num-1)
-        res++
+```csharp
+public static int HammingWeight(uint n)
+{
+    const int BITS = 32;
+    int ones = 0;
+    for (int i = 0; i < BITS; i++)
+    {
+        ones += (int)(n >> i) & 1;
     }
-    return res
+    return ones;
 }
 ```
 
-[counting-bits](https://leetcode-cn.com/problems/counting-bits/)
+### 比特位计数
 
-> 给定一个非负整数  **num**。对于  0 ≤ i ≤ num  范围中的每个数字  i ，计算其二进制数中的 1 的数目并将它们作为数组返回。
+> [338. 比特位计数](https://leetcode-cn.com/problems/counting-bits/)
+>
+> 给你一个整数 `n` ，对于 `0 <= i <= n` 中的每个 `i` ，计算其二进制表示中 `1` 的 **个数** ，返回一个长度为 `n + 1` 的数组 `ans` 作为答案。
 
-```go
-func countBits(num int) []int {
-    res:=make([]int,num+1)
-
-    for i:=0;i<=num;i++{
-        res[i]=count1(i)
+```csharp
+public static int[] CountBits(int n)
+{
+    const int BITS = 32;
+    int[] ans = new int[n + 1];
+    for (int i = 0; i <= n; i++)
+    {
+        for (int j = 0; j < BITS; j++)
+        {
+            ans[i] += (i >> j) & 1;
+        }
     }
-    return res
-}
-func count1(n int)(res int){
-    for n!=0{
-        n=n&(n-1)
-        res++
-    }
-    return
-}
-```
-
-另外一种动态规划解法
-
-```go
-func countBits(num int) []int {
-    res:=make([]int,num+1)
-    for i:=1;i<=num;i++{
-        // 上一个缺1的元素+1即可
-        res[i]=res[i&(i-1)]+1
-    }
-    return res
+    return ans;
 }
 ```
 
-[reverse-bits](https://leetcode-cn.com/problems/reverse-bits/)
+### 颠倒二进制位
 
+> [190. 颠倒二进制位](https://leetcode-cn.com/problems/reverse-bits/)
+>
 > 颠倒给定的 32 位无符号整数的二进制位。
 
 思路：依次颠倒即可
 
-```go
-func reverseBits(num uint32) uint32 {
-    var res uint32
-    var pow int=31
-    for num!=0{
-        // 把最后一位取出来，左移之后累加到结果中
-        res+=(num&1)<<pow
-        num>>=1
-        pow--
+```csharp
+public static uint reverseBits(uint n)
+{
+    const int BITS = 32;
+    uint reversed = 0;
+    for (int i = 0, j = BITS - 1; i < BITS; i++, j--)
+    {
+        uint bit = (n >> i) & 1;
+        reversed |= bit << j;
     }
-    return res
+    return reversed;
 }
 ```
 
-[bitwise-and-of-numbers-range](https://leetcode-cn.com/problems/bitwise-and-of-numbers-range/)
+### 数字范围按位与
 
-> 给定范围 [m, n]，其中 0 <= m <= n <= 2147483647，返回此范围内所有数字的按位与（包含 m, n 两端点）。
+> [201. 数字范围按位与](https://leetcode-cn.com/problems/bitwise-and-of-numbers-range/)
+>
+> 给你两个整数 `left` 和 `right` ，表示区间 `[left, right]` ，返回此区间内所有数字 **按位与** 的结果（包含 `left` 、`right` 端点）。
 
-```go
-func rangeBitwiseAnd(m int, n int) int {
-    // m 5 1 0 1
-    //   6 1 1 0
-    // n 7 1 1 1
-    // 把可能包含0的全部右移变成
-    // m 5 1 0 0
-    //   6 1 0 0
-    // n 7 1 0 0
-    // 所以最后结果就是m<<count
-    var count int
-    for m!=n{
-        m>>=1
-        n>>=1
-        count++
+问题转化为求两个给定数字二进制状态下的最长公共前缀，可以用移位判断的思想来做，这里使用另一种`Brian Kernighan`算法：`number`和 `number−1`之间进行按位与运算后，`number`中最右边的1会被抹去变成0。
+
+```csharp
+
+public static int RangeBitwiseAnd(int left, int right)
+{
+    while (left < right)
+    {
+        // 抹去最右边的 1
+        right &= (right - 1);
     }
-    return m<<count
+    return right;
 }
 ```
 
 ## 练习
 
-- [ ] [single-number](https://leetcode-cn.com/problems/single-number/)
-- [ ] [single-number-ii](https://leetcode-cn.com/problems/single-number-ii/)
-- [ ] [single-number-iii](https://leetcode-cn.com/problems/single-number-iii/)
-- [ ] [number-of-1-bits](https://leetcode-cn.com/problems/number-of-1-bits/)
-- [ ] [counting-bits](https://leetcode-cn.com/problems/counting-bits/)
-- [ ] [reverse-bits](https://leetcode-cn.com/problems/reverse-bits/)
+- [ ] [136. 只出现一次的数字](https://leetcode-cn.com/problems/single-number/)
+- [ ] [137. 只出现一次的数字II](https://leetcode-cn.com/problems/single-number-ii/)
+- [ ] [260. 只出现一次的数字III](https://leetcode-cn.com/problems/single-number-iii/)
+- [ ] [191. 位1的个数](https://leetcode-cn.com/problems/number-of-1-bits/)
+- [ ] [338. 比特位计数](https://leetcode-cn.com/problems/counting-bits/)
+- [ ] [190. 颠倒二进制位](https://leetcode-cn.com/problems/reverse-bits/)
+- [ ] [201. 数字范围按位与](https://leetcode-cn.com/problems/bitwise-and-of-numbers-range/)

@@ -13,7 +13,6 @@
       <Folder Include="advanced_algorithm\Recursion\" />
       <Folder Include="advanced_algorithm\SlideWindow\" />
       <Folder Include="basic_algorithm\DP\" />
-      <Folder Include="data_structure\BinaryOp\" />
     </ItemGroup>
 
 </Project>
