@@ -21,7 +21,7 @@
 
 ```csharp
 // 二分搜索最常用模板
-public static int Search(int[] nums, int target)
+public int Search(int[] nums, int target)
 {
     // 1、初始化left、right
     int left = 0;
@@ -74,7 +74,7 @@ public static int Search(int[] nums, int target)
 
 ```csharp
 // 无重复元素搜索时，更方便
-public static int Search_Template(int[] nums, int target)
+public int Search_Template(int[] nums, int target)
 {
     var start = 0;
     var end = nums.Length - 1;
@@ -114,7 +114,7 @@ public static int Search_Template(int[] nums, int target)
 思路：核心点就是找第一个 target 的索引，和最后一个 target 的索引，所以用两次二分搜索分别找第一次和最后一次的位置
 
 ```csharp
-public static int[] SearchRange(int[] nums, int target)
+public int[] SearchRange(int[] nums, int target)
 {
     if (nums.Length == 0)
     {
@@ -199,7 +199,7 @@ public static int[] SearchRange(int[] nums, int target)
 > 请必须使用时间复杂度为 `O(log n)` 的算法。
 
 ```csharp
-public static int SearchInsert(int[] nums, int target)
+public int SearchInsert(int[] nums, int target)
 {
     int low = 0, high = nums.Length - 1;
     while (low <= high)
@@ -234,7 +234,7 @@ public static int SearchInsert(int[] nums, int target)
 > 给你一个整数 `target` ，如果 `target` 在矩阵中，返回 `true` ；否则，返回 `false` 。
 
 ```csharp
-public static bool SearchMatrix(int[][] matrix, int target)
+public bool SearchMatrix(int[][] matrix, int target)
 {
     int m = matrix.Length, n = matrix[0].Length;
     int low = 0, high = m * n - 1;
@@ -264,7 +264,7 @@ public static bool SearchMatrix(int[][] matrix, int target)
 > 你可以通过调用 `bool isBadVersion(version)` 接口来判断版本号 `version` 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。
 
 ```csharp
-public static int FirstBadVersion(int n, int badVersion)
+public int FirstBadVersion(int n, int badVersion)
 {
     int low = 1, high = n;
     while (low < high)
@@ -298,7 +298,7 @@ public static int FirstBadVersion(int n, int badVersion)
 > 你必须设计一个时间复杂度为 `O(log n)` 的算法解决此问题。
 
 ```csharp
-public static int FindMin(int[] nums)
+public int FindMin(int[] nums)
 {
     int low = 0, high = nums.Length - 1;
     while (low < high && nums[low] > nums[high])
@@ -333,7 +333,7 @@ public static int FindMin(int[] nums)
 
 
 ```csharp
-public static int FindMin2(int[] nums)
+public int FindMin2(int[] nums)
 {
     int low = 0, high = nums.Length - 1;
     while (low < high && nums[low] >= nums[high])
@@ -370,7 +370,7 @@ public static int FindMin2(int[] nums)
 > 你必须设计一个时间复杂度为 `O(log n)` 的算法解决此问题。
 
 ```csharp
-public static int SearchRotate(int[] nums, int target)
+public int SearchRotate(int[] nums, int target)
 {
     int low = 0, high = nums.Length - 1;
     while (low <= high)
@@ -424,7 +424,7 @@ public static int SearchRotate(int[] nums, int target)
 > 你必须尽可能减少整个操作步骤。
 
 ```csharp
-public static bool SearchRotate2(int[] nums, int target)
+public bool SearchRotate2(int[] nums, int target)
 {
     int low = 0, high = nums.Length - 1;
     while (low <= high)

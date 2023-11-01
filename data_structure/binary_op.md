@@ -39,7 +39,7 @@ diff=(n&(n-1))^n
 
 
 ```csharp
-public static int SingleNumber(int[] nums)
+public int SingleNumber(int[] nums)
 {
     int single = 0;
     foreach (int num in nums)
@@ -59,7 +59,7 @@ public static int SingleNumber(int[] nums)
 > 你必须设计并实现线性时间复杂度的算法且使用常数级空间来解决此问题。
 
 ```csharp
-public static int SingleNumberII(int[] nums)
+public int SingleNumberII(int[] nums)
 {
     int ones = 0, twos = 0;
     foreach (int num in nums)
@@ -80,7 +80,7 @@ public static int SingleNumberII(int[] nums)
 > 你必须设计并实现线性时间复杂度的算法且仅使用常量额外空间来解决此问题。
 
 ```csharp
-public static int[] SingleNumberIII(int[] nums)
+public int[] SingleNumberIII(int[] nums)
 {
     int[] singles = new int[2];
     int xor = 0;
@@ -111,7 +111,7 @@ public static int[] SingleNumberIII(int[] nums)
 > 编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’  的个数（也被称为[汉明重量](https://baike.baidu.com/item/%E6%B1%89%E6%98%8E%E9%87%8D%E9%87%8F)）。
 
 ```csharp
-public static int HammingWeight(uint n)
+public int HammingWeight(uint n)
 {
     const int BITS = 32;
     int ones = 0;
@@ -130,7 +130,7 @@ public static int HammingWeight(uint n)
 > 给你一个整数 `n` ，对于 `0 <= i <= n` 中的每个 `i` ，计算其二进制表示中 `1` 的 **个数** ，返回一个长度为 `n + 1` 的数组 `ans` 作为答案。
 
 ```csharp
-public static int[] CountBits(int n)
+public int[] CountBits(int n)
 {
     const int BITS = 32;
     int[] ans = new int[n + 1];
@@ -154,7 +154,7 @@ public static int[] CountBits(int n)
 思路：依次颠倒即可
 
 ```csharp
-public static uint reverseBits(uint n)
+public uint reverseBits(uint n)
 {
     const int BITS = 32;
     uint reversed = 0;
@@ -177,7 +177,7 @@ public static uint reverseBits(uint n)
 
 ```csharp
 
-public static int RangeBitwiseAnd(int left, int right)
+public int RangeBitwiseAnd(int left, int right)
 {
     while (left < right)
     {

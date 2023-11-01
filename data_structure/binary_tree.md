@@ -25,14 +25,14 @@
 
 ```csharp
 // 递归遍历写法，以前序遍历为例
-public static IList<int?> PreorderTraversalRecursion(TreeNode root)
+public IList<int?> PreorderTraversalRecursion(TreeNode root)
 {
     List<int?> result = new List<int?>();
     Traverse(root, result);
     return result;
 }
 
-static void Traverse(TreeNode? p, ICollection<int?> result)
+void Traverse(TreeNode? p, ICollection<int?> result)
 {
     if (p?.val == null)
     {
@@ -48,7 +48,7 @@ static void Traverse(TreeNode? p, ICollection<int?> result)
 #### 前序非递归
 
 ```csharp
-public static IList<int?> PreorderTraversal(TreeNode root)
+public IList<int?> PreorderTraversal(TreeNode root)
 {
     List<int?> result = new List<int?>();
     if (root.val == null)
@@ -82,7 +82,7 @@ public static IList<int?> PreorderTraversal(TreeNode root)
 4. 当需要退栈时，如果栈为空则结束。
 
 ```csharp
-public static IList<int?> InorderTraversal(TreeNode root)
+public IList<int?> InorderTraversal(TreeNode root)
 {
     List<int?> result = new List<int?>();
     if (root.val == null)
@@ -109,7 +109,7 @@ public static IList<int?> InorderTraversal(TreeNode root)
 #### 后序非递归
 
 ```csharp
-public static IList<int?> PostorderTraversal(TreeNode root)
+public IList<int?> PostorderTraversal(TreeNode root)
 {
     List<int?> result = new List<int?>();
     if (root.val == null)
@@ -140,14 +140,14 @@ public static IList<int?> PostorderTraversal(TreeNode root)
 
 ```csharp
 // V1：深度遍历，结果指针作为参数传入到函数内部
-public static IList<int?> DFS_Traversal(TreeNode root)
+public IList<int?> DFS_Traversal(TreeNode root)
 {
     List<int?> result = new List<int?>();
     DFS(root, ref result);
     return result;
 }
 
-static void DFS(TreeNode p, ref List<int?> result)
+void DFS(TreeNode p, ref List<int?> result)
 {
     if (p.val == null)
     {
@@ -169,13 +169,13 @@ static void DFS(TreeNode p, ref List<int?> result)
 
 ```csharp
 // V2：通过分治法遍历
-public static IList<int?> DFS_Traversal_Divide(TreeNode root)
+public IList<int?> DFS_Traversal_Divide(TreeNode root)
 {
     IList<int?> result = DivideAndConquer(root);
     return result;
 }
 
-static IList<int?> DivideAndConquer(TreeNode? p)
+IList<int?> DivideAndConquer(TreeNode? p)
 {
     List<int?> result = new List<int?>();
     if (p?.val == null)
@@ -200,7 +200,7 @@ static IList<int?> DivideAndConquer(TreeNode? p)
 #### BFS 广度优先搜索
 
 ```csharp
-public static IList<int?> BinaryTreePaths_BFS(TreeNode root)
+public IList<int?> BinaryTreePaths_BFS(TreeNode root)
 {
     List<int?> result = new List<int?>();
     if (root.val == null)
@@ -235,7 +235,7 @@ public static IList<int?> BinaryTreePaths_BFS(TreeNode root)
 > **叶子节点** 是指没有子节点的节点。
 
 ```csharp
-public static IList<string> BinaryTreePaths_DFS(TreeNode root)
+public IList<string> BinaryTreePaths_DFS(TreeNode root)
 {
     StringBuilder path = new StringBuilder();
     List<string> paths = new List<string>();
@@ -243,7 +243,7 @@ public static IList<string> BinaryTreePaths_DFS(TreeNode root)
     return paths;
 }
 
-static void DFS(TreeNode? p, StringBuilder path, ICollection<string> paths)
+void DFS(TreeNode? p, StringBuilder path, ICollection<string> paths)
 {
     if (p?.val == null)
     {
@@ -312,12 +312,12 @@ public ResultType Traversal(TreeNode root) {
 > 所有左子树和右子树自身必须也是二叉搜索树。
 
 ```csharp
-public static bool IsValidBST(TreeNode root)
+public bool IsValidBST(TreeNode root)
 {
     return IsValidBST_DivideAndConquer(root, long.MinValue, long.MaxValue);
 }
 
-static bool IsValidBST_DivideAndConquer(TreeNode? p, long? min, long? max)
+bool IsValidBST_DivideAndConquer(TreeNode? p, long? min, long? max)
 {
     if (p?.val == null)
     {
@@ -348,7 +348,7 @@ static bool IsValidBST_DivideAndConquer(TreeNode? p, long? min, long? max)
 
 DFS递归解法
 ```csharp
- public static int MaxDepth_DFS(TreeNode? root) {
+ public int MaxDepth_DFS(TreeNode? root) {
     if (root?.val == null) {
         return 0;
     }
@@ -358,7 +358,7 @@ DFS递归解法
 
 BFS队列解法
 ```csharp
-public static int MaxDepth_BFS(TreeNode? root) {
+public int MaxDepth_BFS(TreeNode? root) {
     if (root?.val == null) {
         return 0;
     }
@@ -393,14 +393,14 @@ public static int MaxDepth_BFS(TreeNode? root) {
 > 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
 
 ```csharp
-public static bool IsBalanced(TreeNode? root) {
+public bool IsBalanced(TreeNode? root) {
     if (root?.val == null) {
         return true;
     }
     return Math.Abs(GetHeight(root.left) - GetHeight(root.right)) <= 1 && IsBalanced(root.left) && IsBalanced(root.right);
 }
 
-static int GetHeight(TreeNode? node) {
+int GetHeight(TreeNode? node) {
     if (node?.val == null) {
         return 0;
     }
@@ -419,15 +419,15 @@ static int GetHeight(TreeNode? node) {
 > 给你一个二叉树的根节点 `root` ，返回其 **最大路径和** 。
 
 ```csharp
-static int maxSum = int.MinValue;
+int maxSum = int.MinValue;
 
-public static int MaxPathSum(TreeNode root) 
+public int MaxPathSum(TreeNode root) 
 {
     MaxGain(root);
     return maxSum;
 }
 
-static int MaxGain(TreeNode? node) 
+int MaxGain(TreeNode? node) 
 {
     if (node?.val == null) 
     {
@@ -457,7 +457,7 @@ static int MaxGain(TreeNode? node)
 思路：分治法，有左子树的公共祖先或者有右子树的公共祖先，就返回子树的祖先，否则返回根节点
 
 ```csharp
-public static TreeNode? LowestCommonAncestor(TreeNode? root, TreeNode p, TreeNode q) {
+public TreeNode? LowestCommonAncestor(TreeNode? root, TreeNode p, TreeNode q) {
     // check
     if (root?.val==null)
     {
@@ -495,7 +495,7 @@ public static TreeNode? LowestCommonAncestor(TreeNode? root, TreeNode p, TreeNod
 思路：用一个队列记录一层的元素，然后扫描这一层元素添加下一层元素到队列（一个数进去出来一次，所以复杂度 O(logN)）
 
 ```csharp
-public static IList<IList<int?>> LevelOrder(TreeNode? root)
+public IList<IList<int?>> LevelOrder(TreeNode? root)
 {
     IList<IList<int?>> levelOrderTraversal = new List<IList<int?>>();
     if (root?.val == null)
@@ -537,7 +537,7 @@ public static IList<IList<int?>> LevelOrder(TreeNode? root)
 思路：在层级遍历的基础上，翻转一下结果即可
 
 ```csharp
-public static IList<IList<int?>> LevelOrderBottom(TreeNode? root)
+public IList<IList<int?>> LevelOrderBottom(TreeNode? root)
 {
     IList<IList<int?>> levelOrderBottomTraversal = new List<IList<int?>>();
     if (root?.val == null)
@@ -576,7 +576,7 @@ public static IList<IList<int?>> LevelOrderBottom(TreeNode? root)
 > 给你二叉树的根节点 `root` ，返回其节点值的 **锯齿形层序遍历** 。锯齿形层序遍历 。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
 
 ```csharp
-public static IList<IList<int?>> ZigzagLevelOrder(TreeNode? root)
+public IList<IList<int?>> ZigzagLevelOrder(TreeNode? root)
 {
     IList<IList<int?>> zigzagLevelOrderTraversal = new List<IList<int?>>();
     if (root?.val == null)
@@ -632,7 +632,7 @@ public static IList<IList<int?>> ZigzagLevelOrder(TreeNode? root)
 思路：找到最后一个叶子节点满足插入条件即可
 
 ```csharp
-public static TreeNode InsertIntoBST(TreeNode? root, int val)
+public TreeNode InsertIntoBST(TreeNode? root, int val)
 {
     if (root?.val == null)
     {
@@ -663,7 +663,7 @@ public static TreeNode InsertIntoBST(TreeNode? root, int val)
 > 2. 如果找到了，删除它。
 
 ```csharp
-public static TreeNode? DeleteNode(TreeNode? root, int key)
+public TreeNode? DeleteNode(TreeNode? root, int key)
 {
     // 删除节点分为三种情况：
     // 1、只有左节点 替换为右

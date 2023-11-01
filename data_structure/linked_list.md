@@ -24,7 +24,7 @@
 > 给定一个已排序的链表的头 `head` ， 删除所有重复的元素，使每个元素只出现一次 。返回 已排序的链表 。
 
 ```csharp
-public static ListNode DeleteDuplicates(ListNode head)
+public ListNode DeleteDuplicates(ListNode head)
 {
     if (head == null)
     {
@@ -55,7 +55,7 @@ public static ListNode DeleteDuplicates(ListNode head)
 思路：链表头结点可能被删除，所以用 dummy node 辅助删除
 
 ```csharp
-public static ListNode DeleteDuplicates2(ListNode head)
+public ListNode DeleteDuplicates2(ListNode head)
 {
     ListNode dummyHead = new ListNode(0);
     dummyHead.next = head;
@@ -96,7 +96,7 @@ public static ListNode DeleteDuplicates2(ListNode head)
 思路：用一个 prev 节点保存向前指针，temp 保存向后的临时指针
 
 ```csharp
-public static ListNode ReverseList(ListNode head)
+public ListNode ReverseList(ListNode head)
 {
     ListNode prev = null, curr = head;
     while (curr != null)
@@ -119,7 +119,7 @@ public static ListNode ReverseList(ListNode head)
 思路：先遍历到 left 处，翻转，再拼接后续，注意指针处理
 
 ```csharp
-public static ListNode ReverseBetween(ListNode head, int left, int right)
+public ListNode ReverseBetween(ListNode head, int left, int right)
 {
     ListNode dummyHead = new ListNode(0, head);
     ListNode prev = dummyHead;
@@ -150,7 +150,7 @@ public static ListNode ReverseBetween(ListNode head, int left, int right)
 思路：通过 dummy node 链表，连接各个元素
 
 ```csharp
-public static ListNode MergeTwoLists(ListNode list1, ListNode list2)
+public ListNode MergeTwoLists(ListNode list1, ListNode list2)
 {
     ListNode head = new ListNode(0);
     ListNode p = head;
@@ -185,7 +185,7 @@ public static ListNode MergeTwoLists(ListNode list1, ListNode list2)
 思路：将大于 x 的节点，放到另外一个链表，最后连接这两个链表
 
 ```csharp
-public static ListNode Partition(ListNode head, int x)
+public ListNode Partition(ListNode head, int x)
 {
     ListNode dummyHead1 = new ListNode(0);
     ListNode dummyHead2 = new ListNode(0);
@@ -228,7 +228,7 @@ public static ListNode Partition(ListNode head, int x)
 思路：归并排序，找中点和合并操作
 
 ```csharp
-public static ListNode SortList(ListNode head)
+public ListNode SortList(ListNode head)
 {
     if (head?.next == null)
     {
@@ -247,7 +247,7 @@ public static ListNode SortList(ListNode head)
     return MergeTwoLists_SortList(list1, list2);
 }
 
-static ListNode MergeTwoLists_SortList(ListNode list1, ListNode list2)
+ListNode MergeTwoLists_SortList(ListNode list1, ListNode list2)
 {
     ListNode dummyHead = new ListNode(0);
     ListNode temp = dummyHead;
@@ -293,7 +293,7 @@ static ListNode MergeTwoLists_SortList(ListNode list1, ListNode list2)
 思路：找到中点断开，翻转后面部分，然后合并前后两个链表
 
 ```csharp
-public static void ReorderList(ListNode head)
+public void ReorderList(ListNode head)
 {
     if (head == null)
     {
@@ -342,7 +342,7 @@ public static void ReorderList(ListNode head)
 ![fast_slow_linked_list](https://img.fuiboom.com/img/fast_slow_linked_list.png)
 
 ```csharp
-public static bool HasCycle(ListNode head)
+public bool HasCycle(ListNode head)
 {
     ListNode fast = head, slow = head;
     while (fast is { next: not null })
@@ -372,7 +372,7 @@ public static bool HasCycle(ListNode head)
 ![cycled_linked_list](https://img.fuiboom.com/img/cycled_linked_list.png)
 
 ```csharp
-public static ListNode DetectCycle(ListNode head) {
+public ListNode DetectCycle(ListNode head) {
     // 思路：快慢指针，快慢相遇之后，慢指针回到头，快慢指针步调一致一起移动，相遇点即为入环点
     ListNode p = head, q = head;
     while (p != null && q is { next: not null }) {
@@ -400,7 +400,7 @@ public static ListNode DetectCycle(ListNode head) {
 > 给你一个单链表的头节点 `head` ，请你判断该链表是否为回文链表。如果是，返回 `true` ；否则，返回 `false` 。
 
 ```csharp
-public static bool IsPalindrome(ListNode head)
+public bool IsPalindrome(ListNode head)
 {
     ListNode fast = head, slow = head;
     while (fast is { next: not null })
@@ -424,7 +424,7 @@ public static bool IsPalindrome(ListNode head)
     }
     return true;
 }
-public static ListNode ReverseFirstHalf(ListNode head, ListNode firstHalfEnd)
+public ListNode ReverseFirstHalf(ListNode head, ListNode firstHalfEnd)
 {
     ListNode prev = null, curr = head;
     while (curr != firstHalfEnd)
@@ -463,7 +463,7 @@ public static ListNode ReverseFirstHalf(ListNode head, ListNode firstHalfEnd)
 思路：1、hash 表存储指针，2、复制节点跟在原节点后面
 
 ```csharp
-public static Node CopyRandomList(Node head)
+public Node CopyRandomList(Node head)
 {
     if (head == null)
     {

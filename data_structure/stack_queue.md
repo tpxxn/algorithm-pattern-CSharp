@@ -91,7 +91,7 @@ public class MinStack
 思路：通过栈保存原来的元素，遇到表达式弹出运算，再推入结果，重复这个过程
 
 ```csharp
-public static int EvalRPN(string[] tokens)
+public int EvalRPN(string[] tokens)
 {
     Stack<int> stack = new Stack<int>();
     int length = tokens.Length;
@@ -126,7 +126,7 @@ public static int EvalRPN(string[] tokens)
     return stack.Pop();
 }
 
-public static bool IsNumber(string token)
+public bool IsNumber(string token)
 {
     return char.IsDigit(token[^1]);
 }
@@ -147,7 +147,7 @@ public static bool IsNumber(string token)
 思路：通过栈辅助进行操作
 
 ```csharp
-public static string DecodeString(string s)
+public string DecodeString(string s)
 {
     StringBuilder sb = new StringBuilder();
     Stack<int> stack = new Stack<int>();
@@ -205,7 +205,7 @@ public static string DecodeString(string s)
 
 ```csharp
 // 思路：通过stack 保存已经访问的元素，用于原路返回
-public static IList<int?> InorderTraversal(TreeNode root)
+public IList<int?> InorderTraversal(TreeNode root)
 {
     IList<int?> traversal = new List<int?>();
     Stack<TreeNode> stack = new Stack<TreeNode>();
@@ -242,7 +242,7 @@ public static IList<int?> InorderTraversal(TreeNode root)
 ![image.png](https://img.fuiboom.com/img/stack_rain2.png)
 
 ```csharp
-public static int LargestRectangleArea(int[] heights)
+public int LargestRectangleArea(int[] heights)
 {
     int length = heights.Length;
     int[] left = new int[length];
@@ -279,7 +279,7 @@ public static int LargestRectangleArea(int[] heights)
 > 给定 `n` 个非负整数表示每个宽度为 `1` 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
 
 ```csharp
-public static int Trap(int[] height)
+public int Trap(int[] height)
 {
     int amount = 0;
     Stack<int> stack = new Stack<int>();
@@ -430,9 +430,9 @@ public class MyQueue
 思路：通过深度搜索遍历可能性（注意标记已访问元素）
 
 ```csharp
-static int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
+int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
 
-public static int NumIslands(char[][] grid)
+public int NumIslands(char[][] grid)
 {
     int islands = 0;
     int m = grid.Length, n = grid[0].Length;
@@ -482,10 +482,10 @@ public static int NumIslands(char[][] grid)
 > 两个相邻元素间的距离为 `1` 。
 
 ```csharp
-static int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
+int[][] dirs = { new[] { -1, 0 }, new[] { 1, 0 }, new[] { 0, -1 }, new[] { 0, 1 } };
 const int INFINITY = int.MaxValue / 2;
 
-public static int[][] UpdateMatrix(int[][] mat)
+public int[][] UpdateMatrix(int[][] mat)
 {
     int m = mat.Length, n = mat[0].Length;
     int[][] distances = new int[m][];
@@ -543,7 +543,7 @@ public static int[][] UpdateMatrix(int[][] mat)
 > >}
 
 ```csharp
-public static Node CloneGraph(Node node)
+public Node CloneGraph(Node node)
 {
     if (node == null)
     {

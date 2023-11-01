@@ -5,14 +5,14 @@
 ### 快速排序
 
 ```csharp
-public static void QuickSort(int[] nums)
+public void QuickSort(int[] nums)
 {
     // 思路：把一个数组分为左右两段，左段小于右段
     QuickSort(nums, 0, nums.Length - 1);
 }
 
 // 原地交换，所以传入交换索引
-private static void QuickSort(int[] nums, int start, int end)
+private void QuickSort(int[] nums, int start, int end)
 {
     if (start < end)
     {
@@ -24,7 +24,7 @@ private static void QuickSort(int[] nums, int start, int end)
 }
 
 // 分区
-private static int Partition(int[] nums, int start, int end)
+private int Partition(int[] nums, int start, int end)
 {
     // 选取最后一个元素作为基准pivot
     int p = nums[end];
@@ -47,12 +47,12 @@ private static int Partition(int[] nums, int start, int end)
 ### 归并排序
 
 ```csharp
-public static void MergeSort(int[] nums)
+public void MergeSort(int[] nums)
 {
     MergeSort(nums, 0, nums.Length);
 }
 
-private static void MergeSort(int[] nums, int start, int end)
+private void MergeSort(int[] nums, int start, int end)
 {
     if (end - start <= 1)
     {
@@ -66,7 +66,7 @@ private static void MergeSort(int[] nums, int start, int end)
     Merge(nums, start, mid, end);
 }
 
-private static void Merge(int[] nums, int start, int mid, int end)
+private void Merge(int[] nums, int start, int mid, int end)
 {
     int[] temp = new int[end - start];
     // 两边数组合并游标
@@ -118,7 +118,7 @@ private static void Merge(int[] nums, int start, int mid, int end)
 核心代码
 
 ```csharp
-public static void HeapSort(int[] nums)
+public void HeapSort(int[] nums)
 {
     // 1、无序数组nums
     // 2、将无序数组nums构建为一个大根堆
@@ -137,7 +137,7 @@ public static void HeapSort(int[] nums)
     }
 }
 
-private static void Sink(int[] nums, int i, int length)
+private void Sink(int[] nums, int i, int length)
 {
     while (true)
     {
