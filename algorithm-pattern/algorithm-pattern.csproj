@@ -12,7 +12,6 @@
       <Folder Include="advanced_algorithm\Backtrack\" />
       <Folder Include="advanced_algorithm\Recursion\" />
       <Folder Include="advanced_algorithm\SlideWindow\" />
-      <Folder Include="basic_algorithm\DP\" />
     </ItemGroup>
 
 </Project>
