@@ -8,7 +8,7 @@ public partial class DP
     ///  会超时
     /// </summary>
     /// <param name="triangle">给定三角形</param>
-    /// <returns>只出现一次的元素</returns>
+    /// <returns>三角形最小路径和</returns>
     public static int MinimumTotal(IList<IList<int>> triangle)
     {
         return DFS(0, 0, triangle);
@@ -17,10 +17,10 @@ public partial class DP
     /// <summary>
     /// 返回值表示从x, y处到底部的最小路径和 
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="triangle"></param>
-    /// <returns></returns>
+    /// <param name="x">当前递归行 x</param>
+    /// <param name="y">当前递归列 y</param>
+    /// <param name="triangle">给定三角形</param>
+    /// <returns>从x, y处到底部的最小路径和</returns>
     private static int DFS(int x, int y, IList<IList<int>> triangle)
     {
         if (x == triangle.Count - 1)
@@ -36,7 +36,7 @@ public partial class DP
     /// 优化 DFS，缓存已经被计算的值
     /// </summary>
     /// <param name="triangle">给定三角形</param>
-    /// <returns></returns>
+    /// <returns>三角形最小路径和</returns>
     public static int MinimumTotal2(IList<IList<int>> triangle)
     {
         int[,] saves = new int[triangle.Count, triangle.Count];
@@ -47,11 +47,11 @@ public partial class DP
     /// 使用saves数组记录已经被计算过的值
     /// 返回值表示从x, y处到底部的最小路径和
     /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="triangle"></param>
-    /// <param name="saves"></param>
-    /// <returns></returns>
+    /// <param name="x">当前递归行 x</param>
+    /// <param name="y">当前递归列 y</param>
+    /// <param name="triangle">给定三角形</param>
+    /// <param name="saves">缓存的计算值</param>
+    /// <returns>从x, y处到底部的最小路径和</returns>
     private static int DFS2(int x, int y, IList<IList<int>> triangle, int[,] saves)
     {
         if (x == triangle.Count - 1)
@@ -74,7 +74,7 @@ public partial class DP
     /// 自底向上
     /// </summary>
     /// <param name="triangle">给定三角形</param>
-    /// <returns></returns>
+    /// <returns>三角形最小路径和</returns>
     public static int MinimumTotal_DownToUp(IList<IList<int>> triangle)
     {
         // 1、状态定义：f[i][j] 表示从i,j出发，到达最后一层的最短路径
@@ -100,7 +100,7 @@ public partial class DP
     /// 自顶向下
     /// </summary>
     /// <param name="triangle">给定三角形</param>
-    /// <returns></returns>
+    /// <returns>三角形最小路径和</returns>
     public static int MinimumTotal_TopToDown(IList<IList<int>> triangle)
     {
         // 1、状态定义：dp[i][j] 表示从0,0出发，到达i,j的最短路径
@@ -142,7 +142,7 @@ public partial class DP
     /// 空间优化
     /// </summary>
     /// <param name="triangle">给定三角形</param>
-    /// <returns></returns>
+    /// <returns>三角形最小路径和</returns>
     public static int MinimumTotal_Final(IList<IList<int>> triangle)
     {
         int[] dp = new int[triangle.Count];

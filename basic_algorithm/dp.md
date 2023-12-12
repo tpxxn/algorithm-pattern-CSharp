@@ -213,9 +213,26 @@ public int MinimumTotal(IList<IList<int>> triangle)
 
 #### 最小路径和
 
-> [64. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
+> [064. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
 >
-> 给定一个包含非负整数的  *m* x *n*  网格，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
+> 给定一个包含非负整数的 `m x n`  网格 `grid`，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
+> 
+> 说明：每次只能向下或者向右移动一步。
+> 
+> **示例 1：**
+>
+> ```
+> 输入：grid = [[1,3,1],[1,5,1],[4,2,1]]
+> 输出：7
+> 解释：因为路径 1→3→1→1→1 的总和最小。
+> ```
+>
+> **示例 2：**
+>
+> ```
+> 输入：grid = [[1,2,3],[4,5,6]]
+> 输出：12
+> ```
 
 ```csharp
 public int minPathSum(int[][] grid) {
@@ -247,75 +264,138 @@ public int minPathSum(int[][] grid) {
 
 #### 不同路径
 
-> [62. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
+> [062. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 >
-> 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+> 一个机器人位于一个 `m x n` 网格的左上角 （起始点在下图中标记为“Start” ）。
+> 
 > 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
 >
 > 问总共有多少条不同的路径？
+> 
+> **示例 1：**
+> 
+> ![img](../images/dp_unique_paths.png)
+> 
+> ```
+> 输入：m = 3, n = 7
+> 输出：28
+> ```
+>
+> **示例 2：**
+>
+> ```
+> 输入：m = 3, n = 2
+> 输出：3
+> 解释：
+> 从左上角开始，总共有 3 条路径可以到达右下角。
+> 1. 向右 -> 向下 -> 向下
+> 2. 向下 -> 向下 -> 向右
+> 3. 向下 -> 向右 -> 向下
+> ```
 
 ```csharp
-public int uniquePaths(int m, int n) {
+public int UniquePaths(int m, int n)
+{
     // dp[i][j] 表示0,0到i,j的路径数
     int[] dp = new int[n];
     // 初始化：到达第一行的路径数均为1
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
+    {
         dp[i] = 1;
     }
-    for (int i = 1; i < m; i++) {
-        for (int j = 0; j < n; j++) {
+    for (int i = 1; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
             // 每行第一个格子只有一条路到达
-            if (j == 0) {
+            if (j == 0)
+            {
                 dp[j] = 1;
-            } 
+            }
             // 其他格子可以由左侧或上方的格子到达
-            else {
-                dp[j] = dp[j-1] + dp[j];
+            else
+            {
+                dp[j] = dp[j - 1] + dp[j];
             }
         }
     }
-    return dp[n-1];
+    return dp[n - 1];
 }
 ```
 
 #### 不同路径 II
 
-> [63. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii/)
+> [063. 不同路径 II](https://leetcode-cn.com/problems/unique-paths-ii/)
 >
-> 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+> 一个机器人位于一个 `m x n` 网格的左上角 （起始点在下图中标记为“Start” ）。
 > 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
 >
 > 问总共有多少条不同的路径？
 >
 > 现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？
+> 
+> 网格中的障碍物和空位置分别用 `1` 和 `0` 来表示。
+> 
+> **示例 1：**
+>
+> >![img](../images/dp_unique_paths_2_1.jpg)
+> >
+> > **输入**：obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
+> >
+> > **输出**：2
+> >
+> > **解释**：
+> > 3x3 网格的正中间有一个障碍物。
+> > 从左上角到右下角一共有 2 条不同的路径：
+> > 1. 向右 -> 向右 -> 向下 -> 向下
+> > 2. 向下 -> 向下 -> 向右 -> 向右
+>
+>
+> **示例 2：**
+>
+> > ![img](../images/dp_unique_paths_2_2.jpg)
+> >
+> >
+> > 输入：obstacleGrid = [[0,1],[0,0]]
+> >
+> > 输出：1
 
 ```csharp
-public int uniquePathsWithObstacles(int[][] obstacleGrid) {
-    int m = obstacleGrid.length;
-    int n = obstacleGrid[0].length;
+public int UniquePathsWithObstacles(int[][] obstacleGrid
+{
+    int m = obstacleGrid.Length;
+    int n = obstacleGrid[0].Length;
     int[] dp = new int[n];
     // 初始化：遇到障碍前仅有一条路，之后全为0
     dp[0] = obstacleGrid[0][0] == 1 ? 0 : 1;
-    for (int i = 1; i < n; i++) {
-        if (obstacleGrid[0][i] == 1) {
+    for (int i = 1; i < n; i++)
+    {
+        if (obstacleGrid[0][i] == 1)
+        {
             dp[i] = 0;
-        } else {
-            dp[i] = dp[i-1];
+        }
+        else
+        {
+            dp[i] = dp[i - 1];
         }
     }
-    for (int i = 1; i < m; i++) {
-        for (int j = 0; j < n; j++) {
+    for (int i = 1; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
             // 当前格是障碍，不可达，置为0
-            if (obstacleGrid[i][j] == 1) {
+            if (obstacleGrid[i][j] == 1)
+            {
                 dp[j] = 0;
                 continue;
             }
-            if (j > 0) {
-                dp[j] = dp[j-1] + dp[j];
+            if (j > 0)
+            {
+                dp[j] = dp[j - 1] + dp[j];
             }
         }
     }
-    return dp[n-1];
+    return dp[n - 1];
 }
 ```
 
@@ -323,7 +403,7 @@ public int uniquePathsWithObstacles(int[][] obstacleGrid) {
 
 #### 爬楼梯
 
-> [70. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+> [070. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 >
 > 假设你正在爬楼梯。需要  *n*  阶你才能到达楼顶。
 >
@@ -341,6 +421,145 @@ public int climbStairs(int n) {
     return dp[1];
 }
 ```
+
+#### 跳跃游戏
+
+> [055. 跳跃游戏](https://leetcode-cn.com/problems/jump-game/)
+>
+> 给定一个非负整数数组，你最初位于数组的第一个位置。
+> 数组中的每个元素代表你在该位置可以跳跃的最大长度。
+> 判断你是否能够到达最后一个位置。
+
+```go
+func canJump(nums []int) bool {
+    // 思路：看最后一跳
+    // 状态：f[i] 表示是否能从0跳到i
+    // 推导：f[i] = OR(f[j],j<i&&j能跳到i) 判断之前所有的点最后一跳是否能跳到当前点
+    // 初始化：f[0] = 0
+    // 结果： f[n-1]
+    if len(nums) == 0 {
+        return true
+    }
+    f := make([]bool, len(nums))
+    f[0] = true
+    for i := 1; i < len(nums); i++ {
+        for j := 0; j < i; j++ {
+            if f[j] == true && nums[j]+j >= i {
+                f[i] = true
+            }
+        }
+    }
+    return f[len(nums)-1]
+}
+```
+
+#### 跳跃游戏-ii
+
+> [045. 跳跃游戏-ii](https://leetcode-cn.com/problems/jump-game-ii/)
+>
+> 给定一个非负整数数组，你最初位于数组的第一个位置。
+> 数组中的每个元素代表你在该位置可以跳跃的最大长度。
+> 你的目标是使用最少的跳跃次数到达数组的最后一个位置。
+
+```go
+// v1动态规划（其他语言超时参考v2）
+func jump(nums []int) int {
+    // 状态：f[i] 表示从起点到当前位置最小次数
+    // 推导：f[i] = f[j],a[j]+j >=i,min(f[j]+1)
+    // 初始化：f[0] = 0
+    // 结果：f[n-1]
+    f := make([]int, len(nums))
+    f[0] = 0
+    for i := 1; i < len(nums); i++ {
+        // f[i] 最大值为i
+        f[i] = i
+        // 遍历之前结果取一个最小值+1
+        for j := 0; j < i; j++ {
+            if nums[j]+j >= i {
+                f[i] = min(f[j]+1,f[i])
+            }
+        }
+    }
+    return f[len(nums)-1]
+}
+func min(a, b int) int {
+    if a > b {
+        return b
+    }
+    return a
+}
+```
+
+```go
+// v2 动态规划+贪心优化
+func jump(nums []int) int {
+    n:=len(nums)
+    f := make([]int, n)
+    f[0] = 0
+    for i := 1; i < n; i++ {
+        // 取第一个能跳到当前位置的点即可
+        // 因为跳跃次数的结果集是单调递增的，所以贪心思路是正确的
+        idx:=0
+        for idx<n&&idx+nums[idx]<i{
+            idx++
+        }
+        f[i]=f[idx]+1
+    }
+    return f[n-1]
+}
+
+```
+
+#### 分割回文串-ii
+
+> [132. 分割回文串-ii](https://leetcode-cn.com/problems/palindrome-partitioning-ii/)
+>
+> 给定一个字符串 _s_，将 _s_ 分割成一些子串，使每个子串都是回文串。
+> 返回符合要求的最少分割次数。
+
+```go
+func minCut(s string) int {
+	// state: f[i] "前i"个字符组成的子字符串需要最少几次cut(个数-1为索引)
+	// function: f[i] = MIN{f[j]+1}, j < i && [j+1 ~ i]这一段是一个回文串
+	// intialize: f[i] = i - 1 (f[0] = -1)
+	// answer: f[s.length()]
+	if len(s) == 0 || len(s) == 1 {
+		return 0
+	}
+	f := make([]int, len(s)+1)
+	f[0] = -1
+	f[1] = 0
+	for i := 1; i <= len(s); i++ {
+		f[i] = i - 1
+		for j := 0; j < i; j++ {
+			if isPalindrome(s, j, i-1) {
+				f[i] = min(f[i], f[j]+1)
+			}
+		}
+	}
+	return f[len(s)]
+}
+func min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
+}
+func isPalindrome(s string, i, j int) bool {
+	for i < j {
+		if s[i] != s[j] {
+			return false
+		}
+		i++
+		j--
+	}
+	return true
+}
+```
+
+注意点
+
+- 判断回文字符串时，可以提前用动态规划算好，减少时间复杂度
 
 #### 最长递增子序列
 
@@ -478,7 +697,7 @@ public int longestCommonSubsequence(String text1, String text2) {
 
 ####  编辑距离
 
-> [72. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
+> [072. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
 >
 > 给你两个单词  word1 和  word2，请你计算出将  word1  转换成  word2 所使用的最少操作数 。你可以对一个单词进行如下三种操作：
 >
@@ -581,6 +800,81 @@ public int change(int amount, int[] coins) {
 }
 ```
 
+### 背包问题
+
+> [092. 背包问题](https://www.lintcode.com/problem/backpack/description)
+>
+> 在 `n` 个物品中挑选若干物品装入背包，最多能装多满？假设背包的大小为 `m`，每个物品的大小为 A<sub>i</sub>
+>
+> （每个物品只能选择一次且物品大小均为正整数）
+
+```go
+func backPack (m int, A []int) int {
+    // write your code here
+    // f[i][j] 前i个物品，是否能装j
+    // f[i][j] =f[i-1][j] f[i-1][j-a[i] j>a[i]
+    // f[0][0]=true f[...][0]=true
+    // f[n][X]
+    f:=make([][]bool,len(A)+1)
+    for i:=0;i<=len(A);i++{
+        f[i]=make([]bool,m+1)
+    }
+    f[0][0]=true
+    for i:=1;i<=len(A);i++{
+        for j:=0;j<=m;j++{
+            f[i][j]=f[i-1][j]
+            if j-A[i-1]>=0 && f[i-1][j-A[i-1]]{
+                f[i][j]=true
+            }
+        }
+    }
+    for i:=m;i>=0;i--{
+        if f[len(A)][i] {
+            return i
+        }
+    }
+    return 0
+}
+```
+
+#### 背包问题-ii
+
+> [125. 背包问题-ii](https://www.lintcode.com/problem/backpack-ii/description)
+>
+> 有 `n` 个物品和一个大小为 `m` 的背包. 给定数组 `A` 表示每个物品的大小和数组 `V` 表示每个物品的价值.
+> 
+> 问最多能装入背包的总价值是多大?
+
+思路：f[i][j] 前 i 个物品，装入 j 背包 最大价值
+
+```go
+func backPackII (m int, A []int, V []int) int {
+    // write your code here
+    // f[i][j] 前i个物品，装入j背包 最大价值
+    // f[i][j] =max(f[i-1][j] ,f[i-1][j-A[i]]+V[i]) 是否加入A[i]物品
+    // f[0][0]=0 f[0][...]=0 f[...][0]=0
+    f:=make([][]int,len(A)+1)
+    for i:=0;i<len(A)+1;i++{
+        f[i]=make([]int,m+1)
+    }
+    for i:=1;i<=len(A);i++{
+        for j:=0;j<=m;j++{
+            f[i][j]=f[i-1][j]
+            if j-A[i-1] >= 0{
+                f[i][j]=max(f[i-1][j],f[i-1][j-A[i-1]]+V[i-1])
+            }
+        }
+    }
+    return f[len(A)][m]
+}
+func max(a,b int)int{
+    if a>b{
+        return a
+    }
+    return b
+}
+```
+
 #### 分割等和子集
 
 > [416. 分割等和子集](https://leetcode-cn.com/problems/partition-equal-subset-sum/)
@@ -626,27 +920,29 @@ public boolean canPartition(int[] nums) {
 
 Matrix DP (10%)
 
-- [ ] [triangle](https://leetcode-cn.com/problems/triangle/)
-- [ ] [minimum-path-sum](https://leetcode-cn.com/problems/minimum-path-sum/)
-- [ ] [unique-paths](https://leetcode-cn.com/problems/unique-paths/)
-- [ ] [unique-paths-ii](https://leetcode-cn.com/problems/unique-paths-ii/)
+- [ ] [120. 三角形最小路径和](https://leetcode-cn.com/problems/triangle/)
+- [ ] [064. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
+- [ ] [062. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
+- [ ] [063. 不同路径-ii](https://leetcode-cn.com/problems/unique-paths-ii/)
 
 Sequence (40%)
 
-- [ ] [climbing-stairs](https://leetcode-cn.com/problems/climbing-stairs/)
-- [ ] [jump-game](https://leetcode-cn.com/problems/jump-game/)
-- [ ] [jump-game-ii](https://leetcode-cn.com/problems/jump-game-ii/)
-- [ ] [palindrome-partitioning-ii](https://leetcode-cn.com/problems/palindrome-partitioning-ii/)
-- [ ] [longest-increasing-subsequence](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
-- [ ] [word-break](https://leetcode-cn.com/problems/word-break/)
+- [ ] [070. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
+- [ ] [055. 跳跃游戏](https://leetcode-cn.com/problems/jump-game/)
+- [ ] [045. 跳跃游戏-ii](https://leetcode-cn.com/problems/jump-game-ii/)
+- [ ] [132. 分割回文串-ii](https://leetcode-cn.com/problems/palindrome-partitioning-ii/)
+- [ ] [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
+- [ ] [139. 单词拆分](https://leetcode-cn.com/problems/word-break/)
 
 Two Sequences DP (40%)
 
-- [ ] [longest-common-subsequence](https://leetcode-cn.com/problems/longest-common-subsequence/)
-- [ ] [edit-distance](https://leetcode-cn.com/problems/edit-distance/)
+- [ ] [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
+- [ ] [072. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
 
 Backpack & Coin Change (10%)
 
-- [ ] [coin-change](https://leetcode-cn.com/problems/coin-change/)
-- [ ] [backpack](https://www.lintcode.com/problem/backpack/description)
-- [ ] [backpack-ii](https://www.lintcode.com/problem/backpack-ii/description)
+- [ ] [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
+- [ ] [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
+- [ ] [092. 背包问题](https://www.lintcode.com/problem/backpack/description)
+- [ ] [125. 背包问题-ii](https://www.lintcode.com/problem/backpack-ii/description)
+- [ ] [416. 分割等和子集](https://leetcode-cn.com/problems/partition-equal-subset-sum/)
