@@ -112,4 +112,65 @@ public class DPTest
         var result = DP.UniquePathsWithObstacles(obstacleGrid);
         Assert.That(result, Is.EqualTo(1));
     }
+
+    [Test]
+    public void ClimbStairsTest()
+    {
+        var result = DP.ClimbStairs(4);
+        Assert.That(result, Is.EqualTo(5));
+    }
+
+    [Test]
+    public void ClimbStairsTest_2()
+    {
+        var result = DP.ClimbStairs(2);
+        Assert.That(result, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void ClimbStairsTest_3()
+    {
+        var result = DP.ClimbStairs(3);
+        Assert.That(result, Is.EqualTo(3));
+    }
+
+    [Test]
+    public void CanJumpTest()
+    {
+        var result = DP.CanJump(new int[] { 2, 3, 1, 1, 4 });
+        Assert.That(result, Is.EqualTo(true));
+    }
+
+    [Test]
+    public void CanJumpTest_2()
+    {
+        var result = DP.CanJump(new int[] { 3, 2, 1, 0, 4 });
+        Assert.That(result, Is.EqualTo(false));
+    }
+
+    [Test]
+    public void JumpTest()
+    {
+        var result = DP.Jump(new int[] { 2, 3, 1, 1, 4 });
+        Assert.That(result, Is.EqualTo(2));
+    }
+
+    public void JumpTest_2()
+    {
+        var result = DP.Jump(new int[] { 2, 3, 0, 1, 4 });
+        Assert.That(result, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void JumpTest_Greedy()
+    {
+        var result = DP.Jump_Greedy(new int[] { 2, 3, 1, 1, 4 });
+        Assert.That(result, Is.EqualTo(2));
+    }
+
+    public void JumpTest_Greedy_2()
+    {
+        var result = DP.Jump_Greedy(new int[] { 2, 3, 0, 1, 4 });
+        Assert.That(result, Is.EqualTo(2));
+    }
 }

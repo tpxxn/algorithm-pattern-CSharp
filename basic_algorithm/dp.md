@@ -405,14 +405,16 @@ public int UniquePathsWithObstacles(int[][] obstacleGrid
 
 > [070. 爬楼梯](https://leetcode-cn.com/problems/climbing-stairs/)
 >
-> 假设你正在爬楼梯。需要  *n*  阶你才能到达楼顶。
+> 假设你正在爬楼梯。需要 `n` 阶你才能到达楼顶。
 >
-> 每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶？
+> 每次你可以爬 `1` 或 `2` 个台阶。你有多少种不同的方法可以爬到楼顶？
 
 ```csharp
-public int climbStairs(int n) {
-    int[] dp = new int[]{0, 1};
-    while (n > 0) {
+public int ClimbStairs(int n)
+{
+    int[] dp = new int[] { 0, 1 };
+    while (n > 0)
+    {
         int temp = dp[0] + dp[1];
         dp[0] = dp[1];
         dp[1] = temp;
@@ -426,30 +428,25 @@ public int climbStairs(int n) {
 
 > [055. 跳跃游戏](https://leetcode-cn.com/problems/jump-game/)
 >
-> 给定一个非负整数数组，你最初位于数组的第一个位置。
-> 数组中的每个元素代表你在该位置可以跳跃的最大长度。
-> 判断你是否能够到达最后一个位置。
+> 给你一个非负整数数组 `nums`，你最初位于数组的 **第一个下标** 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+>
+> 判断你是否能够到达最后一个下标，如果可以，返回 `true` ；否则，返回 `false` 。
 
-```go
-func canJump(nums []int) bool {
-    // 思路：看最后一跳
-    // 状态：f[i] 表示是否能从0跳到i
-    // 推导：f[i] = OR(f[j],j<i&&j能跳到i) 判断之前所有的点最后一跳是否能跳到当前点
-    // 初始化：f[0] = 0
-    // 结果： f[n-1]
-    if len(nums) == 0 {
-        return true
-    }
-    f := make([]bool, len(nums))
-    f[0] = true
-    for i := 1; i < len(nums); i++ {
-        for j := 0; j < i; j++ {
-            if f[j] == true && nums[j]+j >= i {
-                f[i] = true
-            }
+```csharp
+public bool CanJump(int[] nums)
+{
+    int n = nums.Length;
+    int[] dp = new int[n];
+    dp[0] = nums[0];
+    for (int i = 1; i < n && dp[i] < n - 1; i++)
+    {
+        if (dp[i - 1] < i)
+        {
+            return false;
         }
+        dp[i] = Math.Max(dp[i - 1], i + nums[i]);
     }
-    return f[len(nums)-1]
+    return true;
 }
 ```
 
@@ -457,57 +454,52 @@ func canJump(nums []int) bool {
 
 > [045. 跳跃游戏-ii](https://leetcode-cn.com/problems/jump-game-ii/)
 >
-> 给定一个非负整数数组，你最初位于数组的第一个位置。
-> 数组中的每个元素代表你在该位置可以跳跃的最大长度。
-> 你的目标是使用最少的跳跃次数到达数组的最后一个位置。
+> 给定一个长度为 `n` 的 `0` 索引整数数组 nums。初始位置为 `nums[0]`。
+>
+> 每个元素 `nums[i]` 表示从索引 `i` 向前跳转的最大长度。换句话说，如果你在 `nums[i]` 处，你可以跳转到任意 `nums[i + j]` 处:
+>
+> `0 <= j <= nums[i]`
+> `i + j < n`
+> 返回到达 `nums[n - 1]` 的最小跳跃次数。生成的测试用例可以到达 `nums[n - 1]`。
 
-```go
-// v1动态规划（其他语言超时参考v2）
-func jump(nums []int) int {
-    // 状态：f[i] 表示从起点到当前位置最小次数
-    // 推导：f[i] = f[j],a[j]+j >=i,min(f[j]+1)
-    // 初始化：f[0] = 0
-    // 结果：f[n-1]
-    f := make([]int, len(nums))
-    f[0] = 0
-    for i := 1; i < len(nums); i++ {
-        // f[i] 最大值为i
-        f[i] = i
-        // 遍历之前结果取一个最小值+1
-        for j := 0; j < i; j++ {
-            if nums[j]+j >= i {
-                f[i] = min(f[j]+1,f[i])
-            }
+v1 动态规划
+```csharp
+public int Jump(int[] nums)
+{
+    int n = nums.Length;
+    int[] dp = new int[n];
+    int prev = 0;
+    for (int i = 1; i < n; i++)
+    {
+        while (prev + nums[prev] < i)
+        {
+            prev++;
         }
+        dp[i] = dp[prev] + 1;
     }
-    return f[len(nums)-1]
-}
-func min(a, b int) int {
-    if a > b {
-        return b
-    }
-    return a
+    return dp[n - 1];
 }
 ```
 
-```go
-// v2 动态规划+贪心优化
-func jump(nums []int) int {
-    n:=len(nums)
-    f := make([]int, n)
-    f[0] = 0
-    for i := 1; i < n; i++ {
-        // 取第一个能跳到当前位置的点即可
-        // 因为跳跃次数的结果集是单调递增的，所以贪心思路是正确的
-        idx:=0
-        for idx<n&&idx+nums[idx]<i{
-            idx++
+v2 动态规划+贪心算法
+```csharp
+public int Jump_Greedy(int[] nums)
+{
+    int currJumps = 0; // 当前跳跃次数
+    int currMaxPosition = 0; // 跳跃次数 currJumps 可以到达的最大下标
+    int nextMaxPosition = 0; // 跳跃次数 currJumps+1 可以到达的最大下标
+    int n = nums.Length;
+    for (int i = 0; i < n && currMaxPosition < n - 1; i++)
+    {
+        if (i > currMaxPosition)
+        {
+            currJumps++;
+            currMaxPosition = nextMaxPosition;
         }
-        f[i]=f[idx]+1
+        nextMaxPosition = Math.Max(nextMaxPosition, i + nums[i]);
     }
-    return f[n-1]
+    return currJumps;
 }
-
 ```
 
 #### 分割回文串-ii
@@ -517,7 +509,7 @@ func jump(nums []int) int {
 > 给定一个字符串 _s_，将 _s_ 分割成一些子串，使每个子串都是回文串。
 > 返回符合要求的最少分割次数。
 
-```go
+```csharp
 func minCut(s string) int {
 	// state: f[i] "前i"个字符组成的子字符串需要最少几次cut(个数-1为索引)
 	// function: f[i] = MIN{f[j]+1}, j < i && [j+1 ~ i]这一段是一个回文串
@@ -808,7 +800,7 @@ public int change(int amount, int[] coins) {
 >
 > （每个物品只能选择一次且物品大小均为正整数）
 
-```go
+```csharp
 func backPack (m int, A []int) int {
     // write your code here
     // f[i][j] 前i个物品，是否能装j
@@ -847,7 +839,7 @@ func backPack (m int, A []int) int {
 
 思路：f[i][j] 前 i 个物品，装入 j 背包 最大价值
 
-```go
+```csharp
 func backPackII (m int, A []int, V []int) int {
     // write your code here
     // f[i][j] 前i个物品，装入j背包 最大价值

@@ -118,4 +118,92 @@ public partial class DP
         }
         return dp[n - 1];
     }
+
+    /// <summary>
+    /// <para>070. 爬楼梯</para>
+    /// <para>https://leetcode-cn.com/problems/climbing-stairs/</para>
+    /// </summary>
+    /// <param name="n">爬到顶部的台阶数</param>
+    /// <returns>爬到顶部的方法数</returns>
+    public static int ClimbStairs(int n)
+    {
+        int[] dp = new int[] { 0, 1 };
+        while (n > 0)
+        {
+            int temp = dp[0] + dp[1];
+            dp[0] = dp[1];
+            dp[1] = temp;
+            n--;
+        }
+        return dp[1];
+    }
+
+    /// <summary>
+    /// <para>055. 跳跃游戏</para>
+    /// <para>https://leetcode-cn.com/problems/jump-game/</para>
+    /// </summary>
+    /// <param name="nums">数组</param>
+    /// <returns>是否能够到达最后一个位置</returns>
+    public static bool CanJump(int[] nums)
+    {
+        int n = nums.Length;
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        for (int i = 1; i < n && dp[i] < n - 1; i++)
+        {
+            if (dp[i - 1] < i)
+            {
+                return false;
+            }
+            dp[i] = Math.Max(dp[i - 1], i + nums[i]);
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// <para>45. 跳跃游戏 II</para>
+    /// <para>https://leetcode-cn.com/problems/jump-game-ii/</para>
+    /// </summary>
+    /// <param name="nums">数组</param>
+    /// <returns>最少的跳跃次数</returns>
+    public static int Jump(int[] nums)
+    {
+        int n = nums.Length;
+        int[] dp = new int[n];
+        int prev = 0;
+        for (int i = 1; i < n; i++)
+        {
+            while (prev + nums[prev] < i)
+            {
+                prev++;
+            }
+            dp[i] = dp[prev] + 1;
+        }
+        return dp[n - 1];
+    }
+
+    /// <summary>
+    /// <para>45. 跳跃游戏 II</para>
+    /// <para>https://leetcode-cn.com/problems/jump-game-ii/</para>
+    /// 贪心算法
+    /// </summary>
+    /// <param name="nums">数组</param>
+    /// <returns>最少的跳跃次数</returns>
+    public static int Jump_Greedy(int[] nums)
+    {
+        int currJumps = 0; // 当前跳跃次数
+        int currMaxPosition = 0; // 跳跃次数 currJumps 可以到达的最大下标
+        int nextMaxPosition = 0; // 跳跃次数 currJumps+1 可以到达的最大下标
+        int n = nums.Length;
+        for (int i = 0; i < n && currMaxPosition < n - 1; i++)
+        {
+            if (i > currMaxPosition)
+            {
+                currJumps++;
+                currMaxPosition = nextMaxPosition;
+            }
+            nextMaxPosition = Math.Max(nextMaxPosition, i + nums[i]);
+        }
+        return currJumps;
+    }
 }
