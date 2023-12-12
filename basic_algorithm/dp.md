@@ -662,30 +662,47 @@ public static bool WordBreak(string s, IList<string> wordDict)
 
 > [1143. 最长公共子序列](https://leetcode-cn.com/problems/longest-common-subsequence/)
 >
-> 给定两个字符串  text1 和  text2，返回这两个字符串的最长公共子序列。
-> 一个字符串的   子序列   是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
-> 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde" 的子序列。两个字符串的「公共子序列」是这两个字符串所共同拥有的子序列。
+> 给定两个字符串 `text1` 和 `text2`，返回这两个字符串的最长 **公共子序列** 的长度。如果不存在 **公共子序列**，返回 `0`。
+>
+> 一个字符串的 **子序列** 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
+> 例如，`"ace"` 是 `"abcde"` 的子序列，但 `"aec"` 不是 `"abcde"` 的子序列。
+> 
+> 两个字符串的 **公共子序列** 是这两个字符串所共同拥有的子序列。
 
 ```csharp
-public int longestCommonSubsequence(String text1, String text2) {
+public static int LongestCommonSubsequence(string text1, string text2)
+{
+    int m = text1.Length;
+    int n = text2.Length;
     // dp[i][j] a前i个和b前j个字符最长公共子序列
     // dp[m+1][n+1]
     //   ' a d c e
     // ' 0 0 0 0 0
     // a 0 1 1 1 1
     // c 0 1 1 2 1
-    int[][] dp = new int[text1.length() + 1][text2.length() + 1];
-    for (int i = 1; i <= text1.length(); i++) {
-        for (int j = 1; j <= text2.length(); j++) {
+    int[][] dp = new int[m + 1][];
+    for (int i = 0; i < m + 1; i++)
+    {
+        dp[i] = new int[n + 1];
+    }
+    for (int i = 1; i <= m; i++)
+    {
+        char c1 = text1[i - 1];
+        for (int j = 1; j <= n; j++)
+        {
+            char c2 = text2[j - 1];
             // 相等取左上元素+1，否则取左或上的较大值
-            if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+            if (c1 == c2)
+            {
                 dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+            else
+            {
+                dp[i][j] = Math.Max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
     }
-    return dp[text1.length()][text2.length()];
+    return dp[m][n];
 }
 ```
 
@@ -699,7 +716,7 @@ public int longestCommonSubsequence(String text1, String text2) {
 
 > [072. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
 >
-> 给你两个单词  word1 和  word2，请你计算出将  word1  转换成  word2 所使用的最少操作数 。你可以对一个单词进行如下三种操作：
+> 给你两个单词 `word1` 和 `word2`，请你计算出将 `word1` 转换成 `word2` 所使用的最少操作数 。你可以对一个单词进行如下三种操作：
 >
 > 1. 插入一个字符
 > 2. 删除一个字符
@@ -708,29 +725,43 @@ public int longestCommonSubsequence(String text1, String text2) {
 思路：和上题很类似，相等则不需要操作，否则取删除、插入、替换最小操作次数的值+1
 
 ```csharp
-// dp[i][j] 表示a字符串的前i个字符编辑为b字符串的前j个字符最少需要多少次操作
+public static int MinDistance(string word1, string word2)
+{
+    // dp[i][j] 表示a字符串的前i个字符编辑为b字符串的前j个字符最少需要多少次操作
     // dp[i][j] = OR(dp[i-1][j-1]，a[i]==b[j],min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1)
-public int minDistance(String word1, String word2) {
-    int[][] dp = new int[word1.length() + 1][word2.length() + 1];
-    for (int i = 0; i <= word1.length(); i++) {
+    int m = word1.Length, n = word2.Length;
+    int[][] dp = new int[m + 1][];
+    for (int i = 0; i <= m; i++)
+    {
+        dp[i] = new int[n + 1];
+    }
+    for (int j = 1; j <= n; j++)
+    {
+        dp[0][j] = j;
+    }
+    for (int i = 1; i <= m; i++)
+    {
         dp[i][0] = i;
     }
-    for (int i = 0; i <= word2.length(); i++) {
-        dp[0][i] = i;
-    }
-    for (int i = 1; i <= word1.length(); i++) {
-        for (int j = 1; j <= word2.length(); j++) {
+    for (int i = 1; i <= m; i++)
+    {
+        char c1 = word1[i - 1];
+        for (int j = 1; j <= n; j++)
+        {
+            char c2 = word2[j - 1];
             // 相等则不需要操作
-            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+            if (c1 == c2)
+            {
                 dp[i][j] = dp[i - 1][j - 1];
-            } 
+            }
             // 否则取删除、插入、替换最小操作次数的值+1
-            else {
-                dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+            else
+            {
+                dp[i][j] = Math.Min(Math.Min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
             }
         }
     }
-    return dp[word1.length()][word2.length()];
+    return dp[m][n];
 }
 ```
 

@@ -225,7 +225,6 @@ public class DPTest
         Assert.That(result, Is.EqualTo(true));
     }
 
-
     [Test]
     public void WordBreakTest_2()
     {
@@ -233,11 +232,45 @@ public class DPTest
         Assert.That(result, Is.EqualTo(true));
     }
 
-
     [Test]
     public void WordBreakTest_3()
     {
         var result = DP.WordBreak("catsandog", new List<string> { "cats", "dog", "sand", "and", "cat" });
         Assert.That(result, Is.EqualTo(false));
+    }
+
+    [Test]
+    public void LongestCommonSubsequenceTest()
+    {
+        var result = DP.LongestCommonSubsequence("abcde", "ace");
+        Assert.That(result, Is.EqualTo(3));
+    }
+    
+    [Test]
+    public void LongestCommonSubsequenceTest_2()
+    {
+        var result = DP.LongestCommonSubsequence("abc", "abc");
+        Assert.That(result, Is.EqualTo(3));
+    }
+    
+    [Test]
+    public void LongestCommonSubsequenceTest_3()
+    {
+        var result = DP.LongestCommonSubsequence("abc", "def");
+        Assert.That(result, Is.EqualTo(0));
+    }
+    
+    [Test]
+    public void MinDistanceTest()
+    {
+        var result = DP.MinDistance("horse", "ros");
+        Assert.That(result, Is.EqualTo(3));
+    }
+
+    [Test]
+    public void MinDistanceTest_2()
+    {
+        var result = DP.MinDistance("intention", "execution");
+        Assert.That(result, Is.EqualTo(5));
     }
 }

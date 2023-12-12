@@ -312,4 +312,92 @@ public partial class DP
         }
         return dp[n];
     }
+
+    /// <summary>
+    /// <para>1143. 最长公共子序列</para>
+    /// <para>https://leetcode-cn.com/problems/longest-common-subsequence/</para>
+    /// </summary>
+    /// <param name="text1">给定字符串1</param>
+    /// <param name="text2">给定字符串2</param>
+    /// <returns>最长公共子序列长度</returns>
+    public static int LongestCommonSubsequence(string text1, string text2)
+    {
+        int m = text1.Length;
+        int n = text2.Length;
+        // dp[i][j] a前i个和b前j个字符最长公共子序列
+        // dp[m+1][n+1]
+        //   ' a d c e
+        // ' 0 0 0 0 0
+        // a 0 1 1 1 1
+        // c 0 1 1 2 1
+        int[][] dp = new int[m + 1][];
+        for (int i = 0; i < m + 1; i++)
+        {
+            dp[i] = new int[n + 1];
+        }
+        for (int i = 1; i <= m; i++)
+        {
+            char c1 = text1[i - 1];
+            for (int j = 1; j <= n; j++)
+            {
+                char c2 = text2[j - 1];
+                // 相等取左上元素+1，否则取左或上的较大值
+                if (c1 == c2)
+                {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                }
+                else
+                {
+                    dp[i][j] = Math.Max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    /// <summary>
+    /// <para>72. 编辑距离</para>
+    /// <para>https://leetcode-cn.com/problems/edit-distance/</para>
+    /// </summary>
+    /// <param name="word1">给定字符串1</param>
+    /// <param name="word2">给定字符串2</param>
+    /// <returns>将 word1 转换成 word2 所使用的最少操作</returns>
+    public static int MinDistance(string word1, string word2)
+    {
+        // dp[i][j] 表示a字符串的前i个字符编辑为b字符串的前j个字符最少需要多少次操作
+        // dp[i][j] = OR(dp[i-1][j-1]，a[i]==b[j],min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1)
+        int m = word1.Length, n = word2.Length;
+        int[][] dp = new int[m + 1][];
+        for (int i = 0; i <= m; i++)
+        {
+            dp[i] = new int[n + 1];
+        }
+        for (int j = 1; j <= n; j++)
+        {
+            dp[0][j] = j;
+        }
+        for (int i = 1; i <= m; i++)
+        {
+            dp[i][0] = i;
+        }
+        for (int i = 1; i <= m; i++)
+        {
+            char c1 = word1[i - 1];
+            for (int j = 1; j <= n; j++)
+            {
+                char c2 = word2[j - 1];
+                // 相等则不需要操作
+                if (c1 == c2)
+                {
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+                // 否则取删除、插入、替换最小操作次数的值+1
+                else
+                {
+                    dp[i][j] = Math.Min(Math.Min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                }
+            }
+        }
+        return dp[m][n];
+    }
 }
