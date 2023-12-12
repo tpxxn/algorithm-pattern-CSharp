@@ -506,46 +506,45 @@ public int Jump_Greedy(int[] nums)
 
 > [132. 分割回文串-ii](https://leetcode-cn.com/problems/palindrome-partitioning-ii/)
 >
-> 给定一个字符串 _s_，将 _s_ 分割成一些子串，使每个子串都是回文串。
-> 返回符合要求的最少分割次数。
+> 给你一个字符串 `s`，请你将 `s` 分割成一些子串，使每个子串都是回文。
+>
+> 返回符合要求的 **最少分割次数**。
 
 ```csharp
-func minCut(s string) int {
-	// state: f[i] "前i"个字符组成的子字符串需要最少几次cut(个数-1为索引)
-	// function: f[i] = MIN{f[j]+1}, j < i && [j+1 ~ i]这一段是一个回文串
-	// intialize: f[i] = i - 1 (f[0] = -1)
-	// answer: f[s.length()]
-	if len(s) == 0 || len(s) == 1 {
-		return 0
-	}
-	f := make([]int, len(s)+1)
-	f[0] = -1
-	f[1] = 0
-	for i := 1; i <= len(s); i++ {
-		f[i] = i - 1
-		for j := 0; j < i; j++ {
-			if isPalindrome(s, j, i-1) {
-				f[i] = min(f[i], f[j]+1)
-			}
-		}
-	}
-	return f[len(s)]
-}
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}
-func isPalindrome(s string, i, j int) bool {
-	for i < j {
-		if s[i] != s[j] {
-			return false
-		}
-		i++
-		j--
-	}
-	return true
+public static int MinCut(string s)
+{
+    int n = s.Length;
+    bool[][] isPalindrome = new bool[n][];
+    for (int i = 0; i < n; i++)
+    {
+        isPalindrome[i] = new bool[n];
+        isPalindrome[i][i] = true;
+    }
+    for (int i = 0; i < n - 1; i++)
+    {
+        isPalindrome[i][i + 1] = s[i] == s[i + 1];
+    }
+    for (int subLength = 3; subLength <= n; subLength++)
+    {
+        for (int i = 0, j = subLength - 1; j < n; i++, j++)
+        {
+            isPalindrome[i][j] = s[i] == s[j] && isPalindrome[i + 1][j - 1];
+        }
+    }
+    int[] dp = new int[n];
+    for (int i = 1; i < n; i++)
+    {
+        dp[i] = i;
+        for (int j = 0; j <= i; j++)
+        {
+            if (isPalindrome[j][i])
+            {
+                int currCuts = j == 0 ? 0 : dp[j - 1] + 1;
+                dp[i] = Math.Min(dp[i], currCuts);
+            }
+        }
+    }
+    return dp[n - 1];
 }
 ```
 
@@ -557,28 +556,35 @@ func isPalindrome(s string, i, j int) bool {
 
 > [300. 最长递增子序列](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 >
-> 给定一个无序的整数数组，找到其中最长上升子序列的长度。
+> 给你一个整数数组 `nums` ，找到其中最长严格递增子序列的长度。
+>
+> **子序列** 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，`[3,6,2,7]` 是数组 `[0,3,1,6,2,2,7]` 的子序列。
 
 ```csharp
-public int lengthOfLIS(int[] nums) {
+public static int LengthOfLIS(int[] nums)
+{
     // dp[i]表示从0到i的最长上升子序列长度
-    int[] dp = new int[nums.length];
+    int[] dp = new int[nums.Length];
     // 初始化：到第一个元素序列长度为1
     dp[0] = 1;
-    for (int i = 1; i < nums.length; i++) {
+    for (int i = 1; i < nums.Length; i++)
+    {
         // 注意默认为1，即此处最长子序列为自身
         int maxLen = 1;
         // dp[i] = max(dp[j]) + 1 , nums[j] < nums[i]
-        for (int j = 0; j < i; j++) {
-            if (nums[j] < nums[i]) {
-                maxLen = Math.max(maxLen, dp[j] + 1);
+        for (int j = 0; j < i; j++)
+        {
+            if (nums[j] < nums[i])
+            {
+                maxLen = Math.Max(maxLen, dp[j] + 1);
             }
         }
         dp[i] = maxLen;
     }
     int maxNum = 0;
-    for (int n : dp) {
-        maxNum = Math.max(maxNum, n);
+    foreach (var n in dp)
+    {
+        maxNum = Math.Max(maxNum, n);
     }
     // 答案：dp中的最大值
     return maxNum;
@@ -589,53 +595,55 @@ public int lengthOfLIS(int[] nums) {
 
 > [139. 单词拆分](https://leetcode-cn.com/problems/word-break/)
 >
-> 给定一个**非空**字符串  *s*  和一个包含**非空**单词列表的字典  *wordDict*，判定  *s*  是否可以被空格拆分为一个或多个在字典中出现的单词。
+> 给你一个字符串 `s` 和一个字符串列表 `wordDict` 作为字典。请你判断是否可以利用字典中出现的单词拼接出 `s`。
+>
+> **注意**：不要求字典中出现的单词全部都使用，并且字典中的单词可以重复使用。
+>
+> **示例 1：**
+>
+> > **输入**: s = "leetcode", wordDict = ["leet", "code"]
+> >
+> > **输出**: true
+> >
+> > **解释**: 返回 true 因为 "leetcode" 可以由 "leet" 和 "code" 拼接成。
+>
+> **示例 2：**
+>
+> > **输入**: s = "applepenapple", wordDict = ["apple", "pen"]
+> > 
+> > **输出**: true
+> >
+> > **解释**: 返回 true 因为 "applepenapple" 可以由 "apple" "pen" "apple" 拼接成。
+>
+> **示例 3：**
+>
+> > **输入**: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+> >
+> > **输出**: false
 
 ```csharp
-public boolean wordBreak(String s, List<String> wordDict) {
-    // dp[i]表示s[0, i)子串能否被分解
-    boolean[] dp = new boolean[s.length() + 1];
-    Set<String> wordSet = new HashSet<>(wordDict);
-    // 初始值：空字符串可以被分解
+public static bool WordBreak(string s, IList<string> wordDict)
+{
+    ISet<string> wordDictSet = new HashSet<string>(wordDict);
+    int maxWordLength = 0;
+    foreach (string word in wordDict)
+    {
+        maxWordLength = Math.Max(maxWordLength, word.Length);
+    }
+    int n = s.Length;
+    bool[] dp = new bool[n + 1];
     dp[0] = true;
-    for (int i = 1; i <= s.length(); i++) {
-        for (int j = 0; j < i; j++) {
-            // 递推：从i处向前遍历，s[0,j)可以分解且s[j,i)也在集合内
-            if (dp[j] && wordSet.contains(s.substring(j, i))) {
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = Math.Min(i, maxWordLength); j > 0 && !dp[i]; j--)
+        {
+            if (dp[i - j] && wordDictSet.Contains(s.Substring(i - j, j)))
+            {
                 dp[i] = true;
-                break;
             }
         }
     }
-    return dp[s.length()];
-}
-```
-
-由于分解出的单词长度必定不会超过字典内的最大长度，因此可以利用这一点进行剪枝：
-
-```csharp
-public boolean wordBreak(String s, List<String> wordDict) {
-    // dp[i]表示s[0, i)子串能否被分解
-    boolean[] dp = new boolean[s.length() + 1];
-    Set<String> wordSet = new HashSet<>(wordDict);
-    // 计算单词最大长度
-    int maxLen = 0;
-    for (String word : wordDict) {
-        maxLen = Math.max(maxLen, word.length());
-    }
-    // 初始值：空字符串可以被分解
-    dp[0] = true;
-    for (int i = 1; i <= s.length(); i++) {
-        // 分解的子串s[j,i)长度不会超过maxLen，注意不能越界
-        for (int j = Math.max(0, i - maxLen); j < i; j++) {
-            // 递推：从i处向前遍历，s[0,j)可以分解且s[j,i)也在集合内
-            if (dp[j] && wordSet.contains(s.substring(j, i))) {
-                dp[i] = true;
-                break;
-            }
-        }
-    }
-    return dp[s.length()];
+    return dp[n];
 }
 ```
 

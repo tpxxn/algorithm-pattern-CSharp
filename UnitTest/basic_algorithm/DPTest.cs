@@ -155,6 +155,7 @@ public class DPTest
         Assert.That(result, Is.EqualTo(2));
     }
 
+    [Test]
     public void JumpTest_2()
     {
         var result = DP.Jump(new int[] { 2, 3, 0, 1, 4 });
@@ -168,9 +169,75 @@ public class DPTest
         Assert.That(result, Is.EqualTo(2));
     }
 
+    [Test]
     public void JumpTest_Greedy_2()
     {
         var result = DP.Jump_Greedy(new int[] { 2, 3, 0, 1, 4 });
         Assert.That(result, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void MinCutTest()
+    {
+        var result = DP.MinCut("aab");
+        Assert.That(result, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void MinCutTest_2()
+    {
+        var result = DP.MinCut("a");
+        Assert.That(result, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void MinCutTest_3()
+    {
+        var result = DP.MinCut("ab");
+        Assert.That(result, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void LengthOfLISTest()
+    {
+        var result = DP.LengthOfLIS(new int[] { 10, 9, 2, 5, 3, 7, 101, 18 });
+        Assert.That(result, Is.EqualTo(4));
+    }
+
+    [Test]
+    public void LengthOfLISTest_2()
+    {
+        var result = DP.LengthOfLIS(new int[] { 0, 1, 0, 3, 2, 3 });
+        Assert.That(result, Is.EqualTo(4));
+    }
+
+    [Test]
+    public void LengthOfLISTest_3()
+    {
+        var result = DP.LengthOfLIS(new int[] { 7, 7, 7, 7, 7, 7, 7 });
+        Assert.That(result, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void WordBreakTest()
+    {
+        var result = DP.WordBreak("leetcode", new List<string> { "leet", "code" });
+        Assert.That(result, Is.EqualTo(true));
+    }
+
+
+    [Test]
+    public void WordBreakTest_2()
+    {
+        var result = DP.WordBreak("applepenapple", new List<string> { "apple", "pen" });
+        Assert.That(result, Is.EqualTo(true));
+    }
+
+
+    [Test]
+    public void WordBreakTest_3()
+    {
+        var result = DP.WordBreak("catsandog", new List<string> { "cats", "dog", "sand", "and", "cat" });
+        Assert.That(result, Is.EqualTo(false));
     }
 }

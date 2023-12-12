@@ -206,4 +206,110 @@ public partial class DP
         }
         return currJumps;
     }
+
+    /// <summary>
+    /// <para>132. 分割回文串 II</para>
+    /// <para>https://leetcode-cn.com/problems/palindrome-partitioning-ii/</para>
+    /// </summary>
+    /// <param name="s">字符串</param>
+    /// <returns>最少分割次数</returns>
+    public static int MinCut(string s)
+    {
+        int n = s.Length;
+        bool[][] isPalindrome = new bool[n][];
+        for (int i = 0; i < n; i++)
+        {
+            isPalindrome[i] = new bool[n];
+            isPalindrome[i][i] = true;
+        }
+        for (int i = 0; i < n - 1; i++)
+        {
+            isPalindrome[i][i + 1] = s[i] == s[i + 1];
+        }
+        for (int subLength = 3; subLength <= n; subLength++)
+        {
+            for (int i = 0, j = subLength - 1; j < n; i++, j++)
+            {
+                isPalindrome[i][j] = s[i] == s[j] && isPalindrome[i + 1][j - 1];
+            }
+        }
+        int[] dp = new int[n];
+        for (int i = 1; i < n; i++)
+        {
+            dp[i] = i;
+            for (int j = 0; j <= i; j++)
+            {
+                if (isPalindrome[j][i])
+                {
+                    int currCuts = j == 0 ? 0 : dp[j - 1] + 1;
+                    dp[i] = Math.Min(dp[i], currCuts);
+                }
+            }
+        }
+        return dp[n - 1];
+    }
+
+    /// <summary>
+    /// <para>300. 最长递增子序列</para>
+    /// <para>https://leetcode-cn.com/problems/longest-increasing-subsequence/</para>
+    /// </summary>
+    public static int LengthOfLIS(int[] nums)
+    {
+        // dp[i]表示从0到i的最长上升子序列长度
+        int[] dp = new int[nums.Length];
+        // 初始化：到第一个元素序列长度为1
+        dp[0] = 1;
+        for (int i = 1; i < nums.Length; i++)
+        {
+            // 注意默认为1，即此处最长子序列为自身
+            int maxLen = 1;
+            // dp[i] = max(dp[j]) + 1 , nums[j] < nums[i]
+            for (int j = 0; j < i; j++)
+            {
+                if (nums[j] < nums[i])
+                {
+                    maxLen = Math.Max(maxLen, dp[j] + 1);
+                }
+            }
+            dp[i] = maxLen;
+        }
+        int maxNum = 0;
+        foreach (var n in dp)
+        {
+            maxNum = Math.Max(maxNum, n);
+        }
+        // 答案：dp中的最大值
+        return maxNum;
+    }
+
+    /// <summary>
+    /// <para>139. 单词拆分</para>
+    /// <para>https://leetcode-cn.com/problems/word-break/</para>
+    /// </summary>
+    /// <param name="s">字符串</param>
+    /// <param name="wordDict">单词字典</param>
+    /// <returns>是否可以拆分成字典中的所有单词</returns>
+    public static bool WordBreak(string s, IList<string> wordDict)
+    {
+        ISet<string> wordDictSet = new HashSet<string>(wordDict);
+        int maxWordLength = 0;
+        foreach (string word in wordDict)
+        {
+            maxWordLength = Math.Max(maxWordLength, word.Length);
+        }
+        int n = s.Length;
+        bool[] dp = new bool[n + 1];
+        dp[0] = true;
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = Math.Min(i, maxWordLength); j > 0 && !dp[i]; j--)
+            {
+                if (dp[i - j] && wordDictSet.Contains(s.Substring(i - j, j)))
+                {
+                    dp[i] = true;
+                }
+            }
+        }
+        return dp[n];
+    }
 }
