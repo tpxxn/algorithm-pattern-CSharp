@@ -17,7 +17,7 @@
 ]
 ```
 
-自顶向下的最小路径和为  11（即，2 + 3 + 5 + 1 = 11）。
+自顶向下的最小路径和为 11（即，2 + 3 + 5 + 1 = 11）。
 
 ### DFS
 
@@ -216,9 +216,9 @@ public int MinimumTotal(IList<IList<int>> triangle)
 > [064. 最小路径和](https://leetcode-cn.com/problems/minimum-path-sum/)
 >
 > 给定一个包含非负整数的 `m x n`  网格 `grid`，请找出一条从左上角到右下角的路径，使得路径上的数字总和为最小。
-> 
+>
 > 说明：每次只能向下或者向右移动一步。
-> 
+>
 > **示例 1：**
 >
 > ```
@@ -267,15 +267,15 @@ public int minPathSum(int[][] grid) {
 > [062. 不同路径](https://leetcode-cn.com/problems/unique-paths/)
 >
 > 一个机器人位于一个 `m x n` 网格的左上角 （起始点在下图中标记为“Start” ）。
-> 
+>
 > 机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
 >
 > 问总共有多少条不同的路径？
-> 
+>
 > **示例 1：**
-> 
+>
 > ![img](../images/dp_unique_paths.png)
-> 
+>
 > ```
 > 输入：m = 3, n = 7
 > 输出：28
@@ -333,12 +333,12 @@ public int UniquePaths(int m, int n)
 > 问总共有多少条不同的路径？
 >
 > 现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？
-> 
+>
 > 网格中的障碍物和空位置分别用 `1` 和 `0` 来表示。
-> 
+>
 > **示例 1：**
 >
-> >![img](../images/dp_unique_paths_2_1.jpg)
+> > ![img](../images/dp_unique_paths_2_1.jpg)
 > >
 > > **输入**：obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
 > >
@@ -463,6 +463,7 @@ public bool CanJump(int[] nums)
 > 返回到达 `nums[n - 1]` 的最小跳跃次数。生成的测试用例可以到达 `nums[n - 1]`。
 
 v1 动态规划
+
 ```csharp
 public int Jump(int[] nums)
 {
@@ -482,6 +483,7 @@ public int Jump(int[] nums)
 ```
 
 v2 动态规划+贪心算法
+
 ```csharp
 public int Jump_Greedy(int[] nums)
 {
@@ -610,7 +612,7 @@ public int LengthOfLIS(int[] nums)
 > **示例 2：**
 >
 > > **输入**: s = "applepenapple", wordDict = ["apple", "pen"]
-> > 
+> >
 > > **输出**: true
 > >
 > > **解释**: 返回 true 因为 "applepenapple" 可以由 "apple" "pen" "apple" 拼接成。
@@ -666,7 +668,7 @@ public bool WordBreak(string s, IList<string> wordDict)
 >
 > 一个字符串的 **子序列** 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
 > 例如，`"ace"` 是 `"abcde"` 的子序列，但 `"aec"` 不是 `"abcde"` 的子序列。
-> 
+>
 > 两个字符串的 **公共子序列** 是这两个字符串所共同拥有的子序列。
 
 ```csharp
@@ -712,7 +714,7 @@ public int LongestCommonSubsequence(string text1, string text2)
 
 - 索引需要减一
 
-####  编辑距离
+#### 编辑距离
 
 > [072. 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
 >
@@ -887,7 +889,7 @@ public int BackPack(int m, int[] a)
 > [125. 背包问题-ii](https://www.lintcode.com/problem/backpack-ii/description)
 >
 > 有 `n` 个物品和一个大小为 `m` 的背包. 给定数组 `A` 表示每个物品的大小和数组 `V` 表示每个物品的价值.
-> 
+>
 > 问最多能装入背包的总价值是多大?
 
 思路：f[i][j] 前 i 个物品，装入 j 背包 最大价值
