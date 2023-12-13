@@ -10,7 +10,6 @@
 
     <ItemGroup>
       <Folder Include="advanced_algorithm\Backtrack\" />
-      <Folder Include="advanced_algorithm\SlideWindow\" />
     </ItemGroup>
 
 </Project>
