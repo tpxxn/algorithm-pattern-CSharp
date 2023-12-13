@@ -1,6 +1,6 @@
 # 算法模板（C#版）
 
-> 本项目内容主要参考[算法模板 Go语言](https://github.com/greyireland/algorithm-pattern)和[算法模板 Java语言](https://chienmy.gitbook.io/algorithm-pattern-java/)，在此感谢原作者的整理与贡献
+> 本项目内容主要参考[算法模板 Go语言](https://github.com/greyireland/algorithm-pattern)和[算法模板 Java语言](https://github.com/chienmy/algorithm-pattern-java)，在此感谢原作者的整理与贡献
 
 在原项目的基础上，尽量保持了原有的结构划分，并做了一点微小的工作：
 
