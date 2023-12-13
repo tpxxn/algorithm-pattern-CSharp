@@ -20,189 +20,276 @@ func backtrack(选择列表,路径):
 
 核心就是从选择列表里做一个选择，然后一直递归往下搜索答案，如果遇到路径不通，就返回来撤销这次选择。
 
-## 示例
+## 常见例题
 
-### [subsets](https://leetcode-cn.com/problems/subsets/)
+### 集合类
 
-> 给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+#### [078. 子集](https://leetcode-cn.com/problems/subsets/)
+
+> 给你一个整数数组 `nums` ，数组中的元素 **互不相同** 。返回该数组所有可能的子集（幂集）。
+>
+> 解集 **不能** 包含重复的子集。你可以按 **任意顺序** 返回解集。
 
 遍历过程
 
 ![image.png](https://img.fuiboom.com/img/backtrack.png)
 
-```go
-func subsets(nums []int) [][]int {
-	// 保存最终结果
-	result := make([][]int, 0)
-	// 保存中间结果
-	list := make([]int, 0)
-	backtrack(nums, 0, list, &result)
-	return result
+```csharp
+IList<IList<int>> powerSet = new List<IList<int>>();
+IList<int> temp = new List<int>();
+int[] nums;
+int n;
+
+public IList<IList<int>> Subsets(int[] nums)
+{
+    this.nums = nums;
+    this.n = nums.Length;
+    _Backtrack(0);
+    return powerSet;
 }
 
-// nums 给定的集合
-// pos 下次添加到集合中的元素位置索引
-// list 临时结果集合(每次需要复制保存)
-// result 最终结果
-func backtrack(nums []int, pos int, list []int, result *[][]int) {
-	// 把临时结果复制出来保存到最终结果
-	ans := make([]int, len(list))
-	copy(ans, list)
-	*result = append(*result, ans)
-	// 选择、处理结果、再撤销选择
-	for i := pos; i < len(nums); i++ {
-		list = append(list, nums[i])
-		backtrack(nums, i+1, list, result)
-		list = list[0 : len(list)-1]
-	}
-}
-```
-
-### [subsets-ii](https://leetcode-cn.com/problems/subsets-ii/)
-
-> 给定一个可能包含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。说明：解集不能包含重复的子集。
-
-```go
-import (
-	"sort"
-)
-
-func subsetsWithDup(nums []int) [][]int {
-	// 保存最终结果
-	result := make([][]int, 0)
-	// 保存中间结果
-	list := make([]int, 0)
-	// 先排序
-	sort.Ints(nums)
-	backtrack(nums, 0, list, &result)
-	return result
-}
-
-// nums 给定的集合
-// pos 下次添加到集合中的元素位置索引
-// list 临时结果集合(每次需要复制保存)
-// result 最终结果
-func backtrack(nums []int, pos int, list []int, result *[][]int) {
-	// 把临时结果复制出来保存到最终结果
-	ans := make([]int, len(list))
-	copy(ans, list)
-	*result = append(*result, ans)
-	// 选择时需要剪枝、处理、撤销选择
-	for i := pos; i < len(nums); i++ {
-        // 排序之后，如果再遇到重复元素，则不选择此元素
-		if i != pos && nums[i] == nums[i-1] {
-			continue
-		}
-		list = append(list, nums[i])
-		backtrack(nums, i+1, list, result)
-		list = list[0 : len(list)-1]
-	}
+void _Backtrack(int index)
+{
+    if (index == n)
+    {
+        powerSet.Add(new List<int>(temp));
+    }
+    else
+    {
+        _Backtrack(index + 1);
+        temp.Add(nums[index]);
+        _Backtrack(index + 1);
+        temp.RemoveAt(temp.Count - 1);
+    }
 }
 ```
 
-### [permutations](https://leetcode-cn.com/problems/permutations/)
+#### [090. 子集 ii](https://leetcode-cn.com/problems/subsets-ii/)
 
-> 给定一个   没有重复   数字的序列，返回其所有可能的全排列。
+> 给你一个整数数组 `nums` ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。
+>
+> 解集 **不能** 包含重复的子集。返回的解集中，子集可以按 **任意顺序** 排列。
+
+```csharp
+IList<IList<int>> powerSet = new List<IList<int>>();
+IList<int> temp = new List<int>();
+int[] nums;
+int n;
+
+public IList<IList<int>> SubsetsWithDup(int[] nums)
+{
+    Array.Sort(nums);
+    this.nums = nums;
+    this.n = nums.Length;
+    Backtrack(0, false);
+    return powerSet;
+}
+
+void Backtrack(int index, bool prevSelected)
+{
+    if (index == n)
+    {
+        powerSet.Add(new List<int>(temp));
+    }
+    else
+    {
+        Backtrack(index + 1, false);
+        if (index == 0 || nums[index - 1] != nums[index] || prevSelected)
+        {
+            temp.Add(nums[index]);
+            Backtrack(index + 1, true);
+            temp.RemoveAt(temp.Count - 1);
+        }
+    }
+}
+```
+
+### 排列类
+
+#### [046. 全排列](https://leetcode-cn.com/problems/permutations/)
+
+> 给定一个不含重复数字的数组 `nums` ，返回其 *所有可能的全排列* 。你可以 **按任意顺序** 返回答案。
 
 思路：需要记录已经选择过的元素，满足条件的结果才进行返回
 
-```go
-func permute(nums []int) [][]int {
-    result := make([][]int, 0)
-    list := make([]int, 0)
-    // 标记这个元素是否已经添加到结果集
-    visited := make([]bool, len(nums))
-    backtrack(nums, visited, list, &result)
-    return result
+```csharp
+IList<IList<int>> permutations = new List<IList<int>>();
+IList<int> temp = new List<int>();
+int n;
+
+public IList<IList<int>> Permute(int[] nums)
+{
+    foreach (int num in nums)
+    {
+        temp.Add(num);
+    }
+    n = nums.Length;
+    Backtrack(0);
+    return permutations;
 }
 
-// nums 输入集合
-// visited 当前递归标记过的元素
-// list 临时结果集(路径)
-// result 最终结果
-func backtrack(nums []int, visited []bool, list []int, result *[][]int) {
-    // 返回条件：临时结果和输入集合长度一致 才是全排列
-    if len(list) == len(nums) {
-        ans := make([]int, len(list))
-        copy(ans, list)
-        *result = append(*result, ans)
-        return
+void Backtrack(int index)
+{
+    if (index == n)
+    {
+        permutations.Add(new List<int>(temp));
     }
-    for i := 0; i < len(nums); i++ {
-        // 已经添加过的元素，直接跳过
-        if visited[i] {
-            continue
+    else
+    {
+        for (int i = index; i < n; i++)
+        {
+            (temp[index], temp[i]) = (temp[i], temp[index]);
+            Backtrack(index + 1);
+            (temp[index], temp[i]) = (temp[i], temp[index]);
         }
-        // 添加元素
-        list = append(list, nums[i])
-        visited[i] = true
-        backtrack(nums, visited, list, result)
-        // 移除元素
-        visited[i] = false
-        list = list[0 : len(list)-1]
+    }
+}
+
+```
+
+#### [047. 全排列 ii](https://leetcode-cn.com/problems/permutations-ii/)
+
+> 给定一个可包含重复数字的序列 `nums` ，**按任意顺序** 返回所有不重复的全排列。
+
+```csharp
+IList<IList<int>> permutations = new List<IList<int>>();
+IList<int> temp = new List<int>();
+int[] nums;
+int n;
+bool[] visited;
+
+public IList<IList<int>> PermuteUnique(int[] nums)
+{
+    Array.Sort(nums);
+    this.nums = nums;
+    this.n = nums.Length;
+    this.visited = new bool[n];
+    Backtrack(0);
+    return permutations;
+}
+
+void Backtrack(int index)
+{
+    if (index == n)
+    {
+        permutations.Add(new List<int>(temp));
+    }
+    else
+    {
+        for (int i = 0; i < n; i++)
+        {
+            if (visited[i] || (i > 0 && nums[i] == nums[i - 1] && !visited[i - 1]))
+            {
+                continue;
+            }
+            temp.Add(nums[i]);
+            visited[i] = true;
+            Backtrack(index + 1);
+            temp.RemoveAt(index);
+            visited[i] = false;
+        }
     }
 }
 ```
 
-### [permutations-ii](https://leetcode-cn.com/problems/permutations-ii/)
+### 组合类
 
-> 给定一个可包含重复数字的序列，返回所有不重复的全排列。
+#### [039. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
 
-```go
-import (
-	"sort"
-)
+> 给你一个 **无重复元素** 的整数数组 `candidates` 和一个目标整数 `target` ，找出 `candidates` 中可以使数字和为目标数 `target` 的 所有 **不同组合** ，并以列表形式返回。你可以按 **任意顺序** 返回这些组合。
+>
+> `candidates` 中的 **同一个** 数字可以 **无限制重复被选取** 。如果至少一个数字的被选数量不同，则两种组合是不同的。
+>
+> 对于给定的输入，保证和为 `target` 的不同组合数少于 `150` 个。
 
-func permuteUnique(nums []int) [][]int {
-	result := make([][]int, 0)
-	list := make([]int, 0)
-	// 标记这个元素是否已经添加到结果集
-	visited := make([]bool, len(nums))
-	sort.Ints(nums)
-	backtrack(nums, visited, list, &result)
-	return result
+```csharp
+IList<IList<int>> combinations = new List<IList<int>>();
+IList<int> temp = new List<int>();
+int[] candidates;
+int n;
+
+public IList<IList<int>> CombinationSum(int[] candidates, int target)
+{
+    Array.Sort(candidates);
+    this.candidates = candidates;
+    this.n = candidates.Length;
+    Backtrack(0, target);
+    return combinations;
 }
 
-// nums 输入集合
-// visited 当前递归标记过的元素
-// list 临时结果集
-// result 最终结果
-func backtrack(nums []int, visited []bool, list []int, result *[][]int) {
-	// 临时结果和输入集合长度一致 才是全排列
-	if len(list) == len(nums) {
-		subResult := make([]int, len(list))
-		copy(subResult, list)
-		*result = append(*result, subResult)
-	}
-	for i := 0; i < len(nums); i++ {
-		// 已经添加过的元素，直接跳过
-		if visited[i] {
-			continue
-		}
-        // 上一个元素和当前相同，并且没有访问过就跳过
-		if i != 0 && nums[i] == nums[i-1] && !visited[i-1] {
-			continue
-		}
-		list = append(list, nums[i])
-		visited[i] = true
-		backtrack(nums, visited, list, result)
-		visited[i] = false
-		list = list[0 : len(list)-1]
-	}
+void Backtrack(int index, int remain)
+{
+    if (remain == 0)
+    {
+        combinations.Add(new List<int>(temp));
+    }
+    else
+    {
+        for (int i = index; i < n && candidates[i] <= remain; i++)
+        {
+            temp.Add(candidates[i]);
+            Backtrack(i, remain - candidates[i]);
+            temp.RemoveAt(temp.Count - 1);
+        }
+    }
+}
+```
+
+#### [017. 电话号码的字母组合](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)
+
+> 给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
+>
+> 给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母。
+>
+> ![电话](../images/backtrack_letter_combinations_of_a_phone_number.png)
+
+```csharp
+static string[] lettersArr = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+string digits;
+IList<string> combinations;
+
+public IList<string> LetterCombinations(string digits)
+{
+    this.digits = digits;
+    this.combinations = new List<string>();
+    if (digits.Length == 0)
+    {
+        return combinations;
+    }
+    Backtrack(0, new StringBuilder());
+    return combinations;
+}
+
+void Backtrack(int index, StringBuilder combination)
+{
+    if (index == digits.Length)
+    {
+        combinations.Add(combination.ToString());
+    }
+    else
+    {
+        int digit = digits[index] - '0';
+        string letters = lettersArr[digit];
+        foreach (char c in letters)
+        {
+            combination.Append(c);
+            Backtrack(index + 1, combination);
+            combination.Length--;
+        }
+    }
 }
 ```
 
 ## 练习
 
-- [ ] [subsets](https://leetcode-cn.com/problems/subsets/)
-- [ ] [subsets-ii](https://leetcode-cn.com/problems/subsets-ii/)
-- [ ] [permutations](https://leetcode-cn.com/problems/permutations/)
-- [ ] [permutations-ii](https://leetcode-cn.com/problems/permutations-ii/)
+- [ ] [078. 子集](https://leetcode-cn.com/problems/subsets/)
+- [ ] [090. 子集 ii](https://leetcode-cn.com/problems/subsets-ii/)
+- [ ] [046. 全排列](https://leetcode-cn.com/problems/permutations/)
+- [ ] [047. 全排列 ii](https://leetcode-cn.com/problems/permutations-ii/)
+- [ ] [039. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
+- [ ] [017. 电话号码的字母组合](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)
 
 挑战题目
 
-- [ ] [combination-sum](https://leetcode-cn.com/problems/combination-sum/)
-- [ ] [letter-combinations-of-a-phone-number](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)
-- [ ] [palindrome-partitioning](https://leetcode-cn.com/problems/palindrome-partitioning/)
-- [ ] [restore-ip-addresses](https://leetcode-cn.com/problems/restore-ip-addresses/)
-- [ ] [permutations](https://leetcode-cn.com/problems/permutations/)
+- [ ] [131. 分割回文串](https://leetcode-cn.com/problems/palindrome-partitioning/)
+- [ ] [093. 复原IP地址](https://leetcode-cn.com/problems/restore-ip-addresses/)
