@@ -400,4 +400,178 @@ public partial class DP
         }
         return dp[m][n];
     }
+
+    const int INFINITY = int.MaxValue / 2;
+
+    /// <summary>
+    /// <para>322. 零钱兑换</para>
+    /// <para>https://leetcode-cn.com/problems/coin-change/</para>
+    /// </summary>
+    /// <param name="coins">不同面额的硬币</param>
+    /// <param name="amount">总金额</param>
+    /// <returns>可以凑成总金额所需的最少的硬币个数 </returns>
+    public static int CoinChange(int[] coins, int amount)
+    {
+        int n = coins.Length;
+        int[][] dp = new int[n + 1][];
+        for (int i = 0; i <= n; i++)
+        {
+            dp[i] = new int[amount + 1];
+        }
+        Array.Fill(dp[0], INFINITY);
+        dp[0][0] = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 0; j <= amount; j++)
+            {
+                int minCoins = INFINITY;
+                int maxCount = j / coins[i - 1];
+                for (int k = 0; k <= maxCount; k++)
+                {
+                    minCoins = Math.Min(minCoins, dp[i - 1][j - coins[i - 1] * k] + k);
+                }
+                dp[i][j] = minCoins;
+            }
+        }
+        return dp[n][amount] != INFINITY ? dp[n][amount] : -1;
+    }
+
+    /// <summary>
+    /// <para>518. 零钱兑换 II</para>
+    /// <para>https://leetcode-cn.com/problems/coin-change-ii/</para>
+    /// </summary>
+    /// <param name="coins">不同面额的硬币</param>
+    /// <param name="amount">总金额</param>
+    /// <returns>可以凑成总金额的硬币组合数</returns>
+    public static int Change(int amount, int[] coins)
+    {
+        int n = coins.Length;
+        int[][] dp = new int[n + 1][];
+        for (int i = 0; i <= n; i++)
+        {
+            dp[i] = new int[amount + 1];
+        }
+        dp[0][0] = 1;
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 0; j <= amount; j++)
+            {
+                int maxCount = j / coins[i - 1];
+                for (int k = 0; k <= maxCount; k++)
+                {
+                    dp[i][j] += dp[i - 1][j - coins[i - 1] * k];
+                }
+            }
+        }
+        return dp[n][amount];
+    }
+
+    /// <summary>
+    /// 背包问题
+    /// <para>https://www.lintcode.com/problem/backpack/description/</para>
+    /// </summary>
+    /// <param name="m">背包大小</param>
+    /// <param name="a">物品大小数组</param>
+    /// <returns>最多能装多满</returns>
+    public static int BackPack(int m, int[] a)
+    {
+        int n = a.Length;
+        int[][] dp = new int[n + 1][];
+        for (int i = 0; i <= n; i++)
+        {
+            dp[i] = new int[m + 1];
+        }
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 0; j <= m; j++)
+            {
+                dp[i][j] = dp[i - 1][j];
+                if (j >= a[i - 1])
+                {
+                    dp[i][j] = Math.Max(dp[i][j], dp[i - 1][j - a[i - 1]] + a[i - 1]);
+                }
+            }
+        }
+        return dp[n][m];
+    }
+
+    /// <summary>
+    /// 背包问题 II
+    /// <para>https://www.lintcode.com/problem/backpack-ii/description/</para>
+    /// </summary>
+    /// <param name="m">背包大小</param>
+    /// <param name="a">物品大小数组</param>
+    /// <param name="v">物品价值数组</param>
+    /// <returns>最多能装多满</returns>
+    public static int BackPackII(int m, int[] a, int[] v)
+    {
+        int n = a.Length;
+        int[][] dp = new int[n + 1][];
+        for (int i = 0; i <= n; i++)
+        {
+            dp[i] = new int[m + 1];
+        }
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 0; j <= m; j++)
+            {
+                dp[i][j] = dp[i - 1][j];
+                if (j >= a[i - 1])
+                {
+                    dp[i][j] = Math.Max(dp[i][j], dp[i - 1][j - a[i - 1]] + v[i - 1]);
+                }
+            }
+        }
+        return dp[n][m];
+    }
+
+    public static bool CanPartition(int[] nums)
+    {
+        int len = nums.Length;
+        // 题目已经说非空数组，可以不做非空判断
+        int sum = 0;
+        foreach (int num in nums)
+        {
+            sum += num;
+        }
+        // 特判：如果是奇数，就不符合要求
+        if ((sum & 1) == 1)
+        {
+            return false;
+        }
+
+        int target = sum / 2;
+        // 创建二维状态数组，行：物品索引，列：容量（包括 0）
+        bool[][] dp = new bool[len][];
+        for (int i = 0; i < len; i++)
+        {
+            dp[i] = new bool[target + 1];
+        }
+
+        // 先填表格第 0 行，第 1 个数只能让容积为它自己的背包恰好装满
+        if (nums[0] <= target)
+        {
+            dp[0][nums[0]] = true;
+        }
+        // 再填表格后面几行
+        for (int i = 1; i < len; i++)
+        {
+            for (int j = 0; j <= target; j++)
+            {
+                // 直接从上一行先把结果抄下来，然后再修正
+                dp[i][j] = dp[i - 1][j];
+
+                if (nums[i] == j)
+                {
+                    dp[i][j] = true;
+                    continue;
+                }
+                if (nums[i] < j)
+                {
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
+                }
+            }
+        }
+        return dp[len - 1][target];
+    }
 }

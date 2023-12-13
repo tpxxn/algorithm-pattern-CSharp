@@ -511,7 +511,7 @@ public int Jump_Greedy(int[] nums)
 > 返回符合要求的 **最少分割次数**。
 
 ```csharp
-public static int MinCut(string s)
+public int MinCut(string s)
 {
     int n = s.Length;
     bool[][] isPalindrome = new bool[n][];
@@ -561,7 +561,7 @@ public static int MinCut(string s)
 > **子序列** 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，`[3,6,2,7]` 是数组 `[0,3,1,6,2,2,7]` 的子序列。
 
 ```csharp
-public static int LengthOfLIS(int[] nums)
+public int LengthOfLIS(int[] nums)
 {
     // dp[i]表示从0到i的最长上升子序列长度
     int[] dp = new int[nums.Length];
@@ -622,7 +622,7 @@ public static int LengthOfLIS(int[] nums)
 > > **输出**: false
 
 ```csharp
-public static bool WordBreak(string s, IList<string> wordDict)
+public bool WordBreak(string s, IList<string> wordDict)
 {
     ISet<string> wordDictSet = new HashSet<string>(wordDict);
     int maxWordLength = 0;
@@ -670,7 +670,7 @@ public static bool WordBreak(string s, IList<string> wordDict)
 > 两个字符串的 **公共子序列** 是这两个字符串所共同拥有的子序列。
 
 ```csharp
-public static int LongestCommonSubsequence(string text1, string text2)
+public int LongestCommonSubsequence(string text1, string text2)
 {
     int m = text1.Length;
     int n = text2.Length;
@@ -725,7 +725,7 @@ public static int LongestCommonSubsequence(string text1, string text2)
 思路：和上题很类似，相等则不需要操作，否则取删除、插入、替换最小操作次数的值+1
 
 ```csharp
-public static int MinDistance(string word1, string word2)
+public int MinDistance(string word1, string word2)
 {
     // dp[i][j] 表示a字符串的前i个字符编辑为b字符串的前j个字符最少需要多少次操作
     // dp[i][j] = OR(dp[i-1][j-1]，a[i]==b[j],min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1])+1)
@@ -775,63 +775,82 @@ public static int MinDistance(string word1, string word2)
 
 > [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
 >
-> 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回  -1。
+> 给你一个整数数组 `coins` ，表示不同面额的硬币；以及一个整数 `amount` ，表示总金额。
+>
+> 计算并返回可以凑成总金额所需的 **最少的硬币个数** 。如果没有任何一种硬币组合能组成总金额，返回 `-1` 。
+>
+> 你可以认为每种硬币的数量是无限的。
+
+
 
 思路：和其他 DP 不太一样，i 表示钱或者容量
 
 ```csharp
-public int coinChange(int[] coins, int amount) {
-    // 状态 dp[i]表示金额为i时，组成的最小硬币个数
-    int[] dp = new int[amount + 1];
-    dp[0] = 0;
-    for (int i = 1; i <= amount; i++) {
-        // 初始化为最大值
-        int minNum = Integer.MAX_VALUE;
-        for (int n : coins) {
-            if (i - n >= 0) {
-                // 如果上个金额也无法组成，则直接标记
-                if (dp[i - n] == -1) {
-                    dp[i] = -1;
-                    continue;
-                } else {
-                    minNum = Math.min(minNum, dp[i - n] + 1);
-                }
-            } else if (i % n == 0) {
-                minNum = i / n;
-            }
-        }
-        dp[i] = (minNum == Integer.MAX_VALUE ? -1 : minNum);
+public int CoinChange(int[] coins, int amount)
+{
+    int n = coins.Length;
+    int[][] dp = new int[n + 1][];
+    for (int i = 0; i <= n; i++)
+    {
+        dp[i] = new int[amount + 1];
     }
-    return dp[amount];
+    Array.Fill(dp[0], INFINITY);
+    dp[0][0] = 0;
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 0; j <= amount; j++)
+        {
+            int minCoins = INFINITY;
+            int maxCount = j / coins[i - 1];
+            for (int k = 0; k <= maxCount; k++)
+            {
+                minCoins = Math.Min(minCoins, dp[i - 1][j - coins[i - 1] * k] + k);
+            }
+            dp[i][j] = minCoins;
+        }
+    }
+    return dp[n][amount] != INFINITY ? dp[n][amount] : -1;
 }
 ```
 
-#### 零钱兑换 II
+#### 零钱兑换 ii
 
-> [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
+> [518. 零钱兑换 ii](https://leetcode-cn.com/problems/coin-change-ii/)
 >
-> 给定不同面额的硬币和一个总金额。写出函数来计算可以凑成总金额的硬币组合数。假设每一种面额的硬币有无限个。
-
-先遍历物品再遍历背包 - 组合数
-
-先遍历背包再遍历物品 - 排列数
+> 给你一个整数数组 `coins` 表示不同面额的硬币，另给一个整数 `amount` 表示总金额。
+>
+> 请你计算并返回可以凑成总金额的硬币组合数。如果任何硬币组合都无法凑出总金额，返回 0 。
+>
+> 假设每一种面额的硬币有无限个。
+>
+> 题目数据保证结果符合 32 位带符号整数。
 
 ```csharp
-public int change(int amount, int[] coins) {
-    // 状态 dp[i]表示金额为i时，组合的方法数
-    int[] dp = new int[amount + 1];
-    dp[0] = 1;
-    // 先遍历物品再遍历背包
-    for (int n : coins) {
-        for (int i = n; i <= amount; i++) {
-            dp[i] += dp[i - n];
+public int Change(int amount, int[] coins)
+{
+    int n = coins.Length;
+    int[][] dp = new int[n + 1][];
+    for (int i = 0; i <= n; i++)
+    {
+        dp[i] = new int[amount + 1];
+    }
+    dp[0][0] = 1;
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 0; j <= amount; j++)
+        {
+            int maxCount = j / coins[i - 1];
+            for (int k = 0; k <= maxCount; k++)
+            {
+                dp[i][j] += dp[i - 1][j - coins[i - 1] * k];
+            }
         }
     }
-    return dp[amount];
+    return dp[n][amount];
 }
 ```
 
-### 背包问题
+#### 背包问题
 
 > [092. 背包问题](https://www.lintcode.com/problem/backpack/description)
 >
@@ -840,31 +859,26 @@ public int change(int amount, int[] coins) {
 > （每个物品只能选择一次且物品大小均为正整数）
 
 ```csharp
-func backPack (m int, A []int) int {
-    // write your code here
-    // f[i][j] 前i个物品，是否能装j
-    // f[i][j] =f[i-1][j] f[i-1][j-a[i] j>a[i]
-    // f[0][0]=true f[...][0]=true
-    // f[n][X]
-    f:=make([][]bool,len(A)+1)
-    for i:=0;i<=len(A);i++{
-        f[i]=make([]bool,m+1)
+public int BackPack(int m, int[] a)
+{
+    int n = a.Length;
+    int[][] dp = new int[n + 1][];
+    for (int i = 0; i <= n; i++)
+    {
+        dp[i] = new int[m + 1];
     }
-    f[0][0]=true
-    for i:=1;i<=len(A);i++{
-        for j:=0;j<=m;j++{
-            f[i][j]=f[i-1][j]
-            if j-A[i-1]>=0 && f[i-1][j-A[i-1]]{
-                f[i][j]=true
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 0; j <= m; j++)
+        {
+            dp[i][j] = dp[i - 1][j];
+            if (j >= a[i - 1])
+            {
+                dp[i][j] = Math.Max(dp[i][j], dp[i - 1][j - a[i - 1]] + a[i - 1]);
             }
         }
     }
-    for i:=m;i>=0;i--{
-        if f[len(A)][i] {
-            return i
-        }
-    }
-    return 0
+    return dp[n][m];
 }
 ```
 
@@ -879,30 +893,26 @@ func backPack (m int, A []int) int {
 思路：f[i][j] 前 i 个物品，装入 j 背包 最大价值
 
 ```csharp
-func backPackII (m int, A []int, V []int) int {
-    // write your code here
-    // f[i][j] 前i个物品，装入j背包 最大价值
-    // f[i][j] =max(f[i-1][j] ,f[i-1][j-A[i]]+V[i]) 是否加入A[i]物品
-    // f[0][0]=0 f[0][...]=0 f[...][0]=0
-    f:=make([][]int,len(A)+1)
-    for i:=0;i<len(A)+1;i++{
-        f[i]=make([]int,m+1)
+public int BackPackII(int m, int[] a, int[] v)
+{
+    int n = a.Length;
+    int[][] dp = new int[n + 1][];
+    for (int i = 0; i <= n; i++)
+    {
+        dp[i] = new int[m + 1];
     }
-    for i:=1;i<=len(A);i++{
-        for j:=0;j<=m;j++{
-            f[i][j]=f[i-1][j]
-            if j-A[i-1] >= 0{
-                f[i][j]=max(f[i-1][j],f[i-1][j-A[i-1]]+V[i-1])
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 0; j <= m; j++)
+        {
+            dp[i][j] = dp[i - 1][j];
+            if (j >= a[i - 1])
+            {
+                dp[i][j] = Math.Max(dp[i][j], dp[i - 1][j - a[i - 1]] + v[i - 1]);
             }
         }
     }
-    return f[len(A)][m]
-}
-func max(a,b int)int{
-    if a>b{
-        return a
-    }
-    return b
+    return dp[n][m];
 }
 ```
 
@@ -910,40 +920,56 @@ func max(a,b int)int{
 
 > [416. 分割等和子集](https://leetcode-cn.com/problems/partition-equal-subset-sum/)
 >
-> 给定一个**只包含正整数**的**非空**数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
+> 给定一个 **只包含正整数** 的 **非空** 数组。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
 
 等价于0-1背包问题，只不过目标为数组和的一半。状态转移可以参考题解：[动态规划（转换为 0-1 背包问题）](https://leetcode-cn.com/problems/partition-equal-subset-sum/solution/0-1-bei-bao-wen-ti-xiang-jie-zhen-dui-ben-ti-de-yo/)。
 
 ```csharp
-public boolean canPartition(int[] nums) {
-    // 首先计算数组的和
+public bool CanPartition(int[] nums)
+{
+    int len = nums.Length;
+    // 题目已经说非空数组，可以不做非空判断
     int sum = 0;
-    for (int n : nums) {
-        sum += n;
+    foreach (int num in nums)
+    {
+        sum += num;
     }
-    // 如果和不是2的倍数则肯定无法分割
-    if (sum % 2 != 0) {
+    // 特判：如果是奇数，就不符合要求
+    if ((sum & 1) == 1)
+    {
         return false;
     }
-    sum /= 2;
-    // dp[i][j]表示从数组的[0, i]子区间内挑选一些正整数(每个数只能用一次)使得这些数的和恰好等于j
-    boolean[][] dp = new boolean[nums.length][sum + 1];
-    if (nums[0] <= sum) {
+    int target = sum / 2;
+    // 创建二维状态数组，行：物品索引，列：容量（包括 0）
+    bool[][] dp = new bool[len][];
+    for (int i = 0; i < len; i++)
+    {
+        dp[i] = new bool[target + 1];
+    }
+    // 先填表格第 0 行，第 1 个数只能让容积为它自己的背包恰好装满
+    if (nums[0] <= target)
+    {
         dp[0][nums[0]] = true;
     }
-    for (int i = 1; i < nums.length; i++) {
-        for (int j = 0; j <= sum; j++) {
-            // 注意这里的状态转移方程
-            if (nums[i] == j) {
+    // 再填表格后面几行
+    for (int i = 1; i < len; i++)
+    {
+        for (int j = 0; j <= target; j++)
+        {
+            // 直接从上一行先把结果抄下来，然后再修正
+            dp[i][j] = dp[i - 1][j];
+            if (nums[i] == j)
+            {
                 dp[i][j] = true;
-            } else if (nums[i] < j) {
-                dp[i][j] = dp[i - 1][j] || dp[i-1][j-nums[i]];
-            } else {
-                dp[i][j] = dp[i-1][j];
+                continue;
+            }
+            if (nums[i] < j)
+            {
+                dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
             }
         }
     }
-    return dp[nums.length - 1][sum];
+    return dp[len - 1][target];
 }
 ```
 
@@ -973,7 +999,7 @@ Two Sequences DP (40%)
 Backpack & Coin Change (10%)
 
 - [ ] [322. 零钱兑换](https://leetcode-cn.com/problems/coin-change/)
-- [ ] [518. 零钱兑换 II](https://leetcode-cn.com/problems/coin-change-2/)
+- [ ] [518. 零钱兑换 ii](https://leetcode-cn.com/problems/coin-change-ii/)
 - [ ] [092. 背包问题](https://www.lintcode.com/problem/backpack/description)
 - [ ] [125. 背包问题-ii](https://www.lintcode.com/problem/backpack-ii/description)
 - [ ] [416. 分割等和子集](https://leetcode-cn.com/problems/partition-equal-subset-sum/)

@@ -245,21 +245,21 @@ public class DPTest
         var result = DP.LongestCommonSubsequence("abcde", "ace");
         Assert.That(result, Is.EqualTo(3));
     }
-    
+
     [Test]
     public void LongestCommonSubsequenceTest_2()
     {
         var result = DP.LongestCommonSubsequence("abc", "abc");
         Assert.That(result, Is.EqualTo(3));
     }
-    
+
     [Test]
     public void LongestCommonSubsequenceTest_3()
     {
         var result = DP.LongestCommonSubsequence("abc", "def");
         Assert.That(result, Is.EqualTo(0));
     }
-    
+
     [Test]
     public void MinDistanceTest()
     {
@@ -272,5 +272,89 @@ public class DPTest
     {
         var result = DP.MinDistance("intention", "execution");
         Assert.That(result, Is.EqualTo(5));
+    }
+
+    [Test]
+    public void CoinChangeTest()
+    {
+        var result = DP.CoinChange(new[] { 1, 2, 5 }, 11);
+        Assert.That(result, Is.EqualTo(3));
+    }
+
+    [Test]
+    public void CoinChangeTest_2()
+    {
+        var result = DP.CoinChange(new[] { 2 }, 3);
+        Assert.That(result, Is.EqualTo(-1));
+    }
+
+    [Test]
+    public void CoinChangeTest_3()
+    {
+        var result = DP.CoinChange(new[] { 1 }, 0);
+        Assert.That(result, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void ChangeTest()
+    {
+        var result = DP.Change(5, new[] { 1, 2, 5 });
+        Assert.That(result, Is.EqualTo(4));
+    }
+
+    [Test]
+    public void ChangeTest_2()
+    {
+        var result = DP.Change(3, new[] { 2 });
+        Assert.That(result, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void ChangeTest_3()
+    {
+        var result = DP.Change(10, new[] { 10 });
+        Assert.That(result, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void BackPackTest()
+    {
+        var result = DP.BackPack(10, new[] { 3, 4, 8, 5 });
+        Assert.That(result, Is.EqualTo(9));
+    }
+
+    [Test]
+    public void BackPackTest_2()
+    {
+        var result = DP.BackPack(12, new[] { 2, 3, 5, 7 });
+        Assert.That(result, Is.EqualTo(12));
+    }
+
+    [Test]
+    public void BackPackIITest()
+    {
+        var result = DP.BackPackII(10, new[] { 2, 3, 5, 7 }, new[] { 1, 5, 2, 4 });
+        Assert.That(result, Is.EqualTo(9));
+    }
+
+    [Test]
+    public void BackPackIITest_2()
+    {
+        var result = DP.BackPackII(10, new[] { 2, 3, 8 }, new[] { 2, 5, 8 });
+        Assert.That(result, Is.EqualTo(10));
+    }
+
+    [Test]
+    public void CanPartitionTest()
+    {
+        var result = DP.CanPartition(new[] { 1, 5, 11, 5 });
+        Assert.That(result, Is.EqualTo(true));
+    }
+
+    [Test]
+    public void CanPartitionTest_2()
+    {
+        var result = DP.CanPartition(new[] { 1, 2, 3, 5 });
+        Assert.That(result, Is.EqualTo(false));
     }
 }
