@@ -1,6 +1,6 @@
 # 算法模板（C#版）
 
-> 本项目内容主要参考[算法模板](https://github.com/greyireland/algorithm-pattern)，在此感谢原作者的整理与贡献
+> 本项目内容主要参考[算法模板 Go语言](https://github.com/greyireland/algorithm-pattern)和[算法模板 Java语言](https://chienmy.gitbook.io/algorithm-pattern-java/)，在此感谢原作者的整理与贡献
 
 在原项目的基础上，尽量保持了原有的结构划分，并做了一点微小的工作：
 
@@ -13,9 +13,9 @@
 
 ## 数据结构篇
 
-- [二叉树](data_structure/binary_tree.md)
 - [链表](data_structure/linked_list.md)
 - [栈和队列](data_structure/stack_queue.md)
+- [二叉树](data_structure/binary_tree.md)
 - [二进制](data_structure/binary_op.md)
 
 ## 基础算法篇
