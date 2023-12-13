@@ -6,119 +6,117 @@
 
 ## 示例
 
-[reverse-string](https://leetcode-cn.com/problems/reverse-string/)
+### 反转字符串
 
-> 编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组  `char[]`  的形式给出。
+> [344. 反转字符串](https://leetcode-cn.com/problems/reverse-string/)
+>
+> 编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 `s` 的形式给出。
+>
+> 不要给另外的数组分配额外的空间，你必须[原地](https://baike.baidu.com/item/%E5%8E%9F%E5%9C%B0%E7%AE%97%E6%B3%95)**修改输入数组**、使用 O(1) 的额外空间解决这一问题。
 
-```go
-func reverseString(s []byte) {
-	res := make([]byte, 0)
-	reverse(s, 0, &res)
-	for i := 0; i < len(s); i++ {
-		s[i] = res[i]
-	}
-}
-func reverse(s []byte, i int, res *[]byte) {
-	if i == len(s) {
-		return
-	}
-	reverse(s, i+1, res)
-	*res = append(*res, s[i])
+```csharp
+public void ReverseString(char[] s)
+{
+    for (int i = 0, j = s.Length - 1; i < j; i++, j--)
+    {
+        (s[i], s[j]) = (s[j], s[i]);
+    }
 }
 ```
 
-[swap-nodes-in-pairs](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
+### 两两交换链表中的节点
 
-> 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
-> **你不能只是单纯的改变节点内部的值**，而是需要实际的进行节点交换。
+> [024. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
+>
+> 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。
 
-```go
-func swapPairs(head *ListNode) *ListNode {
-    // 思路：将链表翻转转化为一个子问题，然后通过递归方式依次解决
-    // 先翻转两个，然后将后面的节点继续这样翻转，然后将这些翻转后的节点连接起来
-    return helper(head)
-}
-func helper(head *ListNode)*ListNode{
-    if head==nil||head.Next==nil{
-        return head
+```csharp
+public ListNode SwapPairs(ListNode head)
+{
+    if (head?.next == null)
+    {
+        return head;
     }
-    // 保存下一阶段的头指针
-    nextHead:=head.Next.Next
-    // 翻转当前阶段指针
-    next:=head.Next
-    next.Next=head
-    head.Next=helper(nextHead)
-    return next
+    ListNode newHead = head.next;
+    head.next = SwapPairs(newHead.next);
+    newHead.next = head;
+    return newHead;
 }
 ```
 
-[unique-binary-search-trees-ii](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+### 不同的二叉搜索树
 
-> 给定一个整数 n，生成所有由 1 ... n 为节点所组成的二叉搜索树。
+> [095. 不同的二叉搜索树 ii](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+>
+> 给你一个整数 `n` ，请你生成并返回所有由 `n` 个节点组成且节点值从 `1` 到 `n` 互不相同的不同 **二叉搜索树** 。可以按 **任意顺序** 返回答案。
 
-```go
-func generateTrees(n int) []*TreeNode {
-    if n==0{
-        return nil
-    }
-    return generate(1,n)
-
+```csharp
+public IList<TreeNode> GenerateTrees(int n)
+{
+    return n == 0 ? new List<TreeNode>() : GenerateTrees(1, n);
 }
-func generate(start,end int)[]*TreeNode{
-    if start>end{
-        return []*TreeNode{nil}
+
+public IList<TreeNode> GenerateTrees(int start, int end)
+{
+    IList<TreeNode> trees = new List<TreeNode>();
+    if (start > end)
+    {
+        trees.Add(null);
     }
-    ans:=make([]*TreeNode,0)
-    for i:=start;i<=end;i++{
-        // 递归生成所有左右子树
-        lefts:=generate(start,i-1)
-        rights:=generate(i+1,end)
-        // 拼接左右子树后返回
-        for j:=0;j<len(lefts);j++{
-            for k:=0;k<len(rights);k++{
-                root:=&TreeNode{Val:i}
-                root.Left=lefts[j]
-                root.Right=rights[k]
-                ans=append(ans,root)
+    else
+    {
+        for (int rootVal = start; rootVal <= end; rootVal++)
+        {
+            IList<TreeNode> leftSubtrees = GenerateTrees(start, rootVal - 1);
+            IList<TreeNode> rightSubtrees = GenerateTrees(rootVal + 1, end);
+            foreach (TreeNode leftSubtree in leftSubtrees)
+            {
+                foreach (TreeNode rightSubtree in rightSubtrees)
+                {
+                    TreeNode root = new TreeNode(rootVal);
+                    root.left = leftSubtree;
+                    root.right = rightSubtree;
+                    trees.Add(root);
+                }
             }
         }
     }
-    return ans
+    return trees;
 }
 ```
 
 ## 递归+备忘录
 
-[fibonacci-number](https://leetcode-cn.com/problems/fibonacci-number/)
+### 斐波那契数
 
-> 斐波那契数，通常用  F(n) 表示，形成的序列称为斐波那契数列。该数列由  0 和 1 开始，后面的每一项数字都是前面两项数字的和。也就是：
-> F(0) = 0,   F(1) = 1
-> F(N) = F(N - 1) + F(N - 2), 其中 N > 1.
-> 给定  N，计算  F(N)。
+> [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)
+>
+> **斐波那契数**（通常用 `F(n)` 表示）形成的序列称为 **斐波那契数列**。该数列由 `0` 和 `1` 开始，后面的每一项数字都是前面两项数字的和。也就是：
+>
+> > F(0) = 0, F(1)= 1
+> >
+> > F(n) = F(n - 1) + F(n - 2), 其中 n > 1
+>
+> 给定 `n`，计算 `F(n)`。
 
-```go
-func fib(N int) int {
-    return dfs(N)
-}
-var m map[int]int=make(map[int]int)
-func dfs(n int)int{
-    if n < 2{
-        return n
+```csharp
+public int Fib(int n)
+{
+    if (n <= 1)
+    {
+        return n;
     }
-    // 读取缓存
-    if m[n]!=0{
-        return m[n]
+    if (!memo.ContainsKey(n))
+    {
+        memo.Add(n, Fib(n - 1) + Fib(n - 2));
     }
-    ans:=dfs(n-2)+dfs(n-1)
-    // 缓存已经计算过的值
-    m[n]=ans
-    return ans
+    return memo[n];
 }
 ```
 
 ## 练习
 
-- [ ] [reverse-string](https://leetcode-cn.com/problems/reverse-string/)
-- [ ] [swap-nodes-in-pairs](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
-- [ ] [unique-binary-search-trees-ii](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
-- [ ] [fibonacci-number](https://leetcode-cn.com/problems/fibonacci-number/)
+- [ ] [344. 反转字符串](https://leetcode-cn.com/problems/reverse-string/)
+- [ ] [024. 两两交换链表中的节点](https://leetcode-cn.com/problems/swap-nodes-in-pairs/)
+- [ ] [095. 不同的二叉搜索树 ii](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+- [ ] [509. 斐波那契数](https://leetcode-cn.com/problems/fibonacci-number/)
