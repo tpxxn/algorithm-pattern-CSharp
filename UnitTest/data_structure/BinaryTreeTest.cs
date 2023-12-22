@@ -100,7 +100,7 @@ public class BinaryTreeTest_DFS_BFS
 
 public class BinaryTreeTest_Practice
 {
-    #region 257. 二叉树的所有路径
+    #region 98. 验证二叉搜索树
 
     [Test]
     public void BinaryTreeTest_IsValidBST()

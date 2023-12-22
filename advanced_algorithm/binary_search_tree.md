@@ -7,169 +7,160 @@
 
 ## 应用
 
-[validate-binary-search-tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+### 验证二叉搜索树
 
-> 验证二叉搜索树
+> [098. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+>
+> 给你一个二叉树的根节点 `root` ，判断其是否是一个有效的二叉搜索树。
+>
+> **有效** 二叉搜索树定义如下：
+>
+> 节点的左子树只包含 **小于** 当前节点的数。
+>
+> 节点的右子树只包含 **大于** 当前节点的数。
+>
+> 所有左子树和右子树自身必须也是二叉搜索树。
 
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func isValidBST(root *TreeNode) bool {
-    return dfs(root).valid
-}
-type ResultType struct{
-    max int
-    min int
-    valid bool
-}
-func dfs(root *TreeNode)(result ResultType){
-    if root==nil{
-        result.max=-1<<63
-        result.min=1<<63-1
-        result.valid=true
-        return
-    }
-
-    left:=dfs(root.Left)
-    right:=dfs(root.Right)
-
-    // 1、满足左边最大值<root<右边最小值 && 左右两边valid
-    if root.Val>left.max && root.Val<right.min && left.valid && right.valid {
-        result.valid=true
-    }
-    // 2、更新当前节点的最大最小值
-    result.max=Max(Max(left.max,right.max),root.Val)
-    result.min=Min(Min(left.min,right.min),root.Val)
-    return
-}
-func Max(a,b int)int{
-    if a>b{
-        return a
-    }
-    return b
-}
-func Min(a,b int)int{
-    if a>b{
-        return b
-    }
-    return a
+```csharp
+public bool IsValidBST(TreeNode root)
+{
+    return IsValidBST_DivideAndConquer(root, long.MinValue, long.MaxValue);
 }
 
-```
-
-[insert-into-a-binary-search-tree](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
-
-> 给定二叉搜索树（BST）的根节点和要插入树中的值，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 保证原始二叉搜索树中不存在新值。
-
-```go
-func insertIntoBST(root *TreeNode, val int) *TreeNode {
-    if root==nil{
-        return &TreeNode{Val:val}
+bool IsValidBST_DivideAndConquer(TreeNode? p, long? min, long? max)
+{
+    if (p?.val == null)
+    {
+        return true;
     }
-    if root.Val<val{
-        root.Right=insertIntoBST(root.Right,val)
-    }else{
-        root.Left=insertIntoBST(root.Left,val)
+    // 返回条件
+    if (p.val <= min || max <= p.val)
+    {
+        return false;
     }
-    return root
+    // 分治(Divide)
+    var left = IsValidBST_DivideAndConquer(p.left, min, p.val);
+    var right = IsValidBST_DivideAndConquer(p.right, p.val, max);
+    // 合并结果(Conquer)
+    return left && right;
 }
 ```
 
-[delete-node-in-a-bst](https://leetcode-cn.com/problems/delete-node-in-a-bst/)
+### 二叉搜索树中的插入操作
 
-> 给定一个二叉搜索树的根节点 root 和一个值 key，删除二叉搜索树中的  key  对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。
+> [701. 二叉搜索树中的插入操作](https://leetcode.cn/problems/insert-into-a-binary-search-tree/)
+>
+> 给定二叉搜索树（BST）的根节点 `root` 和要插入树中的值 `value` ，将值插入二叉搜索树。 返回插入后二叉搜索树的根节点。 输入数据 **保证** ，新值和原始二叉搜索树中的任意节点值都不同。
+>
+> **注意**，可能存在多种有效的插入方式，只要树在插入后仍保持为二叉搜索树即可。 你可以返回 **任意有效的结果** 。
 
-```go
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func deleteNode(root *TreeNode, key int) *TreeNode {
+思路：找到最后一个叶子节点满足插入条件即可
+
+```csharp
+public TreeNode InsertIntoBST(TreeNode? root, int val)
+{
+    if (root?.val == null)
+    {
+        return new TreeNode(val);
+    }
+    if (root.val > val)
+    {
+        root.left = InsertIntoBST(root.left, val);
+    }
+    else
+    {
+        root.right = InsertIntoBST(root.right, val);
+    }
+    return root;
+}
+```
+
+### 删除二叉搜索树中节点
+
+> [450. 删除二叉搜索树中节点](https://leetcode.cn/problems/delete-node-in-a-bst/)
+>
+> 给定一个二叉搜索树的根节点 **root** 和一个值 **key**，删除二叉搜索树中的 **key** 对应的节点，并保证二叉搜索树的性质不变。返回二叉搜索树（有可能被更新）的根节点的引用。
+>
+> 一般来说，删除节点可分为两个步骤：
+>
+> 1. 首先找到需要删除的节点；
+>
+> 2. 如果找到了，删除它。
+
+```csharp
+public TreeNode? DeleteNode(TreeNode? root, int key)
+{
     // 删除节点分为三种情况：
     // 1、只有左节点 替换为右
     // 2、只有右节点 替换为左
     // 3、有左右子节点 左子节点连接到右边最左节点即可
-    if root ==nil{
-        return root
+    if (root?.val == null)
+    {
+        return root;
     }
-    if root.Val<key{
-        root.Right=deleteNode(root.Right,key)
-    }else if root.Val>key{
-        root.Left=deleteNode(root.Left,key)
-    }else if root.Val==key{
-        if root.Left==nil{
-            return root.Right
-        }else if root.Right==nil{
-            return root.Left
-        }else{
-            cur:=root.Right
+    if (root.val < key)
+    {
+        root.right = DeleteNode(root.right, key);
+    }
+    else if (root.val > key)
+    {
+        root.left = DeleteNode(root.left, key);
+    }
+    else if (root.val == key)
+    {
+        if (root.left?.val == null)
+        {
+            return root.right;
+        }
+        else if (root.right?.val == null)
+        {
+            return root.left;
+        }
+        else
+        {
+            var current = root.right;
             // 一直向左找到最后一个左节点即可
-            for cur.Left!=nil{
-                cur=cur.Left
+            while (current.left?.val != null)
+            {
+                current = current.left;
             }
-            cur.Left=root.Left
-            return root.Right
+            current.left = root.left;
+            return root.right;
         }
     }
-    return root
+    return root;
 }
 ```
 
-[balanced-binary-tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
+### 平衡二叉树
 
+> [110. 平衡二叉树](https://leetcode-cn.com/problems/balanced-binary-tree/)
+>
 > 给定一个二叉树，判断它是否是高度平衡的二叉树。
+>
+> 本题中，一棵高度平衡二叉树定义为：
+>
+> 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
 
-```go
-type ResultType struct{
-    height int
-    valid bool
-}
-func isBalanced(root *TreeNode) bool {
-    return dfs(root).valid
-}
-func dfs(root *TreeNode)(result ResultType){
-    if root==nil{
-        result.valid=true
-        result.height=0
-        return
+```csharp
+public bool IsBalanced(TreeNode? root) {
+    if (root?.val == null) {
+        return true;
     }
-    left:=dfs(root.Left)
-    right:=dfs(root.Right)
-    // 满足所有特点：二叉搜索树&&平衡
-    if left.valid&&right.valid&&abs(left.height,right.height)<=1{
-        result.valid=true
-    }
-    result.height=Max(left.height,right.height)+1
-    return
-}
-func abs(a,b int)int{
-    if a>b{
-        return a-b
-    }
-    return b-a
-}
-func Max(a,b int)int{
-    if a>b{
-        return a
-    }
-    return b
+    return Math.Abs(GetHeight(root.left) - GetHeight(root.right)) <= 1 && IsBalanced(root.left) && IsBalanced(root.right);
 }
 
+int GetHeight(TreeNode? node) {
+    if (node?.val == null) {
+        return 0;
+    }
+    return Math.Max(GetHeight(node.left), GetHeight(node.right)) + 1;
+}
 ```
 
 ## 练习
 
-- [ ] [validate-binary-search-tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
-- [ ] [insert-into-a-binary-search-tree](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
-- [ ] [delete-node-in-a-bst](https://leetcode-cn.com/problems/delete-node-in-a-bst/)
-- [ ] [balanced-binary-tree](https://leetcode-cn.com/problems/balanced-binary-tree/)
+- [ ] [098. 验证二叉搜索树](https://leetcode.cn/problems/validate-binary-search-tree/)
+- [ ] [701. 二叉搜索树中的插入操作](https://leetcode.cn/problems/insert-into-a-binary-search-tree/)
+- [ ] [450. 删除二叉搜索树中节点](https://leetcode.cn/problems/delete-node-in-a-bst/)
+- [ ] [110. 平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree/)

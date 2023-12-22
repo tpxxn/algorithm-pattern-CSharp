@@ -37,7 +37,6 @@ public partial class BinaryTree
         }
     }
 
-
     /// <summary>
     /// <para>98. 验证二叉搜索树</para>
     /// <para>https://leetcode.cn/problems/validate-binary-search-tree/description/</para>
