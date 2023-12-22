@@ -47,7 +47,7 @@ public class Backtrack_SubsetsWithDup
     int n;
 
     /// <summary>
-    /// <para>090. 子集 II</para>
+    /// <para>090. 子集 ii</para>
     /// <para>https://leetcode-cn.com/problems/subsets-ii/</para>
     /// </summary>
     /// <param name="nums">给定整数数组</param>
@@ -130,7 +130,7 @@ public class Backtrack_PermuteUnique
     bool[] visited;
 
     /// <summary>
-    /// <para>047. 全排列 II</para>
+    /// <para>047. 全排列 ii</para>
     /// <para>https://leetcode-cn.com/problems/permutations-ii/</para>
     /// </summary>
     /// <param name="nums">给定整数数组</param>

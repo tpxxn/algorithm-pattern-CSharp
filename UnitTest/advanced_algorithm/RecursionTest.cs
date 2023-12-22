@@ -10,6 +10,8 @@ public class RecursionTest
     {
     }
 
+    #region 344. 反转字符串
+
     [Test]
     public void ReverseStringTest()
     {
@@ -26,6 +28,10 @@ public class RecursionTest
         Assert.That(result, Is.EqualTo(new char[] { 'h', 'a', 'n', 'n', 'a', 'H' }));
     }
 
+    #endregion
+    
+    #region 24. 两两交换链表中的节点
+    
     [Test]
     public void SwapPairsTest()
     {
@@ -47,6 +53,10 @@ public class RecursionTest
         Assert.That(LinkedListBuilder.ToList(result), Is.EqualTo(new[] { 1 }));
     }
 
+    #endregion
+    
+    #region 95. 不同的二叉搜索树 ii
+    
     [Test]
     public void GenerateTreesTest()
     {
@@ -67,6 +77,11 @@ public class RecursionTest
         Assert.That(result[4].left.val, Is.EqualTo(2));
         Assert.That(result[4].left.left.val, Is.EqualTo(1));
     }
+
+    #endregion
+    
+    #region 509. 斐波那契数
+    
 
     [Test]
     public void FibTest()
@@ -95,4 +110,6 @@ public class RecursionTest
         var result = Recursion.Fib(5);
         Assert.That(result, Is.EqualTo(5));
     }
+    
+    #endregion
 }

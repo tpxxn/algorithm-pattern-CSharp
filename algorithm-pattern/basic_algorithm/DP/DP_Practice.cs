@@ -161,7 +161,7 @@ public partial class DP
     }
 
     /// <summary>
-    /// <para>45. 跳跃游戏 II</para>
+    /// <para>45. 跳跃游戏 ii</para>
     /// <para>https://leetcode-cn.com/problems/jump-game-ii/</para>
     /// </summary>
     /// <param name="nums">数组</param>
@@ -208,7 +208,7 @@ public partial class DP
     }
 
     /// <summary>
-    /// <para>132. 分割回文串 II</para>
+    /// <para>132. 分割回文串 ii</para>
     /// <para>https://leetcode-cn.com/problems/palindrome-partitioning-ii/</para>
     /// </summary>
     /// <param name="s">字符串</param>
@@ -437,7 +437,7 @@ public partial class DP
     }
 
     /// <summary>
-    /// <para>518. 零钱兑换 II</para>
+    /// <para>518. 零钱兑换 ii</para>
     /// <para>https://leetcode-cn.com/problems/coin-change-ii/</para>
     /// </summary>
     /// <param name="coins">不同面额的硬币</param>
@@ -467,7 +467,7 @@ public partial class DP
     }
 
     /// <summary>
-    /// 背包问题
+    /// 92.背包问题
     /// <para>https://www.lintcode.com/problem/backpack/description/</para>
     /// </summary>
     /// <param name="m">背包大小</param>
@@ -496,7 +496,7 @@ public partial class DP
     }
 
     /// <summary>
-    /// 背包问题 II
+    /// 125.背包问题 ii
     /// <para>https://www.lintcode.com/problem/backpack-ii/description/</para>
     /// </summary>
     /// <param name="m">背包大小</param>
@@ -525,6 +525,12 @@ public partial class DP
         return dp[n][m];
     }
 
+    /// <summary>
+    /// 416.分割等和子集
+    /// <para>https://leetcode.cn/problems/partition-equal-subset-sum/</para>
+    /// </summary>
+    /// <param name="nums">只包含正整数的非空数组</param>
+    /// <returns>是否可以分割成两个子集，使得两个子集的元素和相等</returns>
     public static bool CanPartition(int[] nums)
     {
         int len = nums.Length;

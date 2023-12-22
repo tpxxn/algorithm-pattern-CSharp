@@ -9,6 +9,8 @@ public class SortTest
     {
     }
 
+    #region 快速排序
+
     [Test]
     public void SortTest_QuickSort()
     {
@@ -16,6 +18,11 @@ public class SortTest
         Sort.QuickSort(array);
         Assert.That(array, Is.EqualTo(new[] { 1, 2, 3, 4, 5, 6 }));
     }
+
+    #endregion
+
+
+    #region 归并排序
 
     [Test]
     public void SortTest_MergeSort()
@@ -25,6 +32,9 @@ public class SortTest
         Assert.That(array, Is.EqualTo(new[] { 1, 2, 3, 4, 5, 6 }));
     }
 
+    #endregion
+
+    #region 堆排序
 
     [Test]
     public void SortTest_HeapSort()
@@ -33,4 +43,6 @@ public class SortTest
         Sort.HeapSort(array);
         Assert.That(array, Is.EqualTo(new[] { 1, 2, 3, 4, 5, 6 }));
     }
+
+    #endregion
 }

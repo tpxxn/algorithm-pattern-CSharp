@@ -9,6 +9,8 @@ public class SlideWindowTest
     {
     }
 
+    #region 76. 最小覆盖子串
+
     [Test]
     public void MinWindowTest()
     {
@@ -29,6 +31,10 @@ public class SlideWindowTest
         var result = SlideWindow.MinWindow("a", "aa");
         Assert.That(result, Is.EqualTo(""));
     }
+
+    #endregion
+
+    #region 3. 无重复字符的最长子串
 
     [Test]
     public void LengthOfLongestSubstringTest()
@@ -51,6 +57,10 @@ public class SlideWindowTest
         Assert.That(result, Is.EqualTo(3));
     }
 
+    #endregion
+
+    #region 567. 字符串的排列
+
     [Test]
     public void CheckInclusionTest()
     {
@@ -65,6 +75,10 @@ public class SlideWindowTest
         Assert.That(result, Is.EqualTo(false));
     }
 
+    #endregion
+
+    #region 438. 找到字符串中所有字母异位词
+
     [Test]
     public void FindAnagramsTest()
     {
@@ -78,4 +92,6 @@ public class SlideWindowTest
         var result = SlideWindow.FindAnagrams("abab", "ab");
         Assert.That(result, Is.EqualTo(new int[] { 0, 1, 2 }));
     }
+
+    #endregion
 }

@@ -12,7 +12,8 @@ public class DPTest
         triangle = new List<IList<int>> { new List<int> { 2 }, new List<int> { 3, 4 }, new List<int> { 6, 5, 7 }, new List<int> { 4, 1, 8, 3 } };
     }
 
-
+    #region 120. 三角形最小路径和
+    
     [Test]
     public void MinimumTotalTest()
     {
@@ -47,7 +48,10 @@ public class DPTest
         var result = DP.MinimumTotal_Final(triangle);
         Assert.That(result, Is.EqualTo(11));
     }
+    
+    #endregion
 
+    #region 64. 最小路径和
 
     [Test]
     public void MinPathSumTest()
@@ -73,6 +77,10 @@ public class DPTest
         var result = DP.MinPathSum(grid);
         Assert.That(result, Is.EqualTo(12));
     }
+    
+    #endregion
+    
+    #region 62. 不同路径
 
     [Test]
     public void UniquePathsTest()
@@ -88,6 +96,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(3));
     }
 
+    #endregion
+    
+    #region 63. 不同路径 II
+    
     [Test]
     public void UniquePathsWithObstaclesTest()
     {
@@ -113,6 +125,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(1));
     }
 
+    #endregion
+    
+    #region 70. 爬楼梯
+    
     [Test]
     public void ClimbStairsTest()
     {
@@ -134,6 +150,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(3));
     }
 
+    #endregion
+    
+    #region 55. 跳跃游戏
+    
     [Test]
     public void CanJumpTest()
     {
@@ -148,6 +168,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(false));
     }
 
+    #endregion
+    
+    #region 45. 跳跃游戏 ii
+    
     [Test]
     public void JumpTest()
     {
@@ -161,7 +185,7 @@ public class DPTest
         var result = DP.Jump(new int[] { 2, 3, 0, 1, 4 });
         Assert.That(result, Is.EqualTo(2));
     }
-
+    
     [Test]
     public void JumpTest_Greedy()
     {
@@ -175,6 +199,10 @@ public class DPTest
         var result = DP.Jump_Greedy(new int[] { 2, 3, 0, 1, 4 });
         Assert.That(result, Is.EqualTo(2));
     }
+    
+    #endregion
+
+    #region 132. 分割回文串 ii
 
     [Test]
     public void MinCutTest()
@@ -197,6 +225,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(1));
     }
 
+    #endregion
+    
+    #region 300. 最长递增子序列
+    
     [Test]
     public void LengthOfLISTest()
     {
@@ -217,6 +249,10 @@ public class DPTest
         var result = DP.LengthOfLIS(new int[] { 7, 7, 7, 7, 7, 7, 7 });
         Assert.That(result, Is.EqualTo(1));
     }
+    
+    #endregion
+    
+    #region 139. 单词拆分
 
     [Test]
     public void WordBreakTest()
@@ -239,6 +275,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(false));
     }
 
+    #endregion
+    
+    #region 1143. 最长公共子序列
+    
     [Test]
     public void LongestCommonSubsequenceTest()
     {
@@ -260,6 +300,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(0));
     }
 
+    #endregion
+    
+    #region 72. 编辑距离
+    
     [Test]
     public void MinDistanceTest()
     {
@@ -273,6 +317,10 @@ public class DPTest
         var result = DP.MinDistance("intention", "execution");
         Assert.That(result, Is.EqualTo(5));
     }
+    
+    #endregion
+    
+    #region 322. 零钱兑换
 
     [Test]
     public void CoinChangeTest()
@@ -295,6 +343,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(0));
     }
 
+    #endregion
+    
+    #region 518. 零钱兑换 ii
+    
     [Test]
     public void ChangeTest()
     {
@@ -316,6 +368,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(1));
     }
 
+    #endregion
+    
+    #region 92.背包问题
+    
     [Test]
     public void BackPackTest()
     {
@@ -329,6 +385,10 @@ public class DPTest
         var result = DP.BackPack(12, new[] { 2, 3, 5, 7 });
         Assert.That(result, Is.EqualTo(12));
     }
+    
+    #endregion
+    
+    #region 125.背包问题 ii
 
     [Test]
     public void BackPackIITest()
@@ -344,6 +404,10 @@ public class DPTest
         Assert.That(result, Is.EqualTo(10));
     }
 
+    #endregion
+    
+    #region 416. 分割等和子集
+    
     [Test]
     public void CanPartitionTest()
     {
@@ -357,4 +421,6 @@ public class DPTest
         var result = DP.CanPartition(new[] { 1, 2, 3, 5 });
         Assert.That(result, Is.EqualTo(false));
     }
+    
+    #endregion
 }

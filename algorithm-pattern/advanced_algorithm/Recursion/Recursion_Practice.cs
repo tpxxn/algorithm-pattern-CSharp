@@ -34,7 +34,7 @@ public class Recursion
     }
 
     /// <summary>
-    /// <para>95. 不同的二叉搜索树 II</para>
+    /// <para>95. 不同的二叉搜索树 ii</para>
     /// <para>https://leetcode-cn.com/problems/unique-binary-search-trees-ii/</para>
     /// </summary>
     /// <param name="n"></param>
