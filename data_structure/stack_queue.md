@@ -336,16 +336,20 @@ public int Trap(int[] height)
 public class MyQueue
 {
     Stack<int> inStack;
+    
     Stack<int> outStack;
+    
     public MyQueue()
     {
         inStack = new Stack<int>();
         outStack = new Stack<int>();
     }
+    
     public void Push(int x)
     {
         inStack.Push(x);
     }
+    
     public int Pop()
     {
         if (outStack.Count == 0)
@@ -354,6 +358,7 @@ public class MyQueue
         }
         return outStack.Pop();
     }
+    
     public int Peek()
     {
         if (outStack.Count == 0)
@@ -362,10 +367,12 @@ public class MyQueue
         }
         return outStack.Peek();
     }
+    
     public bool Empty()
     {
         return inStack.Count == 0 && outStack.Count == 0;
     }
+    
     private void In2Out()
     {
         while (inStack.Count > 0)
