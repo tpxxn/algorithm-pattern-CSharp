@@ -324,47 +324,14 @@ public int Trap(int[] height)
 > 你所使用的语言也许不支持栈。你可以使用 list 或者 deque（双端队列）来模拟一个栈，只要是标准的栈操作即可。
 
 ```csharp
-public class MyQueue
-{
-    Stack<int> inStack;
-    Stack<int> outStack;
-    public MyQueue()
-    {
-        inStack = new Stack<int>();
-        outStack = new Stack<int>();
-    }
-    public void Push(int x)
-    {
-        inStack.Push(x);
-    }
-    public int Pop()
-    {
-        if (outStack.Count == 0)
-        {
-            In2Out();
-        }
-        return outStack.Pop();
-    }
-    public int Peek()
-    {
-        if (outStack.Count == 0)
-        {
-            In2Out();
-        }
-        return outStack.Peek();
-    }
-    public bool Empty()
-    {
-        return inStack.Count == 0 && outStack.Count == 0;
-    }
-    private void In2Out()
-    {
-        while (inStack.Count > 0)
-        {
-            outStack.Push(inStack.Pop());
-        }
-    }
-}
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.Push(x);
+ * int param_2 = obj.Pop();
+ * int param_3 = obj.Peek();
+ * bool param_4 = obj.Empty();
+ */
 
 public class MyQueue
 {
@@ -407,14 +374,6 @@ public class MyQueue
         }
     }
 }
-/**
- * Your MyQueue object will be instantiated and called as such:
- * MyQueue obj = new MyQueue();
- * obj.Push(x);
- * int param_2 = obj.Pop();
- * int param_3 = obj.Peek();
- * bool param_4 = obj.Empty();
- */
 ```
 
 ### 岛屿数量
